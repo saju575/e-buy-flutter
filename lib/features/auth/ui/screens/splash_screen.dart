@@ -21,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future _moveToHomeScreen() async {
-    await Future.delayed(const Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 3));
     if (mounted) {
       Navigator.pushReplacementNamed(
         context,
@@ -46,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen> {
               const SizedBox(height: 20),
               Text(
                 'Version 1.0.0',
-                style: context.lg.copyWith(color: colors.grey),
+                style: context.base.copyWith(color: colors.heading),
               ),
             ],
           ),

@@ -3,10 +3,11 @@ import 'package:e_buy/app/widgets/app_icon.dart';
 import 'package:flutter/material.dart';
 
 class AppLogo extends StatelessWidget {
-  const AppLogo({super.key});
+  const AppLogo({super.key, this.size});
+  final double? size;
 
   @override
   Widget build(BuildContext context) {
-    return const AppIcon(iconName: AssetPaths.navAppLogoSvg, size: 50);
+    return AppIcon(iconName: AssetPaths.appLogoSvg, size: size ?? 80);
   }
 }

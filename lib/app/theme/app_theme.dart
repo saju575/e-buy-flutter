@@ -66,12 +66,24 @@ class AppTheme {
 
   static InputDecorationTheme _inputDecorationTheme(AppColors color) =>
       InputDecorationTheme(
-        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 0),
-        border: _getInputBorder(color.primaryWeak),
-        enabledBorder: _getInputBorder(color.primaryWeak),
+        contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        border: OutlineInputBorder(
+          borderSide: BorderSide.none,
+          borderRadius: BorderRadius.circular(6),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide.none,
+          borderRadius: BorderRadius.circular(6),
+        ),
         focusedBorder: _getInputBorder(color.primaryWeak),
         errorBorder: _getInputBorder(color.error),
-        hintStyle: TextStyle(fontWeight: FontWeight.w400, color: color.grey),
+        fillColor: color.primaryWeak,
+        filled: true,
+        hintStyle: TextStyle(
+          fontWeight: FontWeight.w400,
+          color: color.grey,
+          fontSize: 14,
+        ),
       );
 
   static ElevatedButtonThemeData _elevatedButtonTheme(AppColors color) =>
@@ -79,17 +91,20 @@ class AppTheme {
         style: ElevatedButton.styleFrom(
           fixedSize: Size.fromWidth(double.maxFinite),
           backgroundColor: color.primary,
-          foregroundColor: color.heading,
+          foregroundColor: color.headingSecondary,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           padding: EdgeInsets.symmetric(vertical: 12),
           textStyle: TextStyle(
-            fontSize: 16,
+            fontSize: 14,
             letterSpacing: 0.4,
             fontWeight: FontWeight.w500,
           ),
         ),
       );
   static OutlineInputBorder _getInputBorder(Color color) {
-    return OutlineInputBorder(borderSide: BorderSide(color: color, width: 1.2));
+    return OutlineInputBorder(
+      borderSide: BorderSide(color: color, width: 1),
+      borderRadius: BorderRadius.circular(6),
+    );
   }
 }
