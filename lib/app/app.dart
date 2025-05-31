@@ -12,11 +12,11 @@ class EBuy extends StatefulWidget {
 class _EBuyState extends State<EBuy> {
   @override
   Widget build(BuildContext context) {
-    final AppTheme theme = AppTheme();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: theme.light,
-      darkTheme: theme.dark,
+      theme: AppTheme.light,
+      darkTheme: AppTheme.dark,
+      themeMode: ThemeMode.dark,
       onGenerateRoute: AppRoutes.routes,
     );
   }
