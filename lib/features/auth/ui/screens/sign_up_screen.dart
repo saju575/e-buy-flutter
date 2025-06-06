@@ -147,11 +147,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   Widget _renderLoginText(BuildContext context, AppColors colors) {
+    final textStyle = context.textStyle;
     return Center(
       child: Text.rich(
         TextSpan(
           text: "Have an Account? ",
-          style: context.base.copyWith(color: colors.grey),
+          style: textStyle.base.copyWith(color: colors.grey),
           children: [
             TextSpan(
               text: "Login",

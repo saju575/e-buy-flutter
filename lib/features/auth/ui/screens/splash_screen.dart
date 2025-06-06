@@ -33,6 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final textStyle = context.textStyle;
     return Scaffold(
       body: Center(
         child: Padding(
@@ -46,7 +47,7 @@ class _SplashScreenState extends State<SplashScreen> {
               const SizedBox(height: 20),
               Text(
                 'Version 1.0.0',
-                style: context.base.copyWith(color: colors.heading),
+                style: textStyle.base.copyWith(color: colors.heading),
               ),
             ],
           ),

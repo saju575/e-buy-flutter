@@ -62,7 +62,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     obscureText: true,
                   ),
                   const SizedBox(height: 28),
-                  ElevatedButton(onPressed: () {}, child: const Text("Log in")),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        AppRoutes.main,
+                        (_) => false,
+                      );
+                    },
+                    child: const Text("Log in"),
+                  ),
                   const SizedBox(height: 28),
                   _renderSignupText(context, colors),
                 ],
@@ -75,11 +84,12 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _renderSignupText(BuildContext context, AppColors colors) {
+    final textStyle = context.textStyle;
     return Center(
       child: Text.rich(
         TextSpan(
           text: "Don't Have an Account? ",
-          style: context.base.copyWith(color: colors.grey),
+          style: textStyle.base.copyWith(color: colors.grey),
           children: [
             TextSpan(
               text: "Sign Up",

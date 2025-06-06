@@ -1,3 +1,4 @@
+import 'package:e_buy/app/extension/colors_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -15,6 +16,11 @@ class AppIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SvgPicture.asset(iconName, width: size, height: size, color: color);
+    return SvgPicture.asset(
+      iconName,
+      width: size,
+      height: size,
+      color: color ?? context.colors.heading,
+    );
   }
 }

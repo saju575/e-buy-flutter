@@ -10,6 +10,7 @@ class AuthHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final textStyle = context.textStyle;
     return Center(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -18,13 +19,16 @@ class AuthHeader extends StatelessWidget {
           const SizedBox(height: 28),
           Text(
             title,
-            style: context.lg.copyWith(
+            style: textStyle.lg.copyWith(
               fontWeight: FontWeight.w700,
               color: colors.heading,
             ),
           ),
           const SizedBox(height: 6),
-          Text(subtitle, style: context.base.copyWith(color: colors.bodyText)),
+          Text(
+            subtitle,
+            style: textStyle.base.copyWith(color: colors.bodyText),
+          ),
         ],
       ),
     );

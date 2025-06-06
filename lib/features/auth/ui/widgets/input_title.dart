@@ -9,9 +9,10 @@ class InputTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final textStyle = context.textStyle;
     return Text(
       title,
-      style: context.base.copyWith(
+      style: textStyle.base.copyWith(
         color: colors.heading,
         fontWeight: FontWeight.w600,
       ),

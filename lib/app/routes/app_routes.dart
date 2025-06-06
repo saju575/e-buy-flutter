@@ -1,12 +1,14 @@
 import 'package:e_buy/features/auth/ui/screens/login_screen.dart';
 import 'package:e_buy/features/auth/ui/screens/sign_up_screen.dart';
 import 'package:e_buy/features/auth/ui/screens/splash_screen.dart';
+import 'package:e_buy/features/shared/ui/screens/main_bottom_nav_screen.dart';
 import 'package:flutter/material.dart';
 
 class AppRoutes {
   static const String splash = SplashScreen.name;
   static const String login = LoginScreen.name;
   static const String signUp = SignUpScreen.name;
+  static const String main = MainBottomNavScreen.name;
 
   static Route<dynamic> routes(RouteSettings settings) {
     WidgetBuilder builder;
@@ -20,6 +22,9 @@ class AppRoutes {
         break;
       case SignUpScreen.name:
         builder = (context) => const SignUpScreen();
+        break;
+      case MainBottomNavScreen.name:
+        builder = (context) => const MainBottomNavScreen();
         break;
       default:
         builder = (context) => const LoginScreen();

@@ -1,0 +1,16 @@
+class AppIcons {
+  AppIcons._(); // Private constructor to prevent instantiation
+
+  static const String _basePath = 'assets/icons';
+
+  static const String home = "$_basePath/home.svg";
+  static const String category = "$_basePath/category.svg";
+  static const String search = "$_basePath/search.svg";
+  static const String arrowRight = '$_basePath/arrow_right.svg';
+  static const String bell = '$_basePath/bell.svg';
+  static const String eye = '$_basePath/eye.svg';
+  static const String setting = '$_basePath/setting.svg';
+  static const String user = '$_basePath/user.svg';
+  static const String gift = '$_basePath/gift.svg';
+  static const String cart = '$_basePath/cart.svg';
+}
