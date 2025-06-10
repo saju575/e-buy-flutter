@@ -5,6 +5,7 @@ import 'package:e_buy/app/widgets/app_icon.dart';
 import 'package:e_buy/features/home/ui/screens/home_screen.dart';
 import 'package:e_buy/features/product/ui/screens/categories_screen.dart';
 import 'package:e_buy/features/shared/ui/controllers/main_bottom_nav_controller.dart';
+import 'package:e_buy/features/wish_list/ui/screens/wish_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -20,7 +21,7 @@ class MainBottomNavScreenState extends State<MainBottomNavScreen> {
     HomeScreen(),
     CategoriesScreen(),
     HomeScreen(),
-    HomeScreen(),
+    WishListScreen(),
   ];
 
   @override

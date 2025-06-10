@@ -31,6 +31,7 @@ class AppTheme {
           fontSize: 16,
           fontWeight: FontWeight.w600,
         ),
+
         // titleSpacing: 0.0,
         // shape: Border(bottom: BorderSide(width: .5, color: color.border)),
       ),

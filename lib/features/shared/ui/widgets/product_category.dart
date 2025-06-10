@@ -5,15 +5,22 @@ import 'package:e_buy/app/widgets/app_icon.dart';
 import 'package:flutter/material.dart';
 
 class ProductCategory extends StatelessWidget {
-  const ProductCategory({super.key, required this.title, this.iconName});
+  const ProductCategory({
+    super.key,
+    required this.title,
+    this.iconName,
+    this.onTap,
+  });
   final String? iconName;
   final String title;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     final textStyle = context.textStyle;
     return GestureDetector(
+      onTap: onTap,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,

@@ -1,3 +1,4 @@
+import 'package:e_buy/app/routes/app_routes.dart';
 import 'package:e_buy/features/shared/ui/controllers/main_bottom_nav_controller.dart';
 import 'package:e_buy/features/shared/ui/widgets/main_layout_app_bar.dart';
 import 'package:e_buy/features/shared/ui/widgets/widget.dart';
@@ -34,8 +35,12 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               mainAxisSpacing: 8,
               crossAxisSpacing: 2,
             ),
-            itemBuilder: (context, index) =>
-                FittedBox(child: ProductCategory(title: "Food")),
+            itemBuilder: (context, index) => FittedBox(
+              child: ProductCategory(
+                title: "Food",
+                onTap: () => _moveToSpecificCategoryProductList("Food"),
+              ),
+            ),
           ),
         ),
       ),
@@ -44,5 +49,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
 
   void _moveToHomeScreen() {
     Get.find<MainBottomNavController>().backToHome();
+  }
+
+  void _moveToSpecificCategoryProductList(String category) {
+    Navigator.pushNamed(context, AppRoutes.productList, arguments: category);
   }
 }

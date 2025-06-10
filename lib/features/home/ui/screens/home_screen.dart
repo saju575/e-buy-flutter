@@ -2,6 +2,7 @@ import 'package:e_buy/app/assets/app_icons.dart';
 import 'package:e_buy/app/assets/asset_paths.dart';
 import 'package:e_buy/app/extension/colors_extension.dart';
 import 'package:e_buy/app/extension/text_style_extension.dart';
+import 'package:e_buy/app/routes/app_routes.dart';
 import 'package:e_buy/app/widgets/app_icon.dart';
 import 'package:e_buy/features/home/ui/widgets/app_bar_icon.dart';
 import 'package:e_buy/features/home/ui/widgets/home_carousel_slider.dart';
@@ -46,15 +47,27 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(height: 12),
               _renderCategories(),
               SizedBox(height: 12),
-              _renderHeader(context: context, title: "Popular", onTap: () {}),
+              _renderHeader(
+                context: context,
+                title: "Popular",
+                onTap: _moveToPopularProductList,
+              ),
               SizedBox(height: 12),
               _renderPopularItems(),
               SizedBox(height: 12),
-              _renderHeader(context: context, title: "Special", onTap: () {}),
+              _renderHeader(
+                context: context,
+                title: "Special",
+                onTap: _moveToSpecialProductList,
+              ),
               SizedBox(height: 12),
               _renderSpecialItems(),
               SizedBox(height: 12),
-              _renderHeader(context: context, title: "New", onTap: () {}),
+              _renderHeader(
+                context: context,
+                title: "New",
+                onTap: _moveToNewProductList,
+              ),
               SizedBox(height: 12),
               _renderNewItems(),
               SizedBox(height: 12),
@@ -115,7 +128,10 @@ class _HomeScreenState extends State<HomeScreen> {
           return Padding(
             padding: EdgeInsets.only(right: index != 7 ? 16 : 0),
             // TODO:: Need to update
-            child: ProductCategory(title: "Food"),
+            child: ProductCategory(
+              title: "Food",
+              onTap: () => _moveToSpecificCategoryProductList("Food"),
+            ),
           );
         },
       ),
@@ -173,11 +189,20 @@ class _HomeScreenState extends State<HomeScreen> {
   void _moveToCategory() {
     _mainBottomNavController.moveToCategory();
   }
-  // void _moveToCart() {
-  //   _mainBottomNavController.moveToCart();
-  // }
 
-  // void _moveToWishlist() {
-  //   _mainBottomNavController.moveToWishlist();
-  // }
+  void _moveToPopularProductList() {
+    Navigator.pushNamed(context, AppRoutes.productList, arguments: "Popular");
+  }
+
+  void _moveToSpecialProductList() {
+    Navigator.pushNamed(context, AppRoutes.productList, arguments: "Special");
+  }
+
+  void _moveToNewProductList() {
+    Navigator.pushNamed(context, AppRoutes.productList, arguments: "New");
+  }
+
+  void _moveToSpecificCategoryProductList(String category) {
+    Navigator.pushNamed(context, AppRoutes.productList, arguments: category);
+  }
 }

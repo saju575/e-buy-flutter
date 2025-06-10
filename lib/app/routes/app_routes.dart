@@ -1,6 +1,7 @@
 import 'package:e_buy/features/auth/ui/screens/login_screen.dart';
 import 'package:e_buy/features/auth/ui/screens/sign_up_screen.dart';
 import 'package:e_buy/features/auth/ui/screens/splash_screen.dart';
+import 'package:e_buy/features/product/ui/screens/product_list_screen.dart';
 import 'package:e_buy/features/shared/ui/screens/main_bottom_nav_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +10,7 @@ class AppRoutes {
   static const String login = LoginScreen.name;
   static const String signUp = SignUpScreen.name;
   static const String main = MainBottomNavScreen.name;
+  static const String productList = ProductListScreen.name;
 
   static Route<dynamic> routes(RouteSettings settings) {
     WidgetBuilder builder;
@@ -25,6 +27,12 @@ class AppRoutes {
         break;
       case MainBottomNavScreen.name:
         builder = (context) => const MainBottomNavScreen();
+        break;
+      case ProductListScreen.name:
+        builder = (context) {
+          final category = settings.arguments as String;
+          return ProductListScreen(category: category);
+        };
         break;
       default:
         builder = (context) => const LoginScreen();
