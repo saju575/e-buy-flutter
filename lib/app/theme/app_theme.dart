@@ -1,6 +1,7 @@
 import 'package:e_buy/app/colors/app_colors.dart';
 import 'package:e_buy/app/colors/light_dark_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class AppTheme {
   static ThemeData get light => _base(LightColors());
@@ -20,6 +21,16 @@ class AppTheme {
         backgroundColor: color.body,
         iconTheme: IconThemeData(color: color.bodyText),
         elevation: 0,
+        surfaceTintColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: color.body, // Optional: Adjust status bar
+        ),
+        titleTextStyle: TextStyle(
+          color: color.bodyText,
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+        ),
         // titleSpacing: 0.0,
         // shape: Border(bottom: BorderSide(width: .5, color: color.border)),
       ),

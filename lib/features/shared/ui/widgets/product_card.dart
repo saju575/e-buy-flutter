@@ -15,7 +15,6 @@ class ProductCard extends StatelessWidget {
     final textStyle = context.textStyle;
     return Container(
       width: width ?? 130,
-      margin: const EdgeInsets.only(right: 16),
       padding: EdgeInsets.all(8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),

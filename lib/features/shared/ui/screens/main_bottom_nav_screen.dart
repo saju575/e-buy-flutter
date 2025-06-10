@@ -3,6 +3,7 @@ import 'package:e_buy/app/extension/colors_extension.dart';
 import 'package:e_buy/app/extension/text_style_extension.dart';
 import 'package:e_buy/app/widgets/app_icon.dart';
 import 'package:e_buy/features/home/ui/screens/home_screen.dart';
+import 'package:e_buy/features/product/ui/screens/categories_screen.dart';
 import 'package:e_buy/features/shared/ui/controllers/main_bottom_nav_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,7 +18,7 @@ class MainBottomNavScreen extends StatefulWidget {
 class MainBottomNavScreenState extends State<MainBottomNavScreen> {
   final List<Widget> _screens = [
     HomeScreen(),
-    HomeScreen(),
+    CategoriesScreen(),
     HomeScreen(),
     HomeScreen(),
   ];

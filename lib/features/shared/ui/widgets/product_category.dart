@@ -14,37 +14,34 @@ class ProductCategory extends StatelessWidget {
     final colors = context.colors;
     final textStyle = context.textStyle;
     return GestureDetector(
-      child: Padding(
-        padding: const EdgeInsets.only(right: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 72,
-              height: 72,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: colors.primaryWeak,
-              ),
-              child: Center(
-                child: AppIcon(
-                  iconName: AssetCategories.food,
-                  color: colors.primary,
-                  size: 40,
-                ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: 72,
+            height: 72,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: colors.primaryWeak,
+            ),
+            child: Center(
+              child: AppIcon(
+                iconName: AssetCategories.food,
+                color: colors.primary,
+                size: 40,
               ),
             ),
-            SizedBox(height: 8),
-            Text(
-              title,
-              style: textStyle.base.copyWith(
-                color: colors.bodyText,
-                fontWeight: FontWeight.w400,
-              ),
+          ),
+          SizedBox(height: 8),
+          Text(
+            title,
+            style: textStyle.base.copyWith(
+              color: colors.bodyText,
+              fontWeight: FontWeight.w400,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

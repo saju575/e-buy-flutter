@@ -6,9 +6,10 @@ import 'package:e_buy/app/widgets/app_icon.dart';
 import 'package:e_buy/features/home/ui/widgets/app_bar_icon.dart';
 import 'package:e_buy/features/home/ui/widgets/home_carousel_slider.dart';
 import 'package:e_buy/features/home/ui/widgets/product_search_bar.dart';
+import 'package:e_buy/features/shared/ui/controllers/main_bottom_nav_controller.dart';
 import 'package:e_buy/features/shared/ui/widgets/widget.dart';
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -18,6 +19,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final MainBottomNavController _mainBottomNavController =
+      Get.find<MainBottomNavController>();
   @override
   Widget build(BuildContext context) {
     // final colors = context.colors;
@@ -38,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
               _renderHeader(
                 context: context,
                 title: "Categories",
-                onTap: () {},
+                onTap: _moveToCategory,
               ),
               SizedBox(height: 12),
               _renderCategories(),
@@ -91,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         InkWell(
-          onTap: () {},
+          onTap: onTap,
           child: Text(
             "See All",
             maxLines: 1,
@@ -109,7 +112,11 @@ class _HomeScreenState extends State<HomeScreen> {
         itemCount: 8,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
-          return ProductCategory(title: "Food");
+          return Padding(
+            padding: EdgeInsets.only(right: index != 7 ? 16 : 0),
+            // TODO:: Need to update
+            child: ProductCategory(title: "Food"),
+          );
         },
       ),
     );
@@ -122,7 +129,10 @@ class _HomeScreenState extends State<HomeScreen> {
         itemCount: 8,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
-          return ProductCard(width: 115);
+          return Padding(
+            padding: EdgeInsets.only(right: index != 7 ? 16 : 0),
+            child: const ProductCard(width: 115),
+          );
         },
       ),
     );
@@ -135,7 +145,10 @@ class _HomeScreenState extends State<HomeScreen> {
         itemCount: 8,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
-          return ProductCard(width: 115);
+          return Padding(
+            padding: EdgeInsets.only(right: index != 7 ? 16 : 0),
+            child: const ProductCard(width: 115),
+          );
         },
       ),
     );
@@ -148,9 +161,23 @@ class _HomeScreenState extends State<HomeScreen> {
         itemCount: 8,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
-          return ProductCard(width: 115);
+          return Padding(
+            padding: EdgeInsets.only(right: index != 7 ? 16 : 0),
+            child: const ProductCard(width: 115),
+          );
         },
       ),
     );
   }
+
+  void _moveToCategory() {
+    _mainBottomNavController.moveToCategory();
+  }
+  // void _moveToCart() {
+  //   _mainBottomNavController.moveToCart();
+  // }
+
+  // void _moveToWishlist() {
+  //   _mainBottomNavController.moveToWishlist();
+  // }
 }

@@ -1,0 +1,48 @@
+import 'package:e_buy/features/shared/ui/controllers/main_bottom_nav_controller.dart';
+import 'package:e_buy/features/shared/ui/widgets/main_layout_app_bar.dart';
+import 'package:e_buy/features/shared/ui/widgets/widget.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+class CategoriesScreen extends StatefulWidget {
+  const CategoriesScreen({super.key});
+
+  @override
+  State<CategoriesScreen> createState() => _CategoriesScreenState();
+}
+
+class _CategoriesScreenState extends State<CategoriesScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (_, __) {
+        _moveToHomeScreen();
+      },
+      child: Scaffold(
+        appBar: MainLayoutAppBar(
+          title: "Categories",
+          onTapLeading: _moveToHomeScreen,
+        ),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          child: GridView.builder(
+            itemCount: 100,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 4,
+              mainAxisExtent: 100,
+              mainAxisSpacing: 8,
+              crossAxisSpacing: 2,
+            ),
+            itemBuilder: (context, index) =>
+                FittedBox(child: ProductCategory(title: "Food")),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _moveToHomeScreen() {
+    Get.find<MainBottomNavController>().backToHome();
+  }
+}
