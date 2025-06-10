@@ -22,6 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final textStyle = context.textStyle;
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -43,6 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 8),
                   TextFormField(
                     controller: _emailController,
+                    style: textStyle.base.copyWith(color: colors.heading),
                     keyboardType: TextInputType.emailAddress,
                     textInputAction: TextInputAction.next,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -54,6 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 8),
                   TextFormField(
                     controller: _passwordController,
+                    style: textStyle.base.copyWith(color: colors.heading),
                     textInputAction: TextInputAction.done,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: InputDecoration(

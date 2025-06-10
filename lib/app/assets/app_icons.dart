@@ -13,4 +13,6 @@ class AppIcons {
   static const String user = '$_basePath/user.svg';
   static const String gift = '$_basePath/gift.svg';
   static const String cart = '$_basePath/cart.svg';
+  static const String trash = '$_basePath/trash.svg';
+  static const String star = '$_basePath/star.svg';
 }

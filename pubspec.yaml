@@ -36,6 +36,7 @@ dependencies:
   firebase_crashlytics: ^4.3.6
   flutter_svg: ^2.1.0
   get: ^4.7.2
+  carousel_slider: ^5.1.1
 
 dev_dependencies:
   flutter_test:
@@ -62,6 +63,7 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+    - assets/categories/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

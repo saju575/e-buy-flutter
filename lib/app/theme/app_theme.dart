@@ -21,7 +21,7 @@ class AppTheme {
         iconTheme: IconThemeData(color: color.bodyText),
         elevation: 0,
         // titleSpacing: 0.0,
-        shape: Border(bottom: BorderSide(width: .5, color: color.border)),
+        // shape: Border(bottom: BorderSide(width: .5, color: color.border)),
       ),
     );
   }

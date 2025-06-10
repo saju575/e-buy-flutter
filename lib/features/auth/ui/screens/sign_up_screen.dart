@@ -26,6 +26,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final textStyle = context.textStyle;
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -52,7 +53,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   const SizedBox(height: 8),
                   TextFormField(
                     controller: _firstNameTEController,
-
+                    style: textStyle.base.copyWith(color: colors.heading),
                     textInputAction: TextInputAction.next,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: InputDecoration(hintText: "Alice"),
@@ -64,7 +65,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                   TextFormField(
                     controller: _lastNameTEController,
-
+                    style: textStyle.base.copyWith(color: colors.heading),
                     textInputAction: TextInputAction.next,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: InputDecoration(hintText: "Smith"),
@@ -74,6 +75,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   const SizedBox(height: 8),
                   TextFormField(
                     controller: _mobileTEController,
+                    style: textStyle.base.copyWith(color: colors.heading),
                     keyboardType: TextInputType.phone,
                     textInputAction: TextInputAction.next,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -86,6 +88,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   const SizedBox(height: 8),
                   TextFormField(
                     controller: _emailTEController,
+                    style: textStyle.base.copyWith(color: colors.heading),
                     keyboardType: TextInputType.emailAddress,
                     textInputAction: TextInputAction.next,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -98,6 +101,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   const SizedBox(height: 8),
                   TextFormField(
                     controller: _passwordTEController,
+                    style: textStyle.base.copyWith(color: colors.heading),
                     textInputAction: TextInputAction.done,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: InputDecoration(
@@ -113,7 +117,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   const SizedBox(height: 8),
                   TextFormField(
                     controller: _cityTEController,
-
+                    style: textStyle.base.copyWith(color: colors.heading),
                     textInputAction: TextInputAction.next,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: InputDecoration(hintText: "Johannesburg"),
@@ -124,6 +128,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   const SizedBox(height: 8),
                   TextFormField(
                     controller: _addressTEController,
+                    style: textStyle.base.copyWith(color: colors.heading),
                     maxLines: 3,
                     textInputAction: TextInputAction.next,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
