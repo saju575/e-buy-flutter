@@ -5,8 +5,8 @@ import 'package:e_buy/app/extension/text_style_extension.dart';
 import 'package:e_buy/app/routes/app_routes.dart';
 import 'package:e_buy/app/widgets/app_icon.dart';
 import 'package:e_buy/features/home/ui/widgets/app_bar_icon.dart';
-import 'package:e_buy/features/home/ui/widgets/home_carousel_slider.dart';
 import 'package:e_buy/features/home/ui/widgets/product_search_bar.dart';
+import 'package:e_buy/features/home/ui/widgets/slider_card.dart';
 import 'package:e_buy/features/shared/ui/controllers/main_bottom_nav_controller.dart';
 import 'package:e_buy/features/shared/ui/widgets/widget.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +37,11 @@ class _HomeScreenState extends State<HomeScreen> {
               ProductSearchBar(),
               SizedBox(height: 12),
 
-              HomeCarouselSlider(),
+              AppCarouselSlider<int>(
+                items: [1, 2, 3, 4, 5],
+                sliderCardBuilder: (width, height, index, item) =>
+                    SliderCard(width: width, height: height),
+              ),
               SizedBox(height: 12),
               _renderHeader(
                 context: context,
@@ -147,7 +151,10 @@ class _HomeScreenState extends State<HomeScreen> {
         itemBuilder: (context, index) {
           return Padding(
             padding: EdgeInsets.only(right: index != 7 ? 16 : 0),
-            child: const ProductCard(width: 115),
+            child: ProductCard(
+              width: 115,
+              onTap: () => _moveToSpecificProduct("1"),
+            ),
           );
         },
       ),
@@ -163,7 +170,10 @@ class _HomeScreenState extends State<HomeScreen> {
         itemBuilder: (context, index) {
           return Padding(
             padding: EdgeInsets.only(right: index != 7 ? 16 : 0),
-            child: const ProductCard(width: 115),
+            child: ProductCard(
+              width: 115,
+              onTap: () => _moveToSpecificProduct("1"),
+            ),
           );
         },
       ),
@@ -179,7 +189,10 @@ class _HomeScreenState extends State<HomeScreen> {
         itemBuilder: (context, index) {
           return Padding(
             padding: EdgeInsets.only(right: index != 7 ? 16 : 0),
-            child: const ProductCard(width: 115),
+            child: ProductCard(
+              width: 115,
+              onTap: () => _moveToSpecificProduct("1"),
+            ),
           );
         },
       ),
@@ -204,5 +217,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _moveToSpecificCategoryProductList(String category) {
     Navigator.pushNamed(context, AppRoutes.productList, arguments: category);
+  }
+
+  void _moveToSpecificProduct(String id) {
+    Navigator.pushNamed(context, AppRoutes.productDetails, arguments: id);
   }
 }

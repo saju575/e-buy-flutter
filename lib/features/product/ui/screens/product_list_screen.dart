@@ -1,3 +1,4 @@
+import 'package:e_buy/app/routes/app_routes.dart';
 import 'package:e_buy/features/shared/ui/widgets/widget.dart';
 import 'package:flutter/material.dart';
 
@@ -24,9 +25,15 @@ class _ProductListScreenState extends State<ProductListScreen> {
             mainAxisSpacing: 8,
             crossAxisSpacing: 4,
           ),
-          itemBuilder: (context, index) => FittedBox(child: ProductCard()),
+          itemBuilder: (context, index) => FittedBox(
+            child: ProductCard(onTap: () => _moveToSpecificProduct("1")),
+          ),
         ),
       ),
     );
+  }
+
+  void _moveToSpecificProduct(String id) {
+    Navigator.pushNamed(context, AppRoutes.productDetails, arguments: id);
   }
 }

@@ -42,7 +42,7 @@ class AppTheme {
     labelSmall: TextStyle(
       // xs
       fontSize: 8,
-      height: 12 / 8,
+      height: 14 / 8,
       fontFamily: 'Inter',
     ),
     labelMedium: TextStyle(

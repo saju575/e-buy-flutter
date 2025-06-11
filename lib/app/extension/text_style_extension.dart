@@ -8,7 +8,7 @@ class TextStyleTokens {
   final BuildContext context;
   TextStyleTokens(this.context);
 
-  TextStyle get xs => Theme.of(context).textTheme.displaySmall!;
+  TextStyle get xs => Theme.of(context).textTheme.labelSmall!;
   TextStyle get sm => Theme.of(context).textTheme.labelMedium!;
   TextStyle get base => Theme.of(context).textTheme.bodySmall!;
   TextStyle get lg => Theme.of(context).textTheme.bodyMedium!;

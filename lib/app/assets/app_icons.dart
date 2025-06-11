@@ -15,4 +15,5 @@ class AppIcons {
   static const String cart = '$_basePath/cart.svg';
   static const String trash = '$_basePath/trash.svg';
   static const String star = '$_basePath/star.svg';
+  static const String heartOutline = '$_basePath/heart_outline.svg';
 }
