@@ -2,6 +2,7 @@ import 'package:e_buy/app/assets/app_icons.dart';
 import 'package:e_buy/app/colors/app_colors.dart';
 import 'package:e_buy/app/extension/colors_extension.dart';
 import 'package:e_buy/app/extension/text_style_extension.dart';
+import 'package:e_buy/app/routes/app_routes.dart';
 import 'package:e_buy/app/widgets/app_icon.dart';
 import 'package:e_buy/features/product/data/models/product_size_model.dart';
 import 'package:e_buy/features/product/ui/widgets/product_size_select.dart';
@@ -95,7 +96,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: PriceFooter(
+      bottomNavigationBar: BottomPurchaseBar(
         title: "Price",
         price: 100,
         buttonText: "Add to Cart",
@@ -161,7 +162,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         SizedBox(width: 2),
         Text("4.5", style: textStyle.base.copyWith(color: colors.bodyText)),
         SizedBox(width: 16),
-        Text("Reviews", style: textStyle.base.copyWith(color: colors.primary)),
+        GestureDetector(
+          onTap: _moveToReviewScreen,
+          child: Text(
+            "Reviews",
+            style: textStyle.base.copyWith(color: colors.primary),
+          ),
+        ),
         SizedBox(width: 16),
         AppIconButton(
           width: 22,
@@ -215,5 +222,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         );
       },
     );
+  }
+
+  void _moveToReviewScreen() {
+    Navigator.pushNamed(context, AppRoutes.reviews);
   }
 }

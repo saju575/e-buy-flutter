@@ -5,4 +5,5 @@ export 'app_carousel_slider.dart';
 export 'increment_decrement.dart';
 export 'app_icon_button.dart';
 export 'color_button.dart';
-export 'price_footer.dart';
+export 'bottom_c_t_a_bar.dart';
+export 'bottom_purchase_bar.dart';

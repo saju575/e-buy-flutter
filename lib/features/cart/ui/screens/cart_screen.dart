@@ -34,7 +34,7 @@ class _CartScreenState extends State<CartScreen> {
             },
           ),
         ),
-        bottomNavigationBar: PriceFooter(
+        bottomNavigationBar: BottomPurchaseBar(
           title: "Total Price",
           price: 5000,
           buttonText: "Checkout",
