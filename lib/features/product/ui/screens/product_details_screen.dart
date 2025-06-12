@@ -32,6 +32,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   late final ValueNotifier<ProductSizeModel> _selectedSize;
 
   @override
+  void dispose() {
+    _selectedSize.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     super.initState();
     _selectedSize = ValueNotifier(_sizeList.first);

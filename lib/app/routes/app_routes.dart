@@ -1,4 +1,5 @@
 import 'package:e_buy/features/auth/ui/screens/login_screen.dart';
+import 'package:e_buy/features/auth/ui/screens/otp_verify_screen.dart';
 import 'package:e_buy/features/auth/ui/screens/sign_up_screen.dart';
 import 'package:e_buy/features/auth/ui/screens/splash_screen.dart';
 import 'package:e_buy/features/product/ui/screens/product_details_screen.dart';
@@ -12,6 +13,7 @@ class AppRoutes {
   static const String splash = SplashScreen.name;
   static const String login = LoginScreen.name;
   static const String signUp = SignUpScreen.name;
+  static const String otpVerify = OtpVerifyScreen.name;
   static const String main = MainBottomNavScreen.name;
   static const String productList = ProductListScreen.name;
   static const String productDetails = ProductDetailsScreen.name;
@@ -30,6 +32,9 @@ class AppRoutes {
         break;
       case SignUpScreen.name:
         builder = (context) => const SignUpScreen();
+        break;
+      case OtpVerifyScreen.name:
+        builder = (context) => const OtpVerifyScreen();
         break;
       case MainBottomNavScreen.name:
         builder = (context) => const MainBottomNavScreen();

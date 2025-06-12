@@ -22,6 +22,12 @@ class AppCarouselSlider<T extends dynamic> extends StatefulWidget {
 class _AppCarouselSliderState<T> extends State<AppCarouselSlider<T>> {
   final ValueNotifier<int> _currentIndex = ValueNotifier(0);
   @override
+  void dispose() {
+    _currentIndex.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;

@@ -1,6 +1,7 @@
 import 'package:e_buy/app/colors/app_colors.dart';
 import 'package:e_buy/app/extension/colors_extension.dart';
 import 'package:e_buy/app/extension/text_style_extension.dart';
+import 'package:e_buy/app/routes/app_routes.dart';
 import 'package:e_buy/features/auth/ui/widgets/auth_header.dart';
 import 'package:e_buy/features/auth/ui/widgets/input_title.dart';
 import 'package:flutter/gestures.dart';
@@ -22,6 +23,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _addressTEController = TextEditingController();
   final TextEditingController _passwordTEController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    _emailTEController.dispose();
+    _firstNameTEController.dispose();
+    _lastNameTEController.dispose();
+    _mobileTEController.dispose();
+    _cityTEController.dispose();
+    _addressTEController.dispose();
+    _passwordTEController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -137,7 +150,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                   const SizedBox(height: 28),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: _onTapSignUp,
                     child: const Text("Sign Up"),
                   ),
                   const SizedBox(height: 28),
@@ -175,5 +188,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   void _onTapLogin() {
     Navigator.pop(context);
+  }
+
+  void _onTapSignUp() {
+    if (_formKey.currentState!.validate()) {
+      // TODO:: Need to do other things
+      _moveToOtpVerifyScreen();
+    }
+  }
+
+  void _moveToOtpVerifyScreen() {
+    Navigator.pushNamed(context, AppRoutes.otpVerify);
   }
 }

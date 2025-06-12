@@ -15,6 +15,15 @@ class _CreateReviewScreenState extends State<CreateReviewScreen> {
   final TextEditingController _firstNameTEController = TextEditingController();
   final TextEditingController _lastNameTEController = TextEditingController();
   final TextEditingController _reviewTEController = TextEditingController();
+
+  @override
+  void dispose() {
+    _firstNameTEController.dispose();
+    _lastNameTEController.dispose();
+    _reviewTEController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final textStyle = context.textStyle;
