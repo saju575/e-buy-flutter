@@ -72,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               SizedBox(height: 12),
               _renderNewItems(),
-              SizedBox(height: 12),
+              SizedBox(height: 10),
             ],
           ),
         ),
@@ -207,6 +207,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _moveToCategory() {
     _mainBottomNavController.moveToCategory();
+    // Get.find<MainBottomNavController>().changeBottomNavIndex(1);
   }
 
   void _moveToPopularProductList() {

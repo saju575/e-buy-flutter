@@ -45,13 +45,18 @@ class SliderCard extends StatelessWidget {
                     maxLines: 5,
                   ),
                   SizedBox(height: 8),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: colors.headingSecondary,
-                      foregroundColor: colors.primary,
+                  FittedBox(
+                    child: SizedBox(
+                      width: 140,
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: colors.headingSecondary,
+                          foregroundColor: colors.primary,
+                        ),
+                        child: const Text("Shop Now"),
+                      ),
                     ),
-                    child: const Text("Shop Now"),
                   ),
                 ],
               ),
