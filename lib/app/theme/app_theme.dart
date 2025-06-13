@@ -24,7 +24,8 @@ class AppTheme {
         surfaceTintColor: Colors.transparent,
         shadowColor: Colors.transparent,
         systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: color.body, // Optional: Adjust status bar
+          statusBarColor: color.body,
+          statusBarIconBrightness: Brightness.light,
         ),
         titleTextStyle: TextStyle(
           color: color.bodyText,

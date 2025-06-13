@@ -23,7 +23,7 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
 
   @override
   void dispose() {
-    _pinCodeTEController.dispose();
+    // _pinCodeTEController.dispose();
     _errorController.close();
     _hasError.dispose();
     super.dispose();

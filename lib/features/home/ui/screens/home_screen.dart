@@ -24,8 +24,6 @@ class _HomeScreenState extends State<HomeScreen> {
       Get.find<MainBottomNavController>();
   @override
   Widget build(BuildContext context) {
-    // final colors = context.colors;
-    // final textStyle = context.textStyle;
     return Scaffold(
       appBar: _renderAppBar(),
       body: SingleChildScrollView(
@@ -132,9 +130,11 @@ class _HomeScreenState extends State<HomeScreen> {
           return Padding(
             padding: EdgeInsets.only(right: index != 7 ? 16 : 0),
             // TODO:: Need to update
-            child: ProductCategory(
-              title: "Food",
-              onTap: () => _moveToSpecificCategoryProductList("Food"),
+            child: FittedBox(
+              child: ProductCategory(
+                title: "Food",
+                onTap: () => _moveToSpecificCategoryProductList("Food"),
+              ),
             ),
           );
         },
@@ -151,9 +151,11 @@ class _HomeScreenState extends State<HomeScreen> {
         itemBuilder: (context, index) {
           return Padding(
             padding: EdgeInsets.only(right: index != 7 ? 16 : 0),
-            child: ProductCard(
-              width: 115,
-              onTap: () => _moveToSpecificProduct("1"),
+            child: FittedBox(
+              child: ProductCard(
+                width: 115,
+                onTap: () => _moveToSpecificProduct("1"),
+              ),
             ),
           );
         },
@@ -170,9 +172,11 @@ class _HomeScreenState extends State<HomeScreen> {
         itemBuilder: (context, index) {
           return Padding(
             padding: EdgeInsets.only(right: index != 7 ? 16 : 0),
-            child: ProductCard(
-              width: 115,
-              onTap: () => _moveToSpecificProduct("1"),
+            child: FittedBox(
+              child: ProductCard(
+                width: 115,
+                onTap: () => _moveToSpecificProduct("1"),
+              ),
             ),
           );
         },
@@ -189,9 +193,11 @@ class _HomeScreenState extends State<HomeScreen> {
         itemBuilder: (context, index) {
           return Padding(
             padding: EdgeInsets.only(right: index != 7 ? 16 : 0),
-            child: ProductCard(
-              width: 115,
-              onTap: () => _moveToSpecificProduct("1"),
+            child: FittedBox(
+              child: ProductCard(
+                width: 115,
+                onTap: () => _moveToSpecificProduct("1"),
+              ),
             ),
           );
         },
