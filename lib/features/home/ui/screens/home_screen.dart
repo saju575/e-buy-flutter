@@ -24,57 +24,74 @@ class _HomeScreenState extends State<HomeScreen> {
       Get.find<MainBottomNavController>();
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
     return Scaffold(
       appBar: _renderAppBar(),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsetsGeometry.symmetric(horizontal: 16),
-          child: Column(
-            children: [
-              SizedBox(height: 16),
-              ProductSearchBar(),
-              SizedBox(height: 12),
-
-              AppCarouselSlider<int>(
+        child: Column(
+          children: [
+            const SizedBox(height: 16),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ProductSearchBar(),
+            ),
+            const SizedBox(height: 12),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: AppCarouselSlider<int>(
+                indicatorColor: colors.primaryWeak,
+                indicatorActiveColor: colors.primary,
                 items: [1, 2, 3, 4, 5],
                 sliderCardBuilder: (width, height, index, item) =>
                     SliderCard(width: width, height: height),
               ),
-              SizedBox(height: 12),
-              _renderHeader(
-                context: context,
-                title: "Categories",
-                onTap: _moveToCategory,
-              ),
-              SizedBox(height: 12),
-              _renderCategories(),
-              SizedBox(height: 12),
-              _renderHeader(
-                context: context,
-                title: "Popular",
-                onTap: _moveToPopularProductList,
-              ),
-              SizedBox(height: 12),
-              _renderPopularItems(),
-              SizedBox(height: 12),
-              _renderHeader(
-                context: context,
-                title: "Special",
-                onTap: _moveToSpecialProductList,
-              ),
-              SizedBox(height: 12),
-              _renderSpecialItems(),
-              SizedBox(height: 12),
-              _renderHeader(
-                context: context,
-                title: "New",
-                onTap: _moveToNewProductList,
-              ),
-              SizedBox(height: 12),
-              _renderNewItems(),
-              SizedBox(height: 10),
-            ],
-          ),
+            ),
+            const SizedBox(height: 12),
+            _renderHeader(
+              context: context,
+              title: "Categories",
+              onTap: _moveToCategory,
+            ),
+            const SizedBox(height: 12),
+            Padding(
+              padding: const EdgeInsets.only(left: 16),
+              child: Column(children: [_renderCategories()]),
+            ),
+            SizedBox(height: 12),
+            _renderHeader(
+              context: context,
+              title: "Popular",
+              onTap: _moveToPopularProductList,
+            ),
+            const SizedBox(height: 12),
+            Padding(
+              padding: const EdgeInsets.only(left: 16),
+              child: _renderPopularItems(),
+            ),
+            const SizedBox(height: 12),
+            _renderHeader(
+              context: context,
+              title: "Special",
+              onTap: _moveToSpecialProductList,
+            ),
+            const SizedBox(height: 12),
+            Padding(
+              padding: const EdgeInsets.only(left: 16),
+              child: _renderSpecialItems(),
+            ),
+            const SizedBox(height: 12),
+            _renderHeader(
+              context: context,
+              title: "New",
+              onTap: _moveToNewProductList,
+            ),
+            const SizedBox(height: 12),
+            Padding(
+              padding: const EdgeInsets.only(left: 16),
+              child: _renderNewItems(),
+            ),
+            const SizedBox(height: 10),
+          ],
         ),
       ),
     );
@@ -97,26 +114,29 @@ class _HomeScreenState extends State<HomeScreen> {
   }) {
     final colors = context.colors;
     final textStyle = context.textStyle;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          title,
-          maxLines: 1,
-          style: textStyle.xl.copyWith(
-            color: colors.heading,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        InkWell(
-          onTap: onTap,
-          child: Text(
-            "See All",
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
             maxLines: 1,
-            style: textStyle.base.copyWith(color: colors.primary),
+            style: textStyle.xl.copyWith(
+              color: colors.heading,
+              fontWeight: FontWeight.w600,
+            ),
           ),
-        ),
-      ],
+          InkWell(
+            onTap: onTap,
+            child: Text(
+              "See All",
+              maxLines: 1,
+              style: textStyle.base.copyWith(color: colors.primary),
+            ),
+          ),
+        ],
+      ),
     );
   }
 

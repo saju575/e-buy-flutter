@@ -59,8 +59,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            _renderCarouselSlider(screenHeight),
-            SizedBox(height: 14),
+            _renderCarouselSlider(colors, screenHeight),
+            const SizedBox(height: 14),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: Column(
@@ -124,8 +124,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
-  Widget _renderCarouselSlider(double screenHeight) {
+  Widget _renderCarouselSlider(AppColors colors, double screenHeight) {
     return AppCarouselSlider<int>(
+      indicatorActiveColor: colors.primary,
       showIndicatorOnTop: true,
       height: screenHeight / 3,
       items: [1, 2, 3, 4],

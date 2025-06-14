@@ -9,9 +9,13 @@ class AppCarouselSlider<T extends dynamic> extends StatefulWidget {
     this.height,
     required this.sliderCardBuilder,
     required this.items,
+    this.indicatorColor,
+    this.indicatorActiveColor,
   });
   final bool showIndicatorOnTop;
   final double? height;
+  final Color? indicatorColor;
+  final Color? indicatorActiveColor;
   final List<T> items;
   final Widget Function(double width, double height, int index, T item)
   sliderCardBuilder;
@@ -47,7 +51,9 @@ class _AppCarouselSliderState<T> extends State<AppCarouselSlider<T>> {
                 margin: const EdgeInsets.symmetric(horizontal: 4),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: i == value ? colors.secondary : colors.grey,
+                  color: i == value
+                      ? widget.indicatorActiveColor ?? colors.secondary
+                      : widget.indicatorColor ?? colors.grey,
                 ),
               ),
           ],
