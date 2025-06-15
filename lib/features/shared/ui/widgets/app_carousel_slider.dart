@@ -36,7 +36,9 @@ class _AppCarouselSliderState<T> extends State<AppCarouselSlider<T>> {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     final colors = context.colors;
-    final carouselHeight = widget.height ?? screenHeight / 4;
+    final carouselHeight =
+        widget.height ??
+        (screenHeight < 681 ? screenHeight / 3 : screenHeight / 4);
 
     final indicator = ValueListenableBuilder<int>(
       valueListenable: _currentIndex,

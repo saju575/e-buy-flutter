@@ -11,7 +11,7 @@ class AppTheme {
     return ThemeData(
       extensions: [color],
       useMaterial3: true,
-      fontFamily: 'Inter',
+      fontFamily: 'Poppins',
       textTheme: _customTextTheme,
       inputDecorationTheme: _inputDecorationTheme(color),
       elevatedButtonTheme: _elevatedButtonTheme(color),
@@ -44,43 +44,50 @@ class AppTheme {
       // xs
       fontSize: 8,
       height: 14 / 8,
-      fontFamily: 'Inter',
+      // fontFamily: 'Inter',
+      fontFamily: 'Poppins',
     ),
     labelMedium: TextStyle(
       // sm
       fontSize: 12,
       height: 18 / 12,
-      fontFamily: 'Inter',
+      // fontFamily: 'Inter',
+      fontFamily: 'Poppins',
     ),
     bodySmall: TextStyle(
       // base
       fontSize: 14,
       height: 20 / 14,
-      fontFamily: 'Inter',
+      // fontFamily: 'Inter',
+      fontFamily: 'Poppins',
     ),
     bodyMedium: TextStyle(
       // lg
       fontSize: 16,
       height: 24 / 16,
-      fontFamily: 'Inter',
+      // fontFamily: 'Inter',
+      fontFamily: 'Poppins',
     ),
     titleSmall: TextStyle(
       // xl
       fontSize: 18,
       height: 26 / 18,
-      fontFamily: 'Inter',
+      // fontFamily: 'Inter',
+      fontFamily: 'Poppins',
     ),
     titleMedium: TextStyle(
       // 2xl
       fontSize: 20,
       height: 28 / 20,
-      fontFamily: 'Inter',
+      // fontFamily: 'Inter',
+      fontFamily: 'Poppins',
     ),
     titleLarge: TextStyle(
       // 3xl
       fontSize: 24,
       height: 32 / 24,
-      fontFamily: 'Inter',
+      // fontFamily: 'Inter',
+      fontFamily: 'Poppins',
     ),
   );
 

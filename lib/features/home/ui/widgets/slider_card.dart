@@ -33,6 +33,7 @@ class SliderCard extends StatelessWidget {
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "Happy New Year Special Deal Save 20%",
@@ -42,7 +43,7 @@ class SliderCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                     softWrap: true,
-                    maxLines: 5,
+                    maxLines: 4,
                   ),
                   SizedBox(height: 8),
                   FittedBox(
