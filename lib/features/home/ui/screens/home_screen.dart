@@ -7,10 +7,9 @@ import 'package:e_buy/app/widgets/app_icon.dart';
 import 'package:e_buy/features/home/ui/widgets/app_bar_icon.dart';
 import 'package:e_buy/features/home/ui/widgets/product_search_bar.dart';
 import 'package:e_buy/features/home/ui/widgets/slider_card.dart';
-import 'package:e_buy/features/shared/ui/controllers/main_bottom_nav_controller.dart';
+import 'package:e_buy/features/shared/ui/controllers/actions/jump_action.dart';
 import 'package:e_buy/features/shared/ui/widgets/widget.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -20,8 +19,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final MainBottomNavController _mainBottomNavController =
-      Get.find<MainBottomNavController>();
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
@@ -50,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
             _renderHeader(
               context: context,
               title: "Categories",
-              onTap: _moveToCategory,
+              onTap: moveToCategoryScreen,
             ),
             const SizedBox(height: 12),
             Padding(
@@ -102,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
       title: AppIcon(iconName: AssetPaths.appLogoSvg, size: 28),
       actions: [
         AppBarIcon(iconName: AppIcons.bell, onTap: () {}),
-        AppBarIcon(iconName: AppIcons.user, onTap: () {}),
+        AppBarIcon(iconName: AppIcons.user, onTap: moveToProfileScreen),
       ],
     );
   }
@@ -223,11 +220,6 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
     );
-  }
-
-  void _moveToCategory() {
-    _mainBottomNavController.moveToCategory();
-    // Get.find<MainBottomNavController>().changeBottomNavIndex(1);
   }
 
   void _moveToPopularProductList() {

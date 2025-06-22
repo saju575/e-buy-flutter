@@ -23,7 +23,6 @@ class MainBottomNavController extends GetxController {
 
   void moveToCategory() {
     _changeIndex(1);
-    // update();
   }
 
   void moveToCart() {
@@ -34,9 +33,9 @@ class MainBottomNavController extends GetxController {
     _changeIndex(3);
   }
 
-  //   void moveToProfile() {
-  //     _changeIndex(4);
-  //   }
+  void moveToProfile() {
+    _changeIndex(4);
+  }
 }
 
 // import 'package:get/get.dart';

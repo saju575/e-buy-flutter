@@ -6,6 +6,7 @@ import 'package:e_buy/features/auth/ui/widgets/auth_header.dart';
 import 'package:e_buy/features/auth/ui/widgets/input_title.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -31,61 +32,67 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final textStyle = context.textStyle;
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16, top: 80),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AuthHeader(
-                    title: "Welcome Back",
-                    subtitle: "Enter your Email to Sign in",
-                  ),
-
-                  const SizedBox(height: 24),
-                  InputTitle(title: "Email"),
-
-                  const SizedBox(height: 8),
-                  TextFormField(
-                    controller: _emailController,
-                    style: textStyle.base.copyWith(color: colors.heading),
-                    keyboardType: TextInputType.emailAddress,
-                    textInputAction: TextInputAction.next,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    decoration: InputDecoration(hintText: "Enter Your Email"),
-                  ),
-                  const SizedBox(height: 20),
-                  InputTitle(title: "Password"),
-
-                  const SizedBox(height: 8),
-                  TextFormField(
-                    controller: _passwordController,
-                    style: textStyle.base.copyWith(color: colors.heading),
-                    textInputAction: TextInputAction.done,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    decoration: InputDecoration(
-                      hintText: "8 characters and more",
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(
+        statusBarColor: colors.body,
+        statusBarIconBrightness: Brightness.light,
+      ),
+      child: Scaffold(
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 16, right: 16, top: 80),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AuthHeader(
+                      title: "Welcome Back",
+                      subtitle: "Enter your Email to Sign in",
                     ),
-                    obscureText: true,
-                  ),
-                  const SizedBox(height: 28),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        AppRoutes.main,
-                        (_) => false,
-                      );
-                    },
-                    child: const Text("Log in"),
-                  ),
-                  const SizedBox(height: 28),
-                  _renderSignupText(context, colors),
-                ],
+
+                    const SizedBox(height: 24),
+                    InputTitle(title: "Email"),
+
+                    const SizedBox(height: 8),
+                    TextFormField(
+                      controller: _emailController,
+                      style: textStyle.base.copyWith(color: colors.heading),
+                      keyboardType: TextInputType.emailAddress,
+                      textInputAction: TextInputAction.next,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      decoration: InputDecoration(hintText: "Enter Your Email"),
+                    ),
+                    const SizedBox(height: 20),
+                    InputTitle(title: "Password"),
+
+                    const SizedBox(height: 8),
+                    TextFormField(
+                      controller: _passwordController,
+                      style: textStyle.base.copyWith(color: colors.heading),
+                      textInputAction: TextInputAction.done,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      decoration: InputDecoration(
+                        hintText: "8 characters and more",
+                      ),
+                      obscureText: true,
+                    ),
+                    const SizedBox(height: 28),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          AppRoutes.main,
+                          (_) => false,
+                        );
+                      },
+                      child: const Text("Log in"),
+                    ),
+                    const SizedBox(height: 28),
+                    _renderSignupText(context, colors),
+                  ],
+                ),
               ),
             ),
           ),

@@ -6,6 +6,7 @@ import 'package:e_buy/features/auth/ui/widgets/auth_header.dart';
 import 'package:e_buy/features/auth/ui/widgets/input_title.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -40,122 +41,130 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final textStyle = context.textStyle;
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.only(
-              left: 16,
-              right: 16,
-              top: 80,
-              bottom: 20,
-            ),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AuthHeader(
-                    title: "Register Account",
-                    subtitle: "Please enter your details to sign up",
-                  ),
-
-                  const SizedBox(height: 24),
-
-                  InputTitle(title: "First Name"),
-                  const SizedBox(height: 8),
-                  TextFormField(
-                    controller: _firstNameTEController,
-                    style: textStyle.base.copyWith(color: colors.heading),
-                    textInputAction: TextInputAction.next,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    decoration: InputDecoration(hintText: "Alice"),
-                  ),
-                  const SizedBox(height: 20),
-                  InputTitle(title: "Last Name"),
-
-                  const SizedBox(height: 8),
-
-                  TextFormField(
-                    controller: _lastNameTEController,
-                    style: textStyle.base.copyWith(color: colors.heading),
-                    textInputAction: TextInputAction.next,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    decoration: InputDecoration(hintText: "Smith"),
-                  ),
-                  const SizedBox(height: 20),
-                  InputTitle(title: "Mobile Number"),
-                  const SizedBox(height: 8),
-                  TextFormField(
-                    controller: _mobileTEController,
-                    style: textStyle.base.copyWith(color: colors.heading),
-                    keyboardType: TextInputType.phone,
-                    textInputAction: TextInputAction.next,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    decoration: InputDecoration(hintText: "+91 1234567890"),
-                  ),
-                  const SizedBox(height: 20),
-
-                  InputTitle(title: "Email"),
-
-                  const SizedBox(height: 8),
-                  TextFormField(
-                    controller: _emailTEController,
-                    style: textStyle.base.copyWith(color: colors.heading),
-                    keyboardType: TextInputType.emailAddress,
-                    textInputAction: TextInputAction.next,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    decoration: InputDecoration(hintText: "yourmail@gmail.com"),
-                  ),
-                  const SizedBox(height: 20),
-
-                  InputTitle(title: "Password"),
-
-                  const SizedBox(height: 8),
-                  TextFormField(
-                    controller: _passwordTEController,
-                    style: textStyle.base.copyWith(color: colors.heading),
-                    textInputAction: TextInputAction.done,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    decoration: InputDecoration(
-                      hintText: "8 characters and more",
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(
+        statusBarColor: colors.body,
+        statusBarIconBrightness: Brightness.light,
+      ),
+      child: Scaffold(
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                left: 16,
+                right: 16,
+                top: 80,
+                bottom: 20,
+              ),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AuthHeader(
+                      title: "Register Account",
+                      subtitle: "Please enter your details to sign up",
                     ),
-                    obscureText: true,
-                  ),
 
-                  const SizedBox(height: 20),
+                    const SizedBox(height: 24),
 
-                  InputTitle(title: "City"),
+                    InputTitle(title: "First Name"),
+                    const SizedBox(height: 8),
+                    TextFormField(
+                      controller: _firstNameTEController,
+                      style: textStyle.base.copyWith(color: colors.heading),
+                      textInputAction: TextInputAction.next,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      decoration: InputDecoration(hintText: "Alice"),
+                    ),
+                    const SizedBox(height: 20),
+                    InputTitle(title: "Last Name"),
 
-                  const SizedBox(height: 8),
-                  TextFormField(
-                    controller: _cityTEController,
-                    style: textStyle.base.copyWith(color: colors.heading),
-                    textInputAction: TextInputAction.next,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    decoration: InputDecoration(hintText: "Johannesburg"),
-                  ),
-                  const SizedBox(height: 20),
-                  InputTitle(title: "Address"),
+                    const SizedBox(height: 8),
 
-                  const SizedBox(height: 8),
-                  TextFormField(
-                    controller: _addressTEController,
-                    style: textStyle.base.copyWith(color: colors.heading),
-                    maxLines: 3,
-                    textInputAction: TextInputAction.next,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    decoration: InputDecoration(hintText: "Johannesburg"),
-                  ),
+                    TextFormField(
+                      controller: _lastNameTEController,
+                      style: textStyle.base.copyWith(color: colors.heading),
+                      textInputAction: TextInputAction.next,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      decoration: InputDecoration(hintText: "Smith"),
+                    ),
+                    const SizedBox(height: 20),
+                    InputTitle(title: "Mobile Number"),
+                    const SizedBox(height: 8),
+                    TextFormField(
+                      controller: _mobileTEController,
+                      style: textStyle.base.copyWith(color: colors.heading),
+                      keyboardType: TextInputType.phone,
+                      textInputAction: TextInputAction.next,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      decoration: InputDecoration(hintText: "+91 1234567890"),
+                    ),
+                    const SizedBox(height: 20),
 
-                  const SizedBox(height: 28),
-                  ElevatedButton(
-                    onPressed: _onTapSignUp,
-                    child: const Text("Sign Up"),
-                  ),
-                  const SizedBox(height: 28),
-                  _renderLoginText(context, colors),
-                ],
+                    InputTitle(title: "Email"),
+
+                    const SizedBox(height: 8),
+                    TextFormField(
+                      controller: _emailTEController,
+                      style: textStyle.base.copyWith(color: colors.heading),
+                      keyboardType: TextInputType.emailAddress,
+                      textInputAction: TextInputAction.next,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      decoration: InputDecoration(
+                        hintText: "yourmail@gmail.com",
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+
+                    InputTitle(title: "Password"),
+
+                    const SizedBox(height: 8),
+                    TextFormField(
+                      controller: _passwordTEController,
+                      style: textStyle.base.copyWith(color: colors.heading),
+                      textInputAction: TextInputAction.done,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      decoration: InputDecoration(
+                        hintText: "8 characters and more",
+                      ),
+                      obscureText: true,
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    InputTitle(title: "City"),
+
+                    const SizedBox(height: 8),
+                    TextFormField(
+                      controller: _cityTEController,
+                      style: textStyle.base.copyWith(color: colors.heading),
+                      textInputAction: TextInputAction.next,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      decoration: InputDecoration(hintText: "Johannesburg"),
+                    ),
+                    const SizedBox(height: 20),
+                    InputTitle(title: "Address"),
+
+                    const SizedBox(height: 8),
+                    TextFormField(
+                      controller: _addressTEController,
+                      style: textStyle.base.copyWith(color: colors.heading),
+                      maxLines: 3,
+                      textInputAction: TextInputAction.next,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      decoration: InputDecoration(hintText: "Johannesburg"),
+                    ),
+
+                    const SizedBox(height: 28),
+                    ElevatedButton(
+                      onPressed: _onTapSignUp,
+                      child: const Text("Sign Up"),
+                    ),
+                    const SizedBox(height: 28),
+                    _renderLoginText(context, colors),
+                  ],
+                ),
               ),
             ),
           ),

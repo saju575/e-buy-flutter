@@ -1,5 +1,6 @@
 import 'package:e_buy/app/colors/app_colors.dart';
 import 'package:e_buy/app/colors/light_dark_colors.dart';
+import 'package:e_buy/app/widgets/app_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -17,6 +18,10 @@ class AppTheme {
       elevatedButtonTheme: _elevatedButtonTheme(color),
       scaffoldBackgroundColor: color.body,
       primaryColor: color.primary,
+      actionIconTheme: ActionIconThemeData(
+        backButtonIconBuilder: (context) =>
+            AppIcon(icon: Icons.arrow_back, color: color.heading),
+      ),
       appBarTheme: AppBarTheme(
         backgroundColor: color.body,
         iconTheme: IconThemeData(color: color.bodyText),

@@ -1,8 +1,7 @@
 import 'package:e_buy/features/cart/ui/widgets/cart_item_card.dart';
-import 'package:e_buy/features/shared/ui/controllers/main_bottom_nav_controller.dart';
+import 'package:e_buy/features/shared/ui/controllers/actions/jump_action.dart';
 import 'package:e_buy/features/shared/ui/widgets/widget.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -17,13 +16,10 @@ class _CartScreenState extends State<CartScreen> {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (_, __) {
-        _moveToHomeScreen();
+        moveToHomeScreen();
       },
       child: Scaffold(
-        appBar: MainLayoutAppBar(
-          title: "Cart",
-          onTapLeading: _moveToHomeScreen,
-        ),
+        appBar: MainLayoutAppBar(title: "Cart", onTapLeading: moveToHomeScreen),
 
         body: Column(
           children: [
@@ -47,9 +43,5 @@ class _CartScreenState extends State<CartScreen> {
         ),
       ),
     );
-  }
-
-  void _moveToHomeScreen() {
-    Get.find<MainBottomNavController>().backToHome();
   }
 }
