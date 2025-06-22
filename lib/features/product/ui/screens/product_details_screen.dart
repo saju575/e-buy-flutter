@@ -56,56 +56,62 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         title: const Text('Product Details'),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            _renderCarouselSlider(colors, screenHeight),
-            const SizedBox(height: 14),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _renderTitle(textStyle, colors),
-                  const SizedBox(height: 8),
-                  _renderRatingAndReview(colors, textStyle),
+                  _renderCarouselSlider(colors, screenHeight),
                   const SizedBox(height: 14),
-                  _renderHeading(
-                    textStyle: textStyle,
-                    colors: colors,
-                    title: "Colors",
-                  ),
-                  const SizedBox(height: 6),
-                  _renderColors(),
-                  const SizedBox(height: 14),
-                  _renderHeading(
-                    textStyle: textStyle,
-                    colors: colors,
-                    title: "Size",
-                  ),
-                  const SizedBox(height: 6),
-                  _renderSizes(),
-                  const SizedBox(height: 14),
-                  _renderHeading(
-                    textStyle: textStyle,
-                    colors: colors,
-                    title: "Description",
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                    style: textStyle.sm.copyWith(color: colors.bodyText),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _renderTitle(textStyle, colors),
+                        const SizedBox(height: 8),
+                        _renderRatingAndReview(colors, textStyle),
+                        const SizedBox(height: 14),
+                        _renderHeading(
+                          textStyle: textStyle,
+                          colors: colors,
+                          title: "Colors",
+                        ),
+                        const SizedBox(height: 6),
+                        _renderColors(),
+                        const SizedBox(height: 14),
+                        _renderHeading(
+                          textStyle: textStyle,
+                          colors: colors,
+                          title: "Size",
+                        ),
+                        const SizedBox(height: 6),
+                        _renderSizes(),
+                        const SizedBox(height: 14),
+                        _renderHeading(
+                          textStyle: textStyle,
+                          colors: colors,
+                          title: "Description",
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                          style: textStyle.sm.copyWith(color: colors.bodyText),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
             ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: BottomPurchaseBar(
-        title: "Price",
-        price: 100,
-        buttonText: "Add to Cart",
+          ),
+          BottomPurchaseBar(
+            title: "Price",
+            price: 100,
+            buttonText: "Add to Cart",
+          ),
+        ],
       ),
     );
   }

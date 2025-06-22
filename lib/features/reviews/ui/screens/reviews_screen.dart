@@ -16,16 +16,22 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Reviews"), centerTitle: true),
-      body: Padding(
-        padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
-        child: ListView.builder(
-          itemCount: 10,
-          itemBuilder: (context, index) => const ReviewCard(),
-        ),
-      ),
-      bottomNavigationBar: BottomReviewActionBar(
-        totalReviews: 10,
-        onTapButton: _moveToCreateReviewScreen,
+      body: Column(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 16, right: 16),
+              child: ListView.builder(
+                itemCount: 10,
+                itemBuilder: (context, index) => const ReviewCard(),
+              ),
+            ),
+          ),
+          BottomReviewActionBar(
+            totalReviews: 10,
+            onTapButton: _moveToCreateReviewScreen,
+          ),
+        ],
       ),
     );
   }

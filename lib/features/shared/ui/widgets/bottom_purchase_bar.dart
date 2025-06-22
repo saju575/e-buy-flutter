@@ -39,6 +39,7 @@ class BottomPurchaseBar extends StatelessWidget {
           style: ButtonStyle(
             backgroundColor: WidgetStateProperty.all(colors.primary),
           ),
+
           onPressed: onTapButton,
           child: Text(
             buttonText,

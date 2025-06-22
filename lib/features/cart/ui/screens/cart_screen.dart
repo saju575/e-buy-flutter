@@ -25,19 +25,25 @@ class _CartScreenState extends State<CartScreen> {
           onTapLeading: _moveToHomeScreen,
         ),
 
-        body: Padding(
-          padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
-          child: ListView.builder(
-            itemCount: 10,
-            itemBuilder: (context, index) {
-              return CartItemCard();
-            },
-          ),
-        ),
-        bottomNavigationBar: BottomPurchaseBar(
-          title: "Total Price",
-          price: 5000,
-          buttonText: "Checkout",
+        body: Column(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 16, right: 16),
+                child: ListView.builder(
+                  itemCount: 10,
+                  itemBuilder: (context, index) {
+                    return CartItemCard();
+                  },
+                ),
+              ),
+            ),
+            BottomPurchaseBar(
+              title: "Total Price",
+              price: 5000,
+              buttonText: "Checkout",
+            ),
+          ],
         ),
       ),
     );
