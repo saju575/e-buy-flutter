@@ -101,6 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
         AppBarIcon(iconName: AppIcons.bell, onTap: () {}),
         AppBarIcon(iconName: AppIcons.user, onTap: _moveToProfileScreen),
       ],
+      centerTitle: false,
     );
   }
 

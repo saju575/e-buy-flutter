@@ -1,9 +1,12 @@
 import 'package:e_buy/app/assets/app_icons.dart';
+import 'package:e_buy/app/controllers/theme_controller.dart';
 import 'package:e_buy/app/extension/colors_extension.dart';
 import 'package:e_buy/app/extension/text_style_extension.dart';
+import 'package:e_buy/app/routes/app_routes.dart';
 import 'package:e_buy/app/widgets/app_icon.dart';
 import 'package:e_buy/features/profile/ui/widgets/profile_action_card.dart';
 import 'package:flutter/material.dart';
+import 'package:get/state_manager.dart';
 
 class SettingAccordion extends StatelessWidget {
   const SettingAccordion({super.key});
@@ -34,14 +37,24 @@ class SettingAccordion extends StatelessWidget {
               title: "Language",
             ),
             const SizedBox(height: 6),
-            ProfileActionCard(
-              onTap: () {},
-              iconName: AppIcons.sun,
-              title: "Light Mode",
+            GetBuilder<ThemeController>(
+              builder: (themeContext) {
+                return ProfileActionCard(
+                  onTap: () {
+                    _moveToThemeChangeScreen(context);
+                  },
+                  iconName: AppIcons.sun,
+                  title: "${themeContext.selectedTheme.title} Mode",
+                );
+              },
             ),
           ],
         ),
       ],
     );
+  }
+
+  void _moveToThemeChangeScreen(BuildContext context) {
+    Navigator.pushNamed(context, AppRoutes.themeChange);
   }
 }

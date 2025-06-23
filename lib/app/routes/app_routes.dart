@@ -7,6 +7,7 @@ import 'package:e_buy/features/product/ui/screens/product_list_screen.dart';
 import 'package:e_buy/features/profile/ui/screens/profile_screen.dart';
 import 'package:e_buy/features/reviews/ui/screens/create_review_screen.dart';
 import 'package:e_buy/features/reviews/ui/screens/reviews_screen.dart';
+import 'package:e_buy/features/settings/ui/screens/theme_change_screen.dart';
 import 'package:e_buy/features/shared/ui/screens/main_bottom_nav_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -21,6 +22,7 @@ class AppRoutes {
   static const String reviews = ReviewsScreen.name;
   static const String createReview = CreateReviewScreen.name;
   static const String profile = ProfileScreen.name;
+  static const String themeChange = ThemeChangeScreen.name;
 
   static Route<dynamic> routes(RouteSettings settings) {
     WidgetBuilder builder;
@@ -74,6 +76,9 @@ class AppRoutes {
         break;
       case ProfileScreen.name:
         builder = (context) => const ProfileScreen();
+        break;
+      case ThemeChangeScreen.name:
+        builder = (context) => const ThemeChangeScreen();
         break;
       default:
         builder = (context) => const LoginScreen();

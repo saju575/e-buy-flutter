@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 class LightColorsPalette {
   static const Color primary = Color(0xFF7C2DB9);
   static const Color secondary = Color(0xFFFE2AD4);
-  static const Color primaryWeak = Color(0xFFF3EAFA);
+  static const Color primaryWeak = Color.fromARGB(255, 236, 234, 236);
   static const Color foreground = Color(0xFFF3EAFA);
-  static const Color body = Color(0xFFF8F5F9);
+  static const Color body = Color(0xFFF5F5F7);
   static const Color grey = Color(0xFFB2AFB4);
   static const Color base = Color(0xFFFFFFFF);
   static const Color bodyText = Color(0xFF4A4450);

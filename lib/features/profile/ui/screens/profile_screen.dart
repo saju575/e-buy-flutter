@@ -41,13 +41,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 const ProfileActionCard(title: "Order List"),
 
                 const SizedBox(height: 16),
-                SettingAccordion(),
+                const SettingAccordion(),
                 const SizedBox(height: 16),
 
                 ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: colors.primaryWeak,
+                    backgroundColor: colors.error,
                   ),
                   child: const Text("Logout"),
                 ),
