@@ -10,6 +10,10 @@ class AppTheme {
 
   static ThemeData _base(AppColors color) {
     return ThemeData(
+      dividerColor: Colors.transparent,
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      visualDensity: VisualDensity.compact,
       extensions: [color],
       useMaterial3: true,
       fontFamily: 'Poppins',

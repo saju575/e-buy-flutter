@@ -16,4 +16,8 @@ class AppIcons {
   static const String trash = '$_basePath/trash.svg';
   static const String star = '$_basePath/star.svg';
   static const String heartOutline = '$_basePath/heart_outline.svg';
+  static const String arrowForward = '$_basePath/arrow_forward.svg';
+  static const String arrowDown = '$_basePath/arrow_down.svg';
+  static const String sun = '$_basePath/sun.svg';
+  static const String language = '$_basePath/language.svg';
 }

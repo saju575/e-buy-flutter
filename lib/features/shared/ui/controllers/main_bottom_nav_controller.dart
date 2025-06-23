@@ -32,10 +32,6 @@ class MainBottomNavController extends GetxController {
   void moveToWishlist() {
     _changeIndex(3);
   }
-
-  void moveToProfile() {
-    _changeIndex(4);
-  }
 }
 
 // import 'package:get/get.dart';

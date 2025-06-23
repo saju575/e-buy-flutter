@@ -4,6 +4,7 @@ import 'package:e_buy/features/auth/ui/screens/sign_up_screen.dart';
 import 'package:e_buy/features/auth/ui/screens/splash_screen.dart';
 import 'package:e_buy/features/product/ui/screens/product_details_screen.dart';
 import 'package:e_buy/features/product/ui/screens/product_list_screen.dart';
+import 'package:e_buy/features/profile/ui/screens/profile_screen.dart';
 import 'package:e_buy/features/reviews/ui/screens/create_review_screen.dart';
 import 'package:e_buy/features/reviews/ui/screens/reviews_screen.dart';
 import 'package:e_buy/features/shared/ui/screens/main_bottom_nav_screen.dart';
@@ -19,6 +20,7 @@ class AppRoutes {
   static const String productDetails = ProductDetailsScreen.name;
   static const String reviews = ReviewsScreen.name;
   static const String createReview = CreateReviewScreen.name;
+  static const String profile = ProfileScreen.name;
 
   static Route<dynamic> routes(RouteSettings settings) {
     WidgetBuilder builder;
@@ -69,6 +71,9 @@ class AppRoutes {
               : null;
           return CreateReviewScreen(productId: productId);
         };
+        break;
+      case ProfileScreen.name:
+        builder = (context) => const ProfileScreen();
         break;
       default:
         builder = (context) => const LoginScreen();

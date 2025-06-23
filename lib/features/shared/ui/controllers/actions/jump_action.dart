@@ -16,7 +16,3 @@ void moveToCategoryScreen() {
 void moveToWishlistScreen() {
   Get.find<MainBottomNavController>().moveToWishlist();
 }
-
-void moveToProfileScreen() {
-  Get.find<MainBottomNavController>().moveToProfile();
-}

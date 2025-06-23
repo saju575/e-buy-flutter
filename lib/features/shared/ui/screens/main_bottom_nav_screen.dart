@@ -5,7 +5,6 @@ import 'package:e_buy/app/widgets/app_icon.dart';
 import 'package:e_buy/features/cart/ui/screens/cart_screen.dart';
 import 'package:e_buy/features/home/ui/screens/home_screen.dart';
 import 'package:e_buy/features/product/ui/screens/categories_screen.dart';
-import 'package:e_buy/features/profile/ui/screens/profile_screens.dart';
 import 'package:e_buy/features/shared/ui/controllers/main_bottom_nav_controller.dart';
 import 'package:e_buy/features/wish_list/ui/screens/wish_list_screen.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +23,6 @@ class MainBottomNavScreenState extends State<MainBottomNavScreen> {
     CategoriesScreen(),
     CartScreen(),
     WishListScreen(),
-    ProfileScreens(),
   ];
 
   @override
@@ -96,7 +94,6 @@ class MainBottomNavScreenState extends State<MainBottomNavScreen> {
       (icon: AppIcons.category, label: 'Categories'),
       (icon: AppIcons.cart, label: 'Cart'),
       (icon: AppIcons.gift, label: 'Wishlist'),
-      (icon: AppIcons.user, label: 'Profile'),
     ];
 
     return navItems.asMap().entries.map((entry) {

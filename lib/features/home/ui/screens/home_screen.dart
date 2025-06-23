@@ -99,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
       title: AppIcon(iconName: AssetPaths.appLogoSvg, size: 28),
       actions: [
         AppBarIcon(iconName: AppIcons.bell, onTap: () {}),
-        AppBarIcon(iconName: AppIcons.user, onTap: moveToProfileScreen),
+        AppBarIcon(iconName: AppIcons.user, onTap: _moveToProfileScreen),
       ],
     );
   }
@@ -240,5 +240,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _moveToSpecificProduct(String id) {
     Navigator.pushNamed(context, AppRoutes.productDetails, arguments: id);
+  }
+
+  void _moveToProfileScreen() {
+    Navigator.pushNamed(context, AppRoutes.profile);
   }
 }
