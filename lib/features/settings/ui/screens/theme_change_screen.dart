@@ -1,8 +1,7 @@
-import 'package:e_buy/app/controllers/theme_controller.dart';
+import 'package:e_buy/features/settings/domain/models/theme_value.dart';
+import 'package:e_buy/features/settings/ui/controllers/theme_controller.dart';
 import 'package:e_buy/app/extension/colors_extension.dart';
 import 'package:e_buy/app/extension/text_style_extension.dart';
-import 'package:e_buy/features/settings/data/models/theme_value.dart';
-import 'package:e_buy/features/settings/data/theme_list.dart';
 import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
 
@@ -39,9 +38,12 @@ class _ThemeChangeScreenState extends State<ThemeChangeScreen> {
 
                 GetBuilder<ThemeController>(
                   builder: (themeController) {
+                    // print("Current theme ${themeController.themeMode}");
+                    // print("Selected theme ${themeController.selectedTheme}");
                     return Column(
                       children: [
-                        for (var theme in themeValueList)
+                        for (var theme in themeController.themeList)
+                          // print("Theme ${theme}");
                           Padding(
                             padding: const EdgeInsets.only(bottom: 8.0),
                             child: RadioListTile<ThemeValue>(
@@ -54,8 +56,10 @@ class _ThemeChangeScreenState extends State<ThemeChangeScreen> {
                                   color: colors.heading,
                                 ),
                               ),
-                              onChanged: (value) {
-                                themeController.selectedTheme = value!;
+                              onChanged: (value) async {
+                                if (value != null) {
+                                  await themeController.updateTheme(value);
+                                }
                               },
                             ),
                           ),

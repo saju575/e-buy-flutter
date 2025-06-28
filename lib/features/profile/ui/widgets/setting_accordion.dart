@@ -1,5 +1,5 @@
 import 'package:e_buy/app/assets/app_icons.dart';
-import 'package:e_buy/app/controllers/theme_controller.dart';
+import 'package:e_buy/features/settings/ui/controllers/theme_controller.dart';
 import 'package:e_buy/app/extension/colors_extension.dart';
 import 'package:e_buy/app/extension/text_style_extension.dart';
 import 'package:e_buy/app/routes/app_routes.dart';

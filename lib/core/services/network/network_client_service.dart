@@ -2,21 +2,24 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:e_buy/core/services/logger/logger_service.dart';
-
 part 'network_response.dart';
 
 class NetworkClientService {
   final String _defaultErrorMessage = 'Something went wrong';
   final VoidCallback? onUnauthorized;
+  final Map<String, String> commonHeaders;
 
-  NetworkClientService({this.onUnauthorized});
+  NetworkClientService({
+    this.onUnauthorized,
+    this.commonHeaders = const {'Content-Type': 'application/json'},
+  });
 
   Future<NetworkResponse> get(String url) async {
     Uri uri = Uri.parse(url);
     LoggerService.preRequestLog(url);
 
     try {
-      final response = await http.get(uri);
+      final response = await http.get(uri, headers: _headers);
       LoggerService.postRequestLog(
         url,
         response.statusCode,
@@ -35,7 +38,7 @@ class NetworkClientService {
     try {
       final response = await http.post(
         uri,
-        headers: {'Content-Type': 'application/json'},
+        headers: _headers,
         body: jsonEncode(body),
       );
 
@@ -57,7 +60,7 @@ class NetworkClientService {
     try {
       final response = await http.put(
         uri,
-        headers: {'Content-Type': 'application/json'},
+        headers: _headers,
         body: jsonEncode(body),
       );
       LoggerService.postRequestLog(
@@ -78,7 +81,7 @@ class NetworkClientService {
     try {
       final response = await http.patch(
         uri,
-        headers: {'Content-Type': 'application/json'},
+        headers: _headers,
         body: jsonEncode(body),
       );
       LoggerService.postRequestLog(
@@ -97,7 +100,7 @@ class NetworkClientService {
     LoggerService.preRequestLog(url);
 
     try {
-      final response = await http.delete(uri);
+      final response = await http.delete(uri, headers: _headers);
       LoggerService.postRequestLog(
         url,
         response.statusCode,
@@ -108,6 +111,12 @@ class NetworkClientService {
       return _handleException(e);
     }
   }
+
+  Map<String, String> get _headers => {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    ...commonHeaders,
+  };
 
   NetworkResponse _handleResponse(http.Response response) {
     try {

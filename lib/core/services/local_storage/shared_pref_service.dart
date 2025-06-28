@@ -1,9 +1,26 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPrefService {
-  final SharedPreferences _pref;
+  //   final SharedPreferences _pref;
 
-  SharedPrefService(this._pref);
+  //   SharedPrefService(this._pref);
+
+  static late final SharedPrefService _instance;
+  static late final SharedPreferences _pref;
+
+  // Private constructor
+  SharedPrefService._internal();
+
+  // Factory constructor to return the same instance
+  factory SharedPrefService() {
+    return _instance;
+  }
+
+  // Initialize the service (must be called before using SharedPrefService())
+  static Future<void> init() async {
+    _pref = await SharedPreferences.getInstance();
+    _instance = SharedPrefService._internal();
+  }
 
   String? getString(String key) => _pref.getString(key);
 
