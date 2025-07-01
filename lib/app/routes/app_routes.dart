@@ -32,7 +32,11 @@ class AppRoutes {
         builder = (context) => const SplashScreen();
         break;
       case LoginScreen.name:
-        builder = (context) => const LoginScreen();
+        // builder = (context) => const LoginScreen();
+        builder = (context) {
+          final toGoRoute = settings.arguments as String;
+          return LoginScreen(toGo: toGoRoute);
+        };
         break;
       case SignUpScreen.name:
         builder = (context) => const SignUpScreen();

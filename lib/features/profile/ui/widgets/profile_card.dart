@@ -4,9 +4,15 @@ import 'package:e_buy/app/extension/text_style_extension.dart';
 import 'package:flutter/material.dart';
 
 class ProfileCard extends StatelessWidget {
-  const ProfileCard({super.key, required this.name, required this.email});
+  const ProfileCard({
+    super.key,
+    required this.name,
+    required this.email,
+    this.image,
+  });
   final String name;
   final String email;
+  final String? image;
   @override
   Widget build(BuildContext context) {
     final textStyle = context.textStyle;
@@ -23,7 +29,9 @@ class ProfileCard extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 18,
-            backgroundImage: AssetImage(AssetPaths.shoe),
+            backgroundImage: (image != null && image!.isNotEmpty)
+                ? NetworkImage(image!)
+                : AssetImage(AssetPaths.shoe),
           ),
           const SizedBox(width: 12),
           Expanded(

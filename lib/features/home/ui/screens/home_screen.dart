@@ -1,3 +1,4 @@
+import 'package:e_buy/app/actions/auth_actions.dart';
 import 'package:e_buy/app/assets/app_icons.dart';
 import 'package:e_buy/app/assets/asset_paths.dart';
 import 'package:e_buy/app/extension/colors_extension.dart';
@@ -244,6 +245,14 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _moveToProfileScreen() {
-    Navigator.pushNamed(context, AppRoutes.profile);
+    if (AuthActions.isLoggedIn) {
+      Navigator.pushNamed(context, AppRoutes.profile);
+    } else {
+      Navigator.pushNamed(
+        context,
+        AppRoutes.login,
+        arguments: AppRoutes.profile,
+      );
+    }
   }
 }

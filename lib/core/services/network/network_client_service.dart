@@ -45,7 +45,7 @@ class NetworkClientService {
       LoggerService.postRequestLog(
         url,
         response.statusCode,
-        responseBody: response,
+        responseBody: jsonDecode(response.body),
       );
       return _handleResponse(response);
     } catch (e) {
