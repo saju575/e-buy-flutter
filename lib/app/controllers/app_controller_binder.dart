@@ -11,6 +11,11 @@ import 'package:e_buy/features/auth/domain/use_cases/auth_use_case.dart';
 import 'package:e_buy/features/auth/domain/use_cases/login_use_case.dart';
 import 'package:e_buy/features/auth/ui/controllers/auth_controller.dart';
 import 'package:e_buy/features/auth/ui/controllers/login_controller.dart';
+import 'package:e_buy/features/home/data/datasources/slide_remote_data_source.dart';
+import 'package:e_buy/features/home/data/repositories/slide_repository_iml.dart';
+import 'package:e_buy/features/home/domain/repositories/slide_repository.dart';
+import 'package:e_buy/features/home/domain/use_cases/slide_use_case.dart';
+import 'package:e_buy/features/home/ui/controllers/slide_controller.dart';
 import 'package:e_buy/features/settings/data/datasources/theme_local_datasources.dart';
 import 'package:e_buy/features/settings/data/repositories/theme_repository_impl.dart';
 import 'package:e_buy/features/settings/domain/repositories/theme_repository.dart';
@@ -70,5 +75,14 @@ class AppControllerBinder extends Bindings {
     Get.lazyPut(() => LoginUseCase(loginRepository: Get.find()));
 
     Get.lazyPut(() => LoginController(loginUseCase: Get.find()));
+
+    // //Slider binding
+    // Get.lazyPut(() => SlideRemoteDataSource(networkClientService: Get.find()));
+    // Get.lazyPut<SlideRepository>(
+    //   () => SlideRepositoryIml(slideRemoteDataSource: Get.find()),
+    // );
+    // Get.lazyPut(() => SlideUseCase(slideRepository: Get.find()));
+
+    // Get.lazyPut(() => SlideController(slideUseCase: Get.find()));
   }
 }

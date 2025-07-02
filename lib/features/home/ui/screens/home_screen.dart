@@ -5,12 +5,16 @@ import 'package:e_buy/app/extension/colors_extension.dart';
 import 'package:e_buy/app/extension/text_style_extension.dart';
 import 'package:e_buy/app/routes/app_routes.dart';
 import 'package:e_buy/app/widgets/app_icon.dart';
+import 'package:e_buy/app/widgets/loading_wrapper.dart';
+import 'package:e_buy/features/home/domain/models/slide_model.dart';
+import 'package:e_buy/features/home/ui/controllers/slide_controller.dart';
 import 'package:e_buy/features/home/ui/widgets/app_bar_icon.dart';
 import 'package:e_buy/features/home/ui/widgets/product_search_bar.dart';
 import 'package:e_buy/features/home/ui/widgets/slider_card.dart';
 import 'package:e_buy/features/shared/ui/controllers/actions/jump_action.dart';
 import 'package:e_buy/features/shared/ui/widgets/widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -20,78 +24,114 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  // final SlideController _slideController = Get.find<SlideController>();
+
+  @override
+  void initState() {
+    super.initState();
+    // _slideController.getHomeSlides();
+  }
+
+  // @override
+  // void dispose() {
+  //   _slideController.dispose();
+  //   super.dispose();
+  // }
+
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     return Scaffold(
       appBar: _renderAppBar(),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 16),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: ProductSearchBar(),
-            ),
-            const SizedBox(height: 12),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: AppCarouselSlider<int>(
-                indicatorColor: colors.primaryWeak,
-                indicatorActiveColor: colors.primary,
-                items: [1, 2, 3, 4, 5],
-                sliderCardBuilder: (width, height, index, item) =>
-                    SliderCard(width: width, height: height),
-              ),
-            ),
-            const SizedBox(height: 12),
-            _renderHeader(
-              context: context,
-              title: "Categories",
-              onTap: moveToCategoryScreen,
-            ),
-            const SizedBox(height: 12),
-            Padding(
-              padding: const EdgeInsets.only(left: 16),
-              child: Column(children: [_renderCategories()]),
-            ),
-            SizedBox(height: 12),
-            _renderHeader(
-              context: context,
-              title: "Popular",
-              onTap: _moveToPopularProductList,
-            ),
-            const SizedBox(height: 12),
-            Padding(
-              padding: const EdgeInsets.only(left: 16),
-              child: _renderPopularItems(),
-            ),
-            const SizedBox(height: 12),
-            _renderHeader(
-              context: context,
-              title: "Special",
-              onTap: _moveToSpecialProductList,
-            ),
-            const SizedBox(height: 12),
-            Padding(
-              padding: const EdgeInsets.only(left: 16),
-              child: _renderSpecialItems(),
-            ),
-            const SizedBox(height: 12),
-            _renderHeader(
-              context: context,
-              title: "New",
-              onTap: _moveToNewProductList,
-            ),
-            const SizedBox(height: 12),
-            Padding(
-              padding: const EdgeInsets.only(left: 16),
-              child: _renderNewItems(),
-            ),
-            const SizedBox(height: 10),
-          ],
-        ),
-      ),
+      body: Container(),
+      // body: GetBuilder<SlideController>(
+      //   builder: (slideContext) {
+      //     return LoadingWrapper(
+      //       isLoading: slideContext.loading,
+      //       child: SingleChildScrollView(
+      //         child: Column(
+      //           children: [
+      //             const SizedBox(height: 16),
+      //             Padding(
+      //               padding: const EdgeInsets.symmetric(horizontal: 16),
+      //               child: ProductSearchBar(),
+      //             ),
+
+      //             const SizedBox(height: 12),
+
+      //             GetBuilder<SlideController>(
+      //               builder: (slideController) {
+      //                 return Padding(
+      //                   padding: const EdgeInsets.symmetric(horizontal: 16),
+      //                   child: AppCarouselSlider<SlideModel>(
+      //                     indicatorColor: colors.primaryWeak,
+      //                     indicatorActiveColor: colors.primary,
+      //                     items: slideController.slides,
+      //                     sliderCardBuilder: (width, height, index, item) =>
+      //                         SliderCard(
+      //                           width: width,
+      //                           height: height,
+      //                           slide: item,
+      //                         ),
+      //                   ),
+      //                 );
+      //               },
+      //             ),
+
+      //             const SizedBox(height: 12),
+
+      //             _renderHeader(
+      //               context: context,
+      //               title: "Categories",
+      //               onTap: moveToCategoryScreen,
+      //             ),
+
+      //             const SizedBox(height: 12),
+
+      //             Padding(
+      //               padding: const EdgeInsets.only(left: 16),
+      //               child: Column(children: [_renderCategories()]),
+      //             ),
+      //             SizedBox(height: 12),
+      //             _renderHeader(
+      //               context: context,
+      //               title: "Popular",
+      //               onTap: _moveToPopularProductList,
+      //             ),
+      //             const SizedBox(height: 12),
+      //             Padding(
+      //               padding: const EdgeInsets.only(left: 16),
+      //               child: _renderPopularItems(),
+      //             ),
+      //             const SizedBox(height: 12),
+      //             _renderHeader(
+      //               context: context,
+      //               title: "Special",
+      //               onTap: _moveToSpecialProductList,
+      //             ),
+      //             const SizedBox(height: 12),
+      //             Padding(
+      //               padding: const EdgeInsets.only(left: 16),
+      //               child: _renderSpecialItems(),
+      //             ),
+      //             const SizedBox(height: 12),
+      //             _renderHeader(
+      //               context: context,
+      //               title: "New",
+      //               onTap: _moveToNewProductList,
+      //             ),
+      //             const SizedBox(height: 12),
+      //             Padding(
+      //               padding: const EdgeInsets.only(left: 16),
+      //               child: _renderNewItems(),
+      //             ),
+      //             const SizedBox(height: 10),
+      //           ],
+      //         ),
+      //       ),
+      //     );
+      //   },
+      // ),
     );
   }
 

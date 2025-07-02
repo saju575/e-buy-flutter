@@ -5,4 +5,5 @@ class ApiUrls {
   static const String verifyOtp = '$_baseUrl/auth/verify-otp';
   static const String login = '$_baseUrl/auth/login';
   static const String profile = '$_baseUrl/auth/profile';
+  static const String slides = '$_baseUrl/slides';
 }
