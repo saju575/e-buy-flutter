@@ -1,3 +1,5 @@
+import 'package:e_buy/app/models/either.dart';
+import 'package:e_buy/app/models/failure.dart';
 import 'package:e_buy/features/auth/domain/models/user.dart';
 import 'package:e_buy/features/auth/domain/repositories/login_repository.dart';
 
@@ -8,11 +10,7 @@ class LoginUseCase {
     : _loginRepository = loginRepository;
 
   Future<void> logout() => _loginRepository.logout();
-  Future<User> login(String email, String password) async {
-    try {
-      return await _loginRepository.login(email, password);
-    } catch (e) {
-      throw Exception(e.toString());
-    }
+  Future<Either<Failure, User>> login(String email, String password) async {
+    return await _loginRepository.login(email, password);
   }
 }

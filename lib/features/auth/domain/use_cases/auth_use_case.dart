@@ -1,3 +1,5 @@
+import 'package:e_buy/app/models/either.dart';
+import 'package:e_buy/app/models/failure.dart';
 import 'package:e_buy/features/auth/domain/models/user.dart';
 import 'package:e_buy/features/auth/domain/repositories/auth_repository.dart';
 
@@ -11,7 +13,7 @@ class AuthUseCase {
     return _authRepository.getToken().isNotEmpty;
   }
 
-  User? getUserProfile() => _authRepository.getUserProfile();
+  Either<Failure, User> getUserProfile() => _authRepository.getUserProfile();
 
   String getToken() => _authRepository.getToken();
 }

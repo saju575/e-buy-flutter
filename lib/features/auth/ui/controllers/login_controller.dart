@@ -13,14 +13,17 @@ class LoginController extends GetxController {
     errorMessage = '';
     late bool isSuccess = false;
     update();
-    try {
-      await _loginUseCase.login(email, password);
-      isSuccess = true;
-    } catch (e) {
-      errorMessage = e.toString();
-      isSuccess = false;
-    }
-    loading = false;
+    final response = await _loginUseCase.login(email, password);
+    response.fold(
+      (leftValue) {
+        errorMessage = leftValue.message;
+        isSuccess = false;
+      },
+      (rightValue) {
+        errorMessage = '';
+        isSuccess = true;
+      },
+    );
     update();
     return isSuccess;
   }

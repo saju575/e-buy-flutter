@@ -1,6 +1,8 @@
+import 'package:e_buy/app/models/either.dart';
+import 'package:e_buy/app/models/failure.dart';
 import 'package:e_buy/features/auth/domain/models/user.dart';
 
 abstract class AuthRepository {
-  User? getUserProfile();
+  Either<Failure, User> getUserProfile();
   String getToken();
 }

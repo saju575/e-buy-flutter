@@ -1,5 +1,6 @@
 import 'dart:convert';
-
+import 'package:e_buy/app/models/either.dart';
+import 'package:e_buy/app/models/failure.dart';
 import 'package:e_buy/app/routes/api_urls.dart';
 import 'package:e_buy/core/services/local_storage/shared_pref_service.dart';
 import 'package:e_buy/core/services/network/network_client_service.dart';
@@ -27,7 +28,9 @@ class LoginDataSource {
     await _sharedPrefService.remove(_userKey);
   }
 
-  Future<UserDto> login(LoginRequestDto loginRequestDto) async {
+  Future<Either<Failure, UserDto>> login(
+    LoginRequestDto loginRequestDto,
+  ) async {
     final response = await _networkClientService.post(
       ApiUrls.login,
       loginRequestDto.toJson(),
@@ -45,9 +48,14 @@ class LoginDataSource {
         response.data!["data"]["token"],
       );
 
-      return userDto;
+      return Right(userDto);
     } else {
-      throw Exception(response.errorMessage);
+      return Left(
+        Failure(
+          message: response.errorMessage ?? "",
+          code: response.statusCode,
+        ),
+      );
     }
   }
 }

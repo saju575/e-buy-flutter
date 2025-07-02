@@ -13,7 +13,8 @@ class AuthController extends GetxController {
   }
 
   User? get getUserProfile {
-    return _authUseCase.getUserProfile();
+    final response = _authUseCase.getUserProfile();
+    return response.fold((leftValue) => null, (rightValue) => rightValue);
   }
 
   String get getToken {

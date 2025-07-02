@@ -1,3 +1,4 @@
+import 'package:e_buy/app/actions/auth_actions.dart';
 import 'package:e_buy/core/services/local_storage/shared_pref_service.dart';
 import 'package:e_buy/core/services/network/network_client_service.dart';
 import 'package:e_buy/features/auth/data/datasources/auth_data_source.dart';
@@ -28,7 +29,9 @@ class AppControllerBinder extends Bindings {
       ThemeLocalDatasources(sharedPreferService: sharedPreferService),
     );
     Get.put<MainBottomNavController>(MainBottomNavController());
-    Get.put<NetworkClientService>(NetworkClientService());
+    Get.put<NetworkClientService>(
+      NetworkClientService(commonHeaders: {"token": AuthActions.token}),
+    );
 
     Get.put<ThemeRepository>(
       ThemeRepositoryImpl(themeLocalDatasources: Get.find()),

@@ -9,4 +9,5 @@ class AuthActions {
   static bool get isLoggedIn => _authController.isLoggedIn;
 
   static void logout() => _loginController.logout();
+  static String get token => _authController.getToken;
 }
