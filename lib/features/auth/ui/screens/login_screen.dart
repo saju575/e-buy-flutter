@@ -2,16 +2,20 @@ import 'package:e_buy/app/colors/app_colors.dart';
 import 'package:e_buy/app/extension/colors_extension.dart';
 import 'package:e_buy/app/extension/text_style_extension.dart';
 import 'package:e_buy/app/routes/app_routes.dart';
+import 'package:e_buy/app/widgets/button.dart';
+import 'package:e_buy/features/auth/ui/controllers/login_controller.dart';
 import 'package:e_buy/features/auth/ui/widgets/auth_header.dart';
 import 'package:e_buy/features/auth/ui/widgets/input_title.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
-  static const name = '/login';
+  const LoginScreen({super.key, this.toGo});
+  final String? toGo;
 
+  static const name = '/login';
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
@@ -19,7 +23,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final GlobalKey _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final LoginController _loginController = Get.find<LoginController>();
 
   @override
   void dispose() {
@@ -79,15 +84,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       obscureText: true,
                     ),
                     const SizedBox(height: 28),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamedAndRemoveUntil(
-                          context,
-                          AppRoutes.main,
-                          (_) => false,
-                        );
-                      },
-                      child: const Text("Log in"),
+
+                    GetBuilder<LoginController>(
+                      builder: (loginContext) => Button(
+                        title: "Log in",
+                        loading: loginContext.loading,
+                        onTap: _onTapLoginButton,
+                      ),
                     ),
                     const SizedBox(height: 28),
                     _renderSignupText(context, colors),
@@ -125,5 +128,26 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _onTapSignUp() {
     Navigator.pushNamed(context, AppRoutes.signUp);
+  }
+
+  void _onTapLoginButton() {
+    if (_formKey.currentState!.validate()) {
+      _login();
+    }
+  }
+
+  Future<void> _login() async {
+    final email = _emailController.text;
+    final password = _passwordController.text;
+
+    final bool isSuccess = await _loginController.login(email, password);
+    if (!mounted) return;
+    if (isSuccess) {
+      Navigator.pushReplacementNamed(context, widget.toGo ?? AppRoutes.main);
+    } else {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(_loginController.errorMessage)));
+    }
   }
 }
