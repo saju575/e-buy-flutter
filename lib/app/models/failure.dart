@@ -1,3 +1,5 @@
+part of 'either.dart';
+
 class Failure {
   final String message;
   final int? code;

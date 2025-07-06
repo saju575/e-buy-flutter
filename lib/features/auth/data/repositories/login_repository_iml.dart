@@ -1,5 +1,5 @@
 import 'package:e_buy/app/models/either.dart';
-import 'package:e_buy/app/models/failure.dart';
+
 import 'package:e_buy/features/auth/data/data_source/login_data_source.dart';
 import 'package:e_buy/features/auth/data/models/login_request_dto.dart';
 import 'package:e_buy/features/auth/domain/models/user_model.dart';

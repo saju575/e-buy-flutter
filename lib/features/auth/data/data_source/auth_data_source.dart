@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:e_buy/app/models/either.dart';
-import 'package:e_buy/app/models/failure.dart';
+
 import 'package:e_buy/core/services/local_storage/shared_pref_service.dart';
 import 'package:e_buy/core/services/network/network_client_service.dart';
 import 'package:e_buy/features/auth/data/models/user_dto.dart';

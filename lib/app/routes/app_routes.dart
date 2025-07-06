@@ -32,17 +32,22 @@ class AppRoutes {
         builder = (context) => const SplashScreen();
         break;
       case LoginScreen.name:
-        // builder = (context) => const LoginScreen();
         builder = (context) {
           final toGoRoute = settings.arguments as String;
           return LoginScreen(toGo: toGoRoute);
         };
         break;
       case SignUpScreen.name:
-        builder = (context) => const SignUpScreen();
+        builder = (context) {
+          return SignUpScreen();
+        };
         break;
       case OtpVerifyScreen.name:
-        builder = (context) => const OtpVerifyScreen();
+        builder = (context) {
+          final params = settings.arguments as Map<String, dynamic>;
+          final String email = params['email'];
+          return OtpVerifyScreen(email: email);
+        };
         break;
       case MainBottomNavScreen.name:
         builder = (context) => const MainBottomNavScreen();

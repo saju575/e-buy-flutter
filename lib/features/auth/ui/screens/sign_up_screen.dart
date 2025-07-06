@@ -2,15 +2,20 @@ import 'package:e_buy/app/colors/app_colors.dart';
 import 'package:e_buy/app/extension/colors_extension.dart';
 import 'package:e_buy/app/extension/text_style_extension.dart';
 import 'package:e_buy/app/routes/app_routes.dart';
+import 'package:e_buy/app/widgets/button.dart';
+import 'package:e_buy/features/auth/domain/models/register_request_model.dart';
+import 'package:e_buy/features/auth/ui/controllers/register_controller.dart';
 import 'package:e_buy/features/auth/ui/widgets/auth_header.dart';
 import 'package:e_buy/features/auth/ui/widgets/input_title.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
   static const name = '/register';
+
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
 }
@@ -24,6 +29,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _addressTEController = TextEditingController();
   final TextEditingController _passwordTEController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final RegisterController _registerController = Get.find<RegisterController>();
 
   @override
   void dispose() {
@@ -34,6 +40,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     _cityTEController.dispose();
     _addressTEController.dispose();
     _passwordTEController.dispose();
+    // _registerController.dispose();
     super.dispose();
   }
 
@@ -157,10 +164,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
 
                     const SizedBox(height: 28),
-                    ElevatedButton(
-                      onPressed: _onTapSignUp,
-                      child: const Text("Sign Up"),
+
+                    GetBuilder<RegisterController>(
+                      builder: (registerController) {
+                        return Button(
+                          title: "Sign Up",
+                          loading: registerController.loading,
+                          onTap: _onTapSignUp,
+                        );
+                      },
                     ),
+
                     const SizedBox(height: 28),
                     _renderLoginText(context, colors),
                   ],
@@ -199,14 +213,46 @@ class _SignUpScreenState extends State<SignUpScreen> {
     Navigator.pop(context);
   }
 
-  void _onTapSignUp() {
+  Future<void> _onTapSignUp() async {
     if (_formKey.currentState!.validate()) {
-      // TODO:: Need to do other things
-      _moveToOtpVerifyScreen();
+      final isSuccess = await _onSignUp(_registerController);
+      if (!isSuccess) {
+        if (!mounted) return;
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              _registerController.errorMessage ?? "Something went wrong",
+            ),
+          ),
+        );
+        return;
+      } else {
+        _moveToOtpVerifyScreen(email: _emailTEController.text);
+        return;
+      }
     }
   }
 
-  void _moveToOtpVerifyScreen() {
-    Navigator.pushNamed(context, AppRoutes.otpVerify);
+  void _moveToOtpVerifyScreen({required String email}) {
+    Navigator.pushNamed(
+      context,
+      AppRoutes.otpVerify,
+      arguments: {"email": email},
+    );
+  }
+
+  Future<bool> _onSignUp(RegisterController registerController) async {
+    final requestData = RegisterRequestModel(
+      firstName: _firstNameTEController.text,
+      lastName: _lastNameTEController.text,
+      phone: _mobileTEController.text,
+      email: _emailTEController.text,
+      password: _passwordTEController.text,
+      city: _cityTEController.text,
+    );
+
+    final isSuccess = await registerController.register(requestData);
+    return isSuccess;
   }
 }

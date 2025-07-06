@@ -5,11 +5,13 @@ class LoginController extends GetxController {
   final LoginUseCase _loginUseCase;
   LoginController({required LoginUseCase loginUseCase})
     : _loginUseCase = loginUseCase;
-  bool loading = false;
+  bool _loading = false;
   String errorMessage = '';
 
+  bool get loading => _loading;
+
   Future<bool> login(String email, String password) async {
-    loading = true;
+    _loading = true;
     errorMessage = '';
     late bool isSuccess = false;
     update();
@@ -24,6 +26,7 @@ class LoginController extends GetxController {
         isSuccess = true;
       },
     );
+    _loading = false;
     update();
     return isSuccess;
   }

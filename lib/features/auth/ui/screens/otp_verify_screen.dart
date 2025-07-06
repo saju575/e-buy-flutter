@@ -1,14 +1,21 @@
 import 'dart:async';
 import 'package:e_buy/app/extension/colors_extension.dart';
 import 'package:e_buy/app/extension/text_style_extension.dart';
+import 'package:e_buy/app/routes/app_routes.dart';
+import 'package:e_buy/features/auth/domain/models/register_otp_request_model.dart';
+import 'package:e_buy/features/auth/ui/controllers/register_otp_verify_controller.dart';
 import 'package:e_buy/features/auth/ui/widgets/auth_header.dart';
 import 'package:e_buy/features/auth/ui/widgets/otp_input_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class OtpVerifyScreen extends StatefulWidget {
-  const OtpVerifyScreen({super.key});
+  final String email;
+
+  const OtpVerifyScreen({super.key, required this.email});
+
   static const String name = "otp-verify-screen";
   @override
   State<OtpVerifyScreen> createState() => _OtpVerifyScreenState();
@@ -22,11 +29,15 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
 
   final ValueNotifier<bool> _hasError = ValueNotifier<bool>(false);
 
+  final RegisterOtpVerifyController _registerOtpVerifyController =
+      Get.find<RegisterOtpVerifyController>();
+
   @override
   void dispose() {
     // _pinCodeTEController.dispose();
     _errorController.close();
     _hasError.dispose();
+    // _registerOtpVerifyController.dispose();
     super.dispose();
   }
 
@@ -113,9 +124,35 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
     _hasError.value = true;
   }
 
-  void _onTapSubmit() {
+  Future<void> _onTapSubmit() async {
     if (_pinCodeTEController.text.length != 4) {
       _triggerError();
+    } else {
+      RegisterOtpRequestModel registerOtpRequestModel = RegisterOtpRequestModel(
+        email: widget.email,
+        otp: _pinCodeTEController.text,
+      );
+      final response = await _onVerifyOTP(
+        _registerOtpVerifyController,
+        registerOtpRequestModel,
+      );
+      if (!mounted) return;
+      if (response) {
+        Navigator.popUntil(
+          context,
+          (route) => route.settings.name == AppRoutes.login,
+        );
+      }
     }
+  }
+
+  Future<bool> _onVerifyOTP(
+    RegisterOtpVerifyController registerOtpVerifyController,
+    RegisterOtpRequestModel registerOtpRequestModel,
+  ) async {
+    final isSuccess = await registerOtpVerifyController.verifyRegisterOTP(
+      registerOtpRequestModel,
+    );
+    return isSuccess;
   }
 }

@@ -127,7 +127,11 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _onTapSignUp() {
-    Navigator.pushNamed(context, AppRoutes.signUp);
+    Navigator.pushNamed(
+      context,
+      AppRoutes.signUp,
+      arguments: {"toGo": widget.toGo},
+    );
   }
 
   void _onTapLoginButton() {
