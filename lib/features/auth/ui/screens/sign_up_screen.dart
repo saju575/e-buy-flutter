@@ -7,6 +7,7 @@ import 'package:e_buy/features/auth/domain/models/register_request_model.dart';
 import 'package:e_buy/features/auth/ui/controllers/register_controller.dart';
 import 'package:e_buy/features/auth/ui/widgets/auth_header.dart';
 import 'package:e_buy/features/auth/ui/widgets/input_title.dart';
+import 'package:e_buy/utils/toast_util.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -218,14 +219,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
       final isSuccess = await _onSignUp(_registerController);
       if (!isSuccess) {
         if (!mounted) return;
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              _registerController.errorMessage ?? "Something went wrong",
-            ),
-          ),
+        ToastUtil.show(
+          message: _registerController.errorMessage ?? "Something went wrong",
+          context: context,
         );
+
         return;
       } else {
         _moveToOtpVerifyScreen(email: _emailTEController.text);

@@ -102,10 +102,10 @@ class AppControllerBinder extends Bindings {
       () => RegisterResendOtpUseCase(registerOtpVerifyRepository: Get.find()),
     );
     Get.lazyPut(
-      () => RegisterOtpVerifyController(registerOtpVerifyUseCase: Get.find()),
+      () => RegisterResendOtpController(registerOtpVerifyUseCase: Get.find()),
     );
     Get.lazyPut(
-      () => RegisterResendOtpController(registerOtpVerifyUseCase: Get.find()),
+      () => RegisterOtpVerifyController(registerOtpVerifyUseCase: Get.find()),
     );
   }
 }

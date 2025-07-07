@@ -1,5 +1,6 @@
 import 'package:e_buy/features/auth/domain/models/register_otp_request_model.dart';
 import 'package:e_buy/features/auth/domain/use_case/register_otp_verify_use_case.dart';
+
 import 'package:get/get.dart';
 
 class RegisterOtpVerifyController extends GetxController {

@@ -3,9 +3,12 @@ import 'package:e_buy/app/extension/colors_extension.dart';
 import 'package:e_buy/app/extension/text_style_extension.dart';
 import 'package:e_buy/app/routes/app_routes.dart';
 import 'package:e_buy/features/auth/domain/models/register_otp_request_model.dart';
+import 'package:e_buy/features/auth/domain/models/register_otp_resend_request_model.dart';
 import 'package:e_buy/features/auth/ui/controllers/register_otp_verify_controller.dart';
+import 'package:e_buy/features/auth/ui/controllers/register_resend_otp_controller.dart';
 import 'package:e_buy/features/auth/ui/widgets/auth_header.dart';
 import 'package:e_buy/features/auth/ui/widgets/otp_input_field.dart';
+import 'package:e_buy/utils/toast_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -31,6 +34,8 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
 
   final RegisterOtpVerifyController _registerOtpVerifyController =
       Get.find<RegisterOtpVerifyController>();
+  final RegisterResendOtpController _registerResendOtpController =
+      Get.find<RegisterResendOtpController>();
 
   @override
   void dispose() {
@@ -84,7 +89,7 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
                   ),
                   const SizedBox(height: 32),
                   ElevatedButton(
-                    onPressed: _onTapSubmit,
+                    onPressed: _onTapNextButton,
                     child: Text(
                       "Next",
                       style: textStyle.base.copyWith(
@@ -93,22 +98,27 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
                     ),
                   ),
                   const SizedBox(height: 37),
+
                   Text.rich(
                     TextSpan(
-                      text: "This code will expire in ",
+                      text: "An OTP is sent to ",
                       style: textStyle.base.copyWith(color: colors.bodyText),
                       children: [
                         TextSpan(
-                          text: "30s",
+                          text: widget.email,
                           style: textStyle.base.copyWith(color: colors.primary),
                         ),
                       ],
                     ),
                   ),
+
                   const SizedBox(height: 11),
-                  Text(
-                    "Resend Code",
-                    style: textStyle.base.copyWith(color: colors.primary),
+                  GestureDetector(
+                    onTap: _resendOTP,
+                    child: Text(
+                      "Resend Code",
+                      style: textStyle.base.copyWith(color: colors.primary),
+                    ),
                   ),
                 ],
               ),
@@ -124,7 +134,7 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
     _hasError.value = true;
   }
 
-  Future<void> _onTapSubmit() async {
+  Future<void> _onTapNextButton() async {
     if (_pinCodeTEController.text.length != 4) {
       _triggerError();
     } else {
@@ -137,12 +147,17 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
         registerOtpRequestModel,
       );
       if (!mounted) return;
-      if (response) {
-        Navigator.popUntil(
-          context,
-          (route) => route.settings.name == AppRoutes.login,
-        );
-      }
+      response
+          ? Navigator.popUntil(
+              context,
+              (route) => route.settings.name == AppRoutes.login,
+            )
+          : ToastUtil.show(
+              message:
+                  _registerOtpVerifyController.errorMessage ??
+                  "OTP verification went wrong",
+              context: context,
+            );
     }
   }
 
@@ -154,5 +169,11 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
       registerOtpRequestModel,
     );
     return isSuccess;
+  }
+
+  void _resendOTP() {
+    _registerResendOtpController.resendRegisterOTP(
+      RegisterOtpResendRequestModel(email: widget.email),
+    );
   }
 }

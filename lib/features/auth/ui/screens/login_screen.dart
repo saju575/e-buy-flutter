@@ -6,6 +6,7 @@ import 'package:e_buy/app/widgets/button.dart';
 import 'package:e_buy/features/auth/ui/controllers/login_controller.dart';
 import 'package:e_buy/features/auth/ui/widgets/auth_header.dart';
 import 'package:e_buy/features/auth/ui/widgets/input_title.dart';
+import 'package:e_buy/utils/toast_util.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -149,9 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (isSuccess) {
       Navigator.pushReplacementNamed(context, widget.toGo ?? AppRoutes.main);
     } else {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(_loginController.errorMessage)));
+      ToastUtil.show(message: _loginController.errorMessage, context: context);
     }
   }
 }
