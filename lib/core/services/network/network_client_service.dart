@@ -16,7 +16,7 @@ class NetworkClientService {
 
   Future<NetworkResponse> get(String url) async {
     Uri uri = Uri.parse(url);
-    LoggerService.preRequestLog(url);
+    LoggerService.preRequestLog(url, headers: _headers);
 
     try {
       final response = await http.get(uri, headers: _headers);
@@ -24,6 +24,7 @@ class NetworkClientService {
         url,
         response.statusCode,
         responseBody: jsonDecode(response.body),
+        headers: _headers,
       );
       return _handleResponse(response);
     } catch (e) {
@@ -33,7 +34,7 @@ class NetworkClientService {
 
   Future<NetworkResponse> post(String url, Map<String, dynamic> body) async {
     Uri uri = Uri.parse(url);
-    LoggerService.preRequestLog(url, body: body);
+    LoggerService.preRequestLog(url, body: body, headers: _headers);
 
     try {
       final response = await http.post(
@@ -46,6 +47,7 @@ class NetworkClientService {
         url,
         response.statusCode,
         responseBody: jsonDecode(response.body),
+        headers: _headers,
       );
       return _handleResponse(response);
     } catch (e) {
@@ -55,7 +57,7 @@ class NetworkClientService {
 
   Future<NetworkResponse> put(String url, Map<String, dynamic> body) async {
     Uri uri = Uri.parse(url);
-    LoggerService.preRequestLog(url, body: body);
+    LoggerService.preRequestLog(url, body: body, headers: _headers);
 
     try {
       final response = await http.put(
@@ -67,6 +69,7 @@ class NetworkClientService {
         url,
         response.statusCode,
         responseBody: jsonDecode(response.body),
+        headers: _headers,
       );
       return _handleResponse(response);
     } catch (e) {
@@ -76,7 +79,7 @@ class NetworkClientService {
 
   Future<NetworkResponse> patch(String url, Map<String, dynamic> body) async {
     Uri uri = Uri.parse(url);
-    LoggerService.preRequestLog(url, body: body);
+    LoggerService.preRequestLog(url, body: body, headers: _headers);
 
     try {
       final response = await http.patch(
@@ -88,6 +91,7 @@ class NetworkClientService {
         url,
         response.statusCode,
         responseBody: jsonDecode(response.body),
+        headers: _headers,
       );
       return _handleResponse(response);
     } catch (e) {
@@ -97,7 +101,7 @@ class NetworkClientService {
 
   Future<NetworkResponse> delete(String url) async {
     Uri uri = Uri.parse(url);
-    LoggerService.preRequestLog(url);
+    LoggerService.preRequestLog(url, headers: _headers);
 
     try {
       final response = await http.delete(uri, headers: _headers);
@@ -105,6 +109,7 @@ class NetworkClientService {
         url,
         response.statusCode,
         responseBody: jsonDecode(response.body),
+        headers: _headers,
       );
       return _handleResponse(response);
     } catch (e) {

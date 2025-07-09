@@ -1,4 +1,3 @@
-import 'package:e_buy/app/extension/colors_extension.dart';
 import 'package:e_buy/features/home/domain/models/slide_model.dart';
 import 'package:flutter/material.dart';
 
@@ -82,13 +81,13 @@ class SliderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.colors;
+    // final colors = context.colors;
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 2),
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color: colors.primary,
+        // color: colors.primary,
         image: DecorationImage(
           image: NetworkImage(slide.photo),
           fit: BoxFit.cover,

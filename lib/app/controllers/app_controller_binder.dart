@@ -28,6 +28,11 @@ import 'package:e_buy/features/home/domain/repositories/slide_repository.dart';
 import 'package:e_buy/features/home/domain/use_case/slide_use_case.dart';
 import 'package:e_buy/features/home/ui/controllers/home_controller.dart';
 import 'package:e_buy/features/home/ui/controllers/slide_controller.dart';
+import 'package:e_buy/features/product/data/data_source/category_remote_data_source.dart';
+import 'package:e_buy/features/product/data/repositories/category_repository_iml.dart';
+import 'package:e_buy/features/product/domain/repositories/category_repository.dart';
+import 'package:e_buy/features/product/domain/use_case/category_use_case.dart';
+import 'package:e_buy/features/product/ui/controllers/category_controller.dart';
 import 'package:e_buy/features/settings/data/datasources/theme_local_datasources.dart';
 import 'package:e_buy/features/settings/data/repositories/theme_repository_impl.dart';
 import 'package:e_buy/features/settings/domain/repositories/theme_repository.dart';
@@ -63,7 +68,12 @@ class AppControllerBinder extends Bindings {
     Get.lazyPut(() => SlideController(slideUseCase: Get.find()));
 
     //home controller
-    Get.lazyPut(() => HomeController(slideController: Get.find()));
+    Get.lazyPut(
+      () => HomeController(
+        slideController: Get.find(),
+        categoryController: Get.find(),
+      ),
+    );
 
     // Auth dependencies
     Get.lazyPut(
@@ -124,5 +134,15 @@ class AppControllerBinder extends Bindings {
     Get.lazyPut(
       () => RegisterOtpVerifyController(registerOtpVerifyUseCase: Get.find()),
     );
+
+    //category dependencies
+    Get.lazyPut(
+      () => CategoryRemoteDataSource(networkClientService: Get.find()),
+    );
+    Get.lazyPut<CategoryRepository>(
+      () => CategoryRepositoryIml(categoryRemoteDataSource: Get.find()),
+    );
+    Get.lazyPut(() => CategoryUseCase(categoryRepository: Get.find()));
+    Get.lazyPut(() => CategoryController(categoryUseCase: Get.find()));
   }
 }

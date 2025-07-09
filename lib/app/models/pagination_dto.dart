@@ -15,7 +15,7 @@ class PaginationDto<T> {
       list: List<Map<String, dynamic>>.from(
         json['results'],
       ).map(fromJson).toList(),
-      next: json['next'],
+      next: json['next'] != null ? true : false,
       total: json['total'],
     );
   }

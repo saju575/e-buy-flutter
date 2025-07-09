@@ -1,11 +1,16 @@
 import 'package:e_buy/features/home/ui/controllers/slide_controller.dart';
+import 'package:e_buy/features/product/ui/controllers/category_controller.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
   final SlideController _slideController;
+  final CategoryController _categoryController;
 
-  HomeController({required SlideController slideController})
-    : _slideController = slideController;
+  HomeController({
+    required SlideController slideController,
+    required CategoryController categoryController,
+  }) : _slideController = slideController,
+       _categoryController = categoryController;
 
   bool _loading = false;
   bool _initialLoading = true;
@@ -23,7 +28,10 @@ class HomeController extends GetxController {
     _errorMessage = null;
     update();
     try {
-      await Future.wait([_slideController.getHomeSlides()]);
+      await Future.wait([
+        _slideController.getHomeSlides(),
+        _categoryController.loadInitial(),
+      ]);
     } catch (e) {
       _errorMessage = e.toString();
     } finally {

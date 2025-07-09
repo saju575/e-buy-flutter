@@ -12,6 +12,7 @@ import 'package:e_buy/features/home/ui/controllers/slide_controller.dart';
 import 'package:e_buy/features/home/ui/widgets/app_bar_icon.dart';
 import 'package:e_buy/features/home/ui/widgets/product_search_bar.dart';
 import 'package:e_buy/features/home/ui/widgets/slider_card.dart';
+import 'package:e_buy/features/product/ui/controllers/category_controller.dart';
 import 'package:e_buy/features/shared/ui/controllers/actions/jump_action.dart';
 import 'package:e_buy/features/shared/ui/widgets/widget.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final HomeController _homeController = Get.find<HomeController>();
-  // final SlideController _slideController = Get.find<SlideController>();
+  static const int _CATEGORY_LENGTH = 10;
 
   @override
   void initState() {
@@ -171,19 +172,26 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _renderCategories() {
     return SizedBox(
       height: 100,
-      child: ListView.builder(
-        itemCount: 8,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: EdgeInsets.only(right: index != 7 ? 16 : 0),
-            // TODO:: Need to update
-            child: FittedBox(
-              child: ProductCategory(
-                title: "Food",
-                onTap: () => _moveToSpecificCategoryProductList("Food"),
-              ),
-            ),
+      child: GetBuilder<CategoryController>(
+        builder: (categoryContext) {
+          return ListView.builder(
+            itemCount: categoryContext.list.length > _CATEGORY_LENGTH
+                ? _CATEGORY_LENGTH
+                : categoryContext.list.length,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: EdgeInsets.only(
+                  right: index != _CATEGORY_LENGTH - 1 ? 16 : 0,
+                ),
+                child: FittedBox(
+                  child: ProductCategory(
+                    categoryModel: categoryContext.list[index],
+                    onTap: () => _moveToSpecificCategoryProductList("Food"),
+                  ),
+                ),
+              );
+            },
           );
         },
       ),
