@@ -8,6 +8,7 @@ class ApiUrls {
   static const String profile = '$_baseUrl/auth/profile';
   static const String slides = '$_baseUrl/slides';
   static const String addToCartUrl = '$_baseUrl/cart';
+  static const String products = '$_baseUrl/products';
 
   static String categoryListUrl(int page, int count) =>
       '$_baseUrl/categories?count=$count&page=$page';

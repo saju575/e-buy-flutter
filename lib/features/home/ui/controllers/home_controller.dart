@@ -28,9 +28,10 @@ class HomeController extends GetxController {
     _errorMessage = null;
     update();
     try {
+      // _categoryController.setQuery(CategoryQueryModel());
       await Future.wait([
         _slideController.getHomeSlides(),
-        _categoryController.loadInitial(),
+        _categoryController.loadInitialData(),
       ]);
     } catch (e) {
       _errorMessage = e.toString();

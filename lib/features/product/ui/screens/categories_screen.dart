@@ -22,7 +22,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   @override
   void initState() {
     super.initState();
-    _categoryController.loadInitial();
+
+    _categoryController.loadInitialData();
     _scrollController.addListener(_handleScroll);
   }
 
