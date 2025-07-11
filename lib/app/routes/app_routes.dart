@@ -54,8 +54,10 @@ class AppRoutes {
         break;
       case ProductListScreen.name:
         builder = (context) {
-          final category = settings.arguments as String;
-          return ProductListScreen(category: category);
+          final params = settings.arguments as Map<String, dynamic>;
+          final String? tag = params['tag'];
+          final String? category = params['category'];
+          return ProductListScreen(category: category, tag: tag);
         };
         break;
       case ProductDetailsScreen.name:

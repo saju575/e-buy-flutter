@@ -1,33 +1,57 @@
 import 'package:e_buy/app/routes/app_routes.dart';
+import 'package:e_buy/app/widgets/global_loading.dart';
+import 'package:e_buy/features/product/ui/controllers/product_list_controller.dart';
 import 'package:e_buy/features/shared/ui/widgets/widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ProductListScreen extends StatefulWidget {
-  const ProductListScreen({super.key, required this.category});
+  const ProductListScreen({super.key, this.tag, this.category});
   static const name = "product-list";
-  final String category;
+  final String? category;
+  final String? tag;
   @override
   State<ProductListScreen> createState() => _ProductListScreenState();
 }
 
 class _ProductListScreenState extends State<ProductListScreen> {
+  final ProductListController _productListController =
+      Get.find<ProductListController>();
+  final ScrollController _scrollController = ScrollController();
+  @override
+  void initState() {
+    super.initState();
+    _productListController.loadInitialData(widget.tag, widget.category);
+    _scrollController.addListener(_handleScroll);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.category), centerTitle: true),
+      appBar: AppBar(
+        title: Text(widget.tag != null ? widget.tag! : "Product List"),
+        centerTitle: true,
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-        child: GridView.builder(
-          itemCount: 100,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            mainAxisExtent: 136,
-            mainAxisSpacing: 8,
-            crossAxisSpacing: 4,
-          ),
-          itemBuilder: (context, index) => FittedBox(
-            child: ProductCard(onTap: () => _moveToSpecificProduct("1")),
-          ),
+        child: GetBuilder<ProductListController>(
+          builder: (productListContext) {
+            return GlobalLoading(
+              isLoading: productListContext.initialLoading,
+              child: GridView.builder(
+                itemCount: productListContext.list.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  mainAxisExtent: 136,
+                  mainAxisSpacing: 8,
+                  crossAxisSpacing: 4,
+                ),
+                itemBuilder: (context, index) => FittedBox(
+                  child: ProductCard(onTap: () => _moveToSpecificProduct("1")),
+                ),
+              ),
+            );
+          },
         ),
       ),
     );
@@ -35,5 +59,14 @@ class _ProductListScreenState extends State<ProductListScreen> {
 
   void _moveToSpecificProduct(String id) {
     Navigator.pushNamed(context, AppRoutes.productDetails, arguments: id);
+  }
+
+  void _handleScroll() {
+    if (_scrollController.position.pixels >=
+            _scrollController.position.maxScrollExtent - 200 &&
+        _productListController.hasNextPage &&
+        !_productListController.loadingMore) {
+      _productListController.loadMore();
+    }
   }
 }

@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 
 class CategorySection extends StatelessWidget {
   const CategorySection({super.key});
-  static const int _CATEGORY_LENGTH = 10;
+  static const int _LENGTH = 10;
 
   @override
   Widget build(BuildContext context) {
@@ -35,23 +35,26 @@ class CategorySection extends StatelessWidget {
     BuildContext context,
     CategoryController categoryContext,
   ) {
+    final lengthOfItemsToShow = categoryContext.list.length > _LENGTH
+        ? _LENGTH
+        : categoryContext.list.length;
     return SizedBox(
       height: 100,
       child: ListView.builder(
-        itemCount: categoryContext.list.length > _CATEGORY_LENGTH
-            ? _CATEGORY_LENGTH
-            : categoryContext.list.length,
+        itemCount: lengthOfItemsToShow,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           return Padding(
             padding: EdgeInsets.only(
-              right: index != _CATEGORY_LENGTH - 1 ? 16 : 0,
+              right: index != lengthOfItemsToShow - 1 ? 16 : 4,
             ),
             child: FittedBox(
               child: ProductCategory(
                 categoryModel: categoryContext.list[index],
-                onTap: () =>
-                    _moveToSpecificCategoryProductList(context, "Food"),
+                onTap: () => _moveToSpecificCategoryProductList(
+                  context,
+                  categoryContext.list[index].id,
+                ),
               ),
             ),
           );
@@ -64,6 +67,10 @@ class CategorySection extends StatelessWidget {
     BuildContext context,
     String category,
   ) {
-    Navigator.pushNamed(context, AppRoutes.productList, arguments: category);
+    Navigator.pushNamed(
+      context,
+      AppRoutes.productList,
+      arguments: {"category": category},
+    );
   }
 }

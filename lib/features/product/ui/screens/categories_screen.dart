@@ -78,8 +78,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           ? FittedBox(
                               child: ProductCategory(
                                 categoryModel: categoryContext.list[index],
-                                onTap: () =>
-                                    _moveToSpecificCategoryProductList("Food"),
+                                onTap: () => _moveToSpecificCategoryProductList(
+                                  categoryContext.list[index].id,
+                                ),
                               ),
                             )
                           : const Center(child: CircularProgress());
@@ -99,12 +100,15 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             _scrollController.position.maxScrollExtent - 200 &&
         _categoryController.hasNextPage &&
         !_categoryController.loadingMore) {
-      print("Loading more");
       _categoryController.loadMore();
     }
   }
 
   void _moveToSpecificCategoryProductList(String category) {
-    Navigator.pushNamed(context, AppRoutes.productList, arguments: category);
+    Navigator.pushNamed(
+      context,
+      AppRoutes.productList,
+      arguments: {"category": category},
+    );
   }
 }

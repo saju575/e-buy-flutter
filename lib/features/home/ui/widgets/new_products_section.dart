@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 
 class NewProductsSection extends StatelessWidget {
   const NewProductsSection({super.key});
-  static const int _CATEGORY_LENGTH = 10;
+  static const int _LENGTH = 10;
   @override
   Widget build(BuildContext context) {
     return GetBuilder<NewProductListController>(
@@ -37,18 +37,18 @@ class NewProductsSection extends StatelessWidget {
     BuildContext context,
     NewProductListController newProductsContext,
   ) {
+    final lengthOfItemsToShow = newProductsContext.list.length > _LENGTH
+        ? _LENGTH
+        : newProductsContext.list.length;
     return SizedBox(
       height: 142,
       child: ListView.builder(
-        itemCount: newProductsContext.list.length > _CATEGORY_LENGTH
-            ? _CATEGORY_LENGTH
-            : newProductsContext.list.length,
-
+        itemCount: lengthOfItemsToShow,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           return Padding(
             padding: EdgeInsets.only(
-              right: index != _CATEGORY_LENGTH - 1 ? 16 : 0,
+              right: index != lengthOfItemsToShow - 1 ? 16 : 4,
             ),
             child: FittedBox(
               child: ProductCard(
@@ -63,7 +63,11 @@ class NewProductsSection extends StatelessWidget {
   }
 
   void _moveToNewProductList(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.productList, arguments: "New");
+    Navigator.pushNamed(
+      context,
+      AppRoutes.productList,
+      arguments: {"tag": "new"},
+    );
   }
 
   void _moveToSpecificProduct(BuildContext context, String id) {

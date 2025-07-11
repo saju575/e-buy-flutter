@@ -1,26 +1,42 @@
+import 'package:e_buy/features/product/data/models/brand_dto.dart';
+import 'package:e_buy/features/product/data/models/category_dto.dart';
 import 'package:e_buy/features/product/domain/models/product_model.dart';
 
 class ProductDto {
   final String id;
   final String? title;
   final String? description;
-  // final String imageUrl;
+  final String? metaDescription;
+  final String? slug;
   final double? regularPrice;
   final double? currentPrice;
   final String createdAt;
   final String updatedAt;
-  // final List<ProductSizeModel> sizes;
+  final int quantity;
+  final BrandDto? brand;
+  final List<String>? photos;
+  final List<String>? colors;
+  final List<String>? sizes;
+  final List<String>? tags;
+  final List<CategoryDto>? categories;
 
   ProductDto({
     required this.id,
     this.title,
     this.description,
-    // required this.imageUrl,
     this.regularPrice,
     this.currentPrice,
     required this.createdAt,
     required this.updatedAt,
-    // required this.sizes,
+    required this.quantity,
+    this.metaDescription,
+    this.slug,
+    this.brand,
+    this.photos,
+    this.colors,
+    this.sizes,
+    this.tags,
+    this.categories,
   });
 
   factory ProductDto.fromJson(Map<String, dynamic> jsonData) {
@@ -28,12 +44,23 @@ class ProductDto {
       id: jsonData['_id'],
       title: jsonData['title'] ?? '',
       description: jsonData['description'] ?? "",
-      // imageUrl: json['imageUrl'],
       regularPrice: jsonData['regularPrice'],
       currentPrice: jsonData['currentPrice'],
       createdAt: jsonData['createdAt'],
       updatedAt: jsonData['updatedAt'],
-      // sizes: json['sizes'],
+      quantity: jsonData['quantity'] ?? 0,
+      slug: jsonData['slug'],
+      metaDescription: jsonData['meta_description'],
+      brand: jsonData['brand'] != null
+          ? BrandDto.fromJson(jsonData['brand'])
+          : null,
+      categories: (jsonData['categories'] as List?)
+          ?.map((e) => CategoryDto.fromJson(e))
+          .toList(),
+      photos: (jsonData['photos'] as List?)?.map((e) => e.toString()).toList(),
+      colors: (jsonData['colors'] as List?)?.map((e) => e.toString()).toList(),
+      sizes: (jsonData['sizes'] as List?)?.map((e) => e.toString()).toList(),
+      tags: (jsonData['tags'] as List?)?.map((e) => e.toString()).toList(),
     );
   }
 
@@ -42,12 +69,19 @@ class ProductDto {
       id: id,
       title: title,
       description: description,
-      // imageUrl: imageUrl,
       regularPrice: regularPrice,
       currentPrice: currentPrice,
       createdAt: createdAt,
       updatedAt: updatedAt,
-      // sizes: sizes,
+      quantity: quantity,
+      metaDescription: metaDescription,
+      slug: slug,
+      brand: brand?.toDomain(),
+      photos: photos,
+      colors: colors,
+      sizes: sizes,
+      tags: tags,
+      categories: categories?.map((e) => e.toDomain()).toList(),
     );
   }
 }
