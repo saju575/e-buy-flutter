@@ -1,10 +1,10 @@
 import 'package:e_buy/features/product/domain/models/brand_model.dart';
 
 class BrandDto {
-  String id;
-  String title;
-  String slug;
-  String icon;
+  final String id;
+  final String title;
+  final String slug;
+  final String icon;
 
   BrandDto({
     required this.id,

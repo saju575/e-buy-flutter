@@ -1,8 +1,8 @@
 class BrandModel {
-  String id;
-  String title;
-  String slug;
-  String icon;
+  final String id;
+  final String title;
+  final String slug;
+  final String icon;
 
   BrandModel({
     required this.id,
