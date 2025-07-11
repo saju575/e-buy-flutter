@@ -1,51 +1,38 @@
 import 'package:e_buy/app/routes/app_routes.dart';
-import 'package:e_buy/features/home/ui/controllers/new_product_list_controller.dart';
 import 'package:e_buy/features/home/ui/widgets/section_header.dart';
 import 'package:e_buy/features/shared/ui/widgets/product_card.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class NewProductsSection extends StatelessWidget {
   const NewProductsSection({super.key});
   static const int _CATEGORY_LENGTH = 10;
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<NewProductListController>(
-      builder: (newProductsContext) {
-        print("New products ${newProductsContext.list.length}");
-        return Visibility(
-          visible: newProductsContext.list.isNotEmpty,
-          child: Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SectionHeader(
-                  title: "New",
-                  onTap: () => _moveToNewProductList(context),
-                ),
-                const SizedBox(height: 12),
-                Padding(
-                  padding: const EdgeInsets.only(left: 16),
-                  child: _renderNewItems(context, newProductsContext),
-                ),
-              ],
-            ),
+    return Visibility(
+      visible: true,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SectionHeader(
+            title: "New",
+            onTap: () => _moveToNewProductList(context),
           ),
-        );
-      },
+          const SizedBox(height: 12),
+          Padding(
+            padding: const EdgeInsets.only(left: 16),
+            child: _renderNewItems(context),
+          ),
+        ],
+      ),
     );
   }
 
-  Widget _renderNewItems(
-    BuildContext context,
-    NewProductListController newProductListContext,
-  ) {
+  Widget _renderNewItems(BuildContext context) {
     return SizedBox(
       height: 142,
       child: ListView.builder(
-        itemCount: newProductListContext.list.length > _CATEGORY_LENGTH
-            ? _CATEGORY_LENGTH
-            : newProductListContext.list.length,
+        itemCount: _CATEGORY_LENGTH,
+
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           return Padding(

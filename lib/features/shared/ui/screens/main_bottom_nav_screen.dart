@@ -21,8 +21,7 @@ class MainBottomNavScreen extends StatefulWidget {
 class MainBottomNavScreenState extends State<MainBottomNavScreen> {
   final List<Widget> _screens = [
     HomeScreen(),
-    // CategoriesScreen(),
-    CartScreen(),
+    CategoriesScreen(),
     CartScreen(),
     WishListScreen(),
   ];
