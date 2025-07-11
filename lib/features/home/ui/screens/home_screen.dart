@@ -15,6 +15,7 @@ import 'package:e_buy/features/home/ui/widgets/new_products_section.dart';
 import 'package:e_buy/features/home/ui/widgets/popular_products_section.dart';
 import 'package:e_buy/features/home/ui/widgets/product_search_bar.dart';
 import 'package:e_buy/features/home/ui/widgets/slider_card.dart';
+import 'package:e_buy/features/home/ui/widgets/special_products_section.dart';
 import 'package:e_buy/features/shared/ui/widgets/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -51,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(height: 12),
                   const PopularProductsSection(),
                   const SizedBox(height: 12),
-
+                  const SpecialProductsSection(),
                   const SizedBox(height: 12),
                   const NewProductsSection(),
                   const SizedBox(height: 10),
