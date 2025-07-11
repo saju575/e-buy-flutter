@@ -27,6 +27,7 @@ import 'package:e_buy/features/home/data/repositories/slide_repository_iml.dart'
 import 'package:e_buy/features/home/domain/repositories/slide_repository.dart';
 import 'package:e_buy/features/home/domain/use_case/slide_use_case.dart';
 import 'package:e_buy/features/home/ui/controllers/home_controller.dart';
+import 'package:e_buy/features/home/ui/controllers/new_product_list_controller.dart';
 import 'package:e_buy/features/home/ui/controllers/slide_controller.dart';
 import 'package:e_buy/features/product/data/data_source/category_remote_data_source.dart';
 import 'package:e_buy/features/product/data/data_source/product_list_remote_date_source.dart';
@@ -70,14 +71,6 @@ class AppControllerBinder extends Bindings {
     );
     Get.lazyPut(() => SlideUseCase(slideRepository: Get.find()));
     Get.lazyPut(() => SlideController(slideUseCase: Get.find()));
-
-    //home controller
-    Get.lazyPut(
-      () => HomeController(
-        slideController: Get.find(),
-        categoryController: Get.find(),
-      ),
-    );
 
     // Auth dependencies
     Get.lazyPut(
@@ -158,5 +151,15 @@ class AppControllerBinder extends Bindings {
     );
     Get.lazyPut(() => ProductListUseCase(productListRepository: Get.find()));
     // Get.lazyPut(() => ProductListController(productListUseCase: Get.find()));
+    Get.lazyPut(() => NewProductListController(productListUseCase: Get.find()));
+
+    //home controller
+    Get.lazyPut(
+      () => HomeController(
+        slideController: Get.find(),
+        categoryController: Get.find(),
+        newProductListController: Get.find(),
+      ),
+    );
   }
 }

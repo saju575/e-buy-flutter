@@ -10,6 +10,7 @@ import 'package:e_buy/features/home/domain/models/slide_model.dart';
 import 'package:e_buy/features/home/ui/controllers/home_controller.dart';
 import 'package:e_buy/features/home/ui/controllers/slide_controller.dart';
 import 'package:e_buy/features/home/ui/widgets/app_bar_icon.dart';
+import 'package:e_buy/features/home/ui/widgets/new_products_section.dart';
 import 'package:e_buy/features/home/ui/widgets/product_search_bar.dart';
 import 'package:e_buy/features/home/ui/widgets/slider_card.dart';
 import 'package:e_buy/features/product/ui/controllers/category_controller.dart';
@@ -26,14 +27,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final HomeController _homeController = Get.find<HomeController>();
   static const int _CATEGORY_LENGTH = 10;
-
-  @override
-  void initState() {
-    super.initState();
-    _homeController.fetchAllData();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,16 +66,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   ),
                   const SizedBox(height: 12),
-                  _renderHeader(
-                    context: context,
-                    title: "Categories",
-                    onTap: moveToCategoryScreen,
-                  ),
-                  const SizedBox(height: 12),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 16),
-                    child: Column(children: [_renderCategories()]),
-                  ),
+                  // _renderHeader(
+                  //   context: context,
+                  //   title: "Categories",
+                  //   onTap: moveToCategoryScreen,
+                  // ),
+                  // const SizedBox(height: 12),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(left: 16),
+                  //   child: Column(children: [_renderCategories()]),
+                  // ),
                   SizedBox(height: 12),
                   _renderHeader(
                     context: context,
@@ -105,16 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: _renderSpecialItems(),
                   ),
                   const SizedBox(height: 12),
-                  _renderHeader(
-                    context: context,
-                    title: "New",
-                    onTap: _moveToNewProductList,
-                  ),
-                  const SizedBox(height: 12),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 16),
-                    child: _renderNewItems(),
-                  ),
+                  const NewProductsSection(),
                   const SizedBox(height: 10),
                 ],
               ),
@@ -169,34 +154,34 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _renderCategories() {
-    return SizedBox(
-      height: 100,
-      child: GetBuilder<CategoryController>(
-        builder: (categoryContext) {
-          return ListView.builder(
-            itemCount: categoryContext.list.length > _CATEGORY_LENGTH
-                ? _CATEGORY_LENGTH
-                : categoryContext.list.length,
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: EdgeInsets.only(
-                  right: index != _CATEGORY_LENGTH - 1 ? 16 : 0,
-                ),
-                child: FittedBox(
-                  child: ProductCategory(
-                    categoryModel: categoryContext.list[index],
-                    onTap: () => _moveToSpecificCategoryProductList("Food"),
-                  ),
-                ),
-              );
-            },
-          );
-        },
-      ),
-    );
-  }
+  // Widget _renderCategories() {
+  //   return SizedBox(
+  //     height: 100,
+  //     child: GetBuilder<CategoryController>(
+  //       builder: (categoryContext) {
+  //         return ListView.builder(
+  //           itemCount: categoryContext.list.length > _CATEGORY_LENGTH
+  //               ? _CATEGORY_LENGTH
+  //               : categoryContext.list.length,
+  //           scrollDirection: Axis.horizontal,
+  //           itemBuilder: (context, index) {
+  //             return Padding(
+  //               padding: EdgeInsets.only(
+  //                 right: index != _CATEGORY_LENGTH - 1 ? 16 : 0,
+  //               ),
+  //               child: FittedBox(
+  //                 child: ProductCategory(
+  //                   categoryModel: categoryContext.list[index],
+  //                   onTap: () => _moveToSpecificCategoryProductList("Food"),
+  //                 ),
+  //               ),
+  //             );
+  //           },
+  //         );
+  //       },
+  //     ),
+  //   );
+  // }
 
   Widget _renderPopularItems() {
     return SizedBox(
@@ -240,37 +225,12 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _renderNewItems() {
-    return SizedBox(
-      height: 142,
-      child: ListView.builder(
-        itemCount: 8,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: EdgeInsets.only(right: index != 7 ? 16 : 0),
-            child: FittedBox(
-              child: ProductCard(
-                width: 115,
-                onTap: () => _moveToSpecificProduct("1"),
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-
   void _moveToPopularProductList() {
     Navigator.pushNamed(context, AppRoutes.productList, arguments: "Popular");
   }
 
   void _moveToSpecialProductList() {
     Navigator.pushNamed(context, AppRoutes.productList, arguments: "Special");
-  }
-
-  void _moveToNewProductList() {
-    Navigator.pushNamed(context, AppRoutes.productList, arguments: "New");
   }
 
   void _moveToSpecificCategoryProductList(String category) {

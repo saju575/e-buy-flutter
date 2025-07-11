@@ -28,9 +28,9 @@ abstract class BasePaginationController<
 
   Future<Either<Failure, Pagination<ListModel>>> fetchPage(QueryModel query);
 
-  void setQuery(QueryModel query) {
-    _query = query;
-  }
+  // void setQuery(QueryModel query) {
+  //   _query = query;
+  // }
 
   /// Load first page
   Future<void> loadInitial({required QueryModel query}) async {
@@ -50,6 +50,7 @@ abstract class BasePaginationController<
       (right) {
         _isInitialLoading = false;
         _list.clear();
+        print("From Pagination controller ${right.list.length}");
         _list.addAll(right.list);
         _currentPage = right.currentPage;
         _hasNextPage = right.next ?? false;
@@ -108,5 +109,19 @@ abstract class BasePaginationController<
       },
     );
     update();
+  }
+
+  void _reset() {
+    _list.clear();
+    _currentPage = 1;
+    _hasNextPage = true;
+    _isInitialLoading = false;
+    _isLoadingMore = false;
+    _isRefreshing = false;
+  }
+
+  Future<void> resetBasedOnQuery(QueryModel query) async {
+    _reset();
+    await loadInitial(query: query);
   }
 }

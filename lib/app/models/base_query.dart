@@ -1,4 +1,4 @@
-abstract class BaseQuery<T extends BaseQuery<T>> {
+abstract class BaseQuery<T> {
   final int page;
   final int count;
 

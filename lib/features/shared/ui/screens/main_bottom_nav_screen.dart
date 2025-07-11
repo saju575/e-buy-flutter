@@ -3,6 +3,7 @@ import 'package:e_buy/app/colors/app_colors.dart';
 import 'package:e_buy/app/extension/colors_extension.dart';
 import 'package:e_buy/app/widgets/app_icon.dart';
 import 'package:e_buy/features/cart/ui/screens/cart_screen.dart';
+import 'package:e_buy/features/home/ui/controllers/home_controller.dart';
 import 'package:e_buy/features/home/ui/screens/home_screen.dart';
 import 'package:e_buy/features/product/ui/screens/categories_screen.dart';
 import 'package:e_buy/features/shared/ui/controllers/main_bottom_nav_controller.dart';
@@ -20,10 +21,18 @@ class MainBottomNavScreen extends StatefulWidget {
 class MainBottomNavScreenState extends State<MainBottomNavScreen> {
   final List<Widget> _screens = [
     HomeScreen(),
-    CategoriesScreen(),
+    // CategoriesScreen(),
+    CartScreen(),
     CartScreen(),
     WishListScreen(),
   ];
+  final HomeController _homeController = Get.find<HomeController>();
+
+  @override
+  void initState() {
+    super.initState();
+    _homeController.fetchAllData();
+  }
 
   @override
   Widget build(BuildContext buildContext) {

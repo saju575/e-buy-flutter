@@ -20,15 +20,21 @@ class ProductListRepositoryIml implements ProductListRepository {
     final response = await _productRemoteDateSource.getProducts(
       query: ProductQueryDto.fromDomain(query),
     );
-
+    print("From repository iml");
     return response.fold(
-      (left) => Left(left),
-      (right) => Right(
-        right.toDomain(
-          currentPage: query?.page ?? 1,
-          mapper: (item) => item.toDomain(),
-        ),
-      ),
+      (left) {
+        print("From repository ${left.message}");
+        return Left(left);
+      },
+      (right) {
+        print("From repository ${right.list.length}");
+        return Right(
+          right.toDomain(
+            currentPage: query?.page ?? 1,
+            mapper: (item) => item.toDomain(),
+          ),
+        );
+      },
     );
   }
 }

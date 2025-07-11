@@ -18,13 +18,29 @@ class ProductListRemoteDateSource {
   }) async {
     final url = UrlBuilderService(url: ApiUrls.products, query: query).build();
     final response = await _networkClientService.get(url);
+    // if (response.isSuccess) {
+    //   return Right(
+    //     PaginationDto<ProductDto>.fromJson(
+    //       response.data!["data"],
+    //       (item) => ProductDto.fromJson(item),
+    //     ),
+    //   );
+    // } else {
+    //   return Left(
+    //     Failure(
+    //       message: response.errorMessage ?? "",
+    //       code: response.statusCode,
+    //     ),
+    //   );
+    // }
+
     if (response.isSuccess) {
-      return Right(
-        PaginationDto<ProductDto>.fromJson(
-          response.data!["data"],
-          (item) => ProductDto.fromJson(item),
-        ),
+      final res = PaginationDto<ProductDto>.fromJson(
+        response.data!["data"],
+        (item) => ProductDto.fromJson(item),
       );
+      print("Test -> ${res.list.length}");
+      return Right(res);
     } else {
       return Left(
         Failure(
