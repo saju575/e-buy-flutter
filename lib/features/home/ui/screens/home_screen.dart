@@ -1,6 +1,7 @@
 import 'package:e_buy/app/actions/auth_actions.dart';
 import 'package:e_buy/app/assets/app_icons.dart';
 import 'package:e_buy/app/assets/asset_paths.dart';
+import 'package:e_buy/app/colors/app_colors.dart';
 import 'package:e_buy/app/extension/colors_extension.dart';
 import 'package:e_buy/app/routes/app_routes.dart';
 import 'package:e_buy/app/widgets/app_icon.dart';
@@ -44,24 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: ProductSearchBar(),
                   ),
                   const SizedBox(height: 12),
-                  GetBuilder<SlideController>(
-                    builder: (slideContext) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: AppCarouselSlider<SlideModel>(
-                          indicatorColor: colors.primaryWeak,
-                          indicatorActiveColor: colors.primary,
-                          items: slideContext.slides,
-                          sliderCardBuilder: (width, height, index, item) =>
-                              SliderCard(
-                                width: width,
-                                height: height,
-                                slide: item,
-                              ),
-                        ),
-                      );
-                    },
-                  ),
+                  _renderSlide(colors),
 
                   const CategorySection(),
                   SizedBox(height: 12),
@@ -77,6 +61,23 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         },
       ),
+    );
+  }
+
+  Widget _renderSlide(AppColors colors) {
+    return GetBuilder<SlideController>(
+      builder: (slideContext) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: AppCarouselSlider<SlideModel>(
+            indicatorColor: colors.primaryWeak,
+            indicatorActiveColor: colors.primary,
+            items: slideContext.slides,
+            sliderCardBuilder: (width, height, index, item) =>
+                SliderCard(width: width, height: height, slide: item),
+          ),
+        );
+      },
     );
   }
 
