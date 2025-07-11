@@ -12,44 +12,48 @@ class CategorySection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Visibility(
-      child: Column(
-        children: [
-          SectionHeader(title: "Categories", onTap: moveToCategoryScreen),
-          const SizedBox(height: 12),
-          Padding(
-            padding: const EdgeInsets.only(left: 16),
-            child: _renderCategories(context),
+    return GetBuilder<CategoryController>(
+      builder: (categoryContext) {
+        return Visibility(
+          visible: categoryContext.list.isNotEmpty,
+          child: Column(
+            children: [
+              SectionHeader(title: "Categories", onTap: moveToCategoryScreen),
+              const SizedBox(height: 12),
+              Padding(
+                padding: const EdgeInsets.only(left: 16),
+                child: _renderCategories(context, categoryContext),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 
-  Widget _renderCategories(BuildContext context) {
+  Widget _renderCategories(
+    BuildContext context,
+    CategoryController categoryContext,
+  ) {
     return SizedBox(
       height: 100,
-      child: GetBuilder<CategoryController>(
-        builder: (categoryContext) {
-          return ListView.builder(
-            itemCount: categoryContext.list.length > _CATEGORY_LENGTH
-                ? _CATEGORY_LENGTH
-                : categoryContext.list.length,
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: EdgeInsets.only(
-                  right: index != _CATEGORY_LENGTH - 1 ? 16 : 0,
-                ),
-                child: FittedBox(
-                  child: ProductCategory(
-                    categoryModel: categoryContext.list[index],
-                    onTap: () =>
-                        _moveToSpecificCategoryProductList(context, "Food"),
-                  ),
-                ),
-              );
-            },
+      child: ListView.builder(
+        itemCount: categoryContext.list.length > _CATEGORY_LENGTH
+            ? _CATEGORY_LENGTH
+            : categoryContext.list.length,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: EdgeInsets.only(
+              right: index != _CATEGORY_LENGTH - 1 ? 16 : 0,
+            ),
+            child: FittedBox(
+              child: ProductCategory(
+                categoryModel: categoryContext.list[index],
+                onTap: () =>
+                    _moveToSpecificCategoryProductList(context, "Food"),
+              ),
+            ),
           );
         },
       ),
