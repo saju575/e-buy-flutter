@@ -1,5 +1,6 @@
 import 'package:e_buy/app/routes/app_routes.dart';
 import 'package:e_buy/app/theme/app_theme.dart';
+import 'package:e_buy/core/services/navigation/navigation_service.dart';
 import 'package:e_buy/features/settings/ui/controllers/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,6 +18,7 @@ class _EBuyState extends State<EBuy> {
       builder: (context) {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
+          navigatorKey: NavigationService.navigatorKey,
           theme: AppTheme.light(context.themeMode),
           darkTheme: AppTheme.dark(context.themeMode),
           themeMode: context.themeMode,

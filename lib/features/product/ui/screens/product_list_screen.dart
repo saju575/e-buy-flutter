@@ -1,3 +1,4 @@
+import 'package:e_buy/app/extension/colors_extension.dart';
 import 'package:e_buy/app/routes/app_routes.dart';
 import 'package:e_buy/app/widgets/global_loading.dart';
 import 'package:e_buy/features/product/ui/controllers/product_list_controller.dart';
@@ -27,6 +28,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.tag != null ? widget.tag! : "Product List"),
@@ -38,16 +40,23 @@ class _ProductListScreenState extends State<ProductListScreen> {
           builder: (productListContext) {
             return GlobalLoading(
               isLoading: productListContext.initialLoading,
-              child: GridView.builder(
-                itemCount: productListContext.list.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  mainAxisExtent: 136,
-                  mainAxisSpacing: 8,
-                  crossAxisSpacing: 4,
-                ),
-                itemBuilder: (context, index) => FittedBox(
-                  child: ProductCard(onTap: () => _moveToSpecificProduct("1")),
+              child: RefreshIndicator(
+                onRefresh: productListContext.refreshData,
+                backgroundColor: colors.primaryWeak,
+                color: colors.primary,
+                child: GridView.builder(
+                  itemCount: productListContext.list.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    mainAxisExtent: 136,
+                    mainAxisSpacing: 8,
+                    crossAxisSpacing: 4,
+                  ),
+                  itemBuilder: (context, index) => FittedBox(
+                    child: ProductCard(
+                      onTap: () => _moveToSpecificProduct("1"),
+                    ),
+                  ),
                 ),
               ),
             );

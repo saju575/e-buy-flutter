@@ -100,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
       Navigator.pushNamed(
         context,
         AppRoutes.login,
-        arguments: AppRoutes.profile,
+        arguments: {"toGo": AppRoutes.main},
       );
     }
   }

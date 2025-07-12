@@ -38,7 +38,7 @@ class HomeController extends GetxController {
     }
     _loading = true;
     _errorMessage = null;
-    update();
+    // update();
     try {
       await Future.wait([
         _slideController.getHomeSlides(),

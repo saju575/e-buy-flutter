@@ -20,10 +20,10 @@ class MainBottomNavScreen extends StatefulWidget {
 
 class MainBottomNavScreenState extends State<MainBottomNavScreen> {
   final List<Widget> _screens = [
-    HomeScreen(),
-    CategoriesScreen(),
-    CartScreen(),
-    WishListScreen(),
+    const HomeScreen(),
+    const CategoriesScreen(),
+    const CartScreen(),
+    const WishListScreen(),
   ];
   final HomeController _homeController = Get.find<HomeController>();
 

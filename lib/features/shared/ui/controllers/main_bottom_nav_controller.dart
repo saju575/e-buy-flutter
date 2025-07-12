@@ -1,7 +1,16 @@
+import 'package:e_buy/app/routes/app_routes.dart';
+import 'package:e_buy/core/services/navigation/navigation_service.dart';
+import 'package:e_buy/features/auth/ui/controllers/auth_controller.dart';
 import 'package:get/get.dart';
 
 class MainBottomNavController extends GetxController {
+  final AuthController _authController;
+
+  MainBottomNavController({required AuthController authController})
+    : _authController = authController;
+
   int _currentIndex = 0;
+  final List<int> _privateTabIndex = [2, 3];
 
   int get currentIndex => _currentIndex;
 
@@ -13,7 +22,20 @@ class MainBottomNavController extends GetxController {
     update();
   }
 
-  void changeBottomNavIndex(int index) {
+  void changeBottomNavIndex(int index) async {
+    final isLoggedIn = _authController.isLoggedIn;
+    if (_privateTabIndex.contains(index) && !isLoggedIn) {
+      final isSuccess = await NavigationService.pushNamed(
+        AppRoutes.login,
+        arguments: {"toGo": AppRoutes.main},
+      );
+
+      if (isSuccess == true) {
+        _changeIndex(index);
+      }
+      return;
+    }
+
     _changeIndex(index);
   }
 

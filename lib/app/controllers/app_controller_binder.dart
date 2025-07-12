@@ -58,8 +58,40 @@ class AppControllerBinder extends Bindings {
     Get.put<ThemeLocalDatasources>(
       ThemeLocalDatasources(sharedPreferService: sharedPreferService),
     );
-    Get.put<MainBottomNavController>(MainBottomNavController());
-    Get.put<NetworkClientService>(NetworkClientService());
+    Get.put<NetworkClientService>(
+      NetworkClientService(commonHeaders: headers()),
+    );
+
+    // Auth dependencies
+    Get.put<AuthDataSource>(
+      AuthDataSource(
+        networkClientService: Get.find(),
+        sharedPrefService: sharedPreferService,
+        tokenKey: tokenKey,
+        userKey: userKey,
+      ),
+    );
+    Get.put<AuthRepository>(AuthRepositoryIml(authDataSource: Get.find()));
+    Get.put<AuthUseCase>(AuthUseCase(authRepository: Get.find()));
+    Get.put<AuthController>(AuthController(authUseCase: Get.find()));
+
+    // Get.lazyPut(
+    //   () => AuthDataSource(
+    //     networkClientService: Get.find(),
+    //     sharedPrefService: sharedPreferService,
+    //     tokenKey: tokenKey,
+    //     userKey: userKey,
+    //   ),
+    // );
+    // Get.lazyPut<AuthRepository>(
+    //   () => AuthRepositoryIml(authDataSource: Get.find()),
+    // );
+    // Get.lazyPut(() => AuthUseCase(authRepository: Get.find()));
+    // Get.lazyPut(() => AuthController(authUseCase: Get.find()));
+
+    Get.put<MainBottomNavController>(
+      MainBottomNavController(authController: Get.find()),
+    );
 
     Get.put<ThemeRepository>(
       ThemeRepositoryImpl(themeLocalDatasources: Get.find()),
@@ -74,21 +106,6 @@ class AppControllerBinder extends Bindings {
     );
     Get.lazyPut(() => SlideUseCase(slideRepository: Get.find()));
     Get.lazyPut(() => SlideController(slideUseCase: Get.find()));
-
-    // Auth dependencies
-    Get.lazyPut(
-      () => AuthDataSource(
-        networkClientService: Get.find(),
-        sharedPrefService: sharedPreferService,
-        tokenKey: tokenKey,
-        userKey: userKey,
-      ),
-    );
-    Get.lazyPut<AuthRepository>(
-      () => AuthRepositoryIml(authDataSource: Get.find()),
-    );
-    Get.lazyPut(() => AuthUseCase(authRepository: Get.find()));
-    Get.lazyPut(() => AuthController(authUseCase: Get.find()));
 
     // Login dependencies
     Get.lazyPut(
@@ -163,8 +180,8 @@ class AppControllerBinder extends Bindings {
     Get.lazyPut(() => ProductListController(productListUseCase: Get.find()));
 
     //home controller
-    Get.lazyPut(
-      () => HomeController(
+    Get.put<HomeController>(
+      HomeController(
         slideController: Get.find(),
         categoryController: Get.find(),
         newProductListController: Get.find(),
@@ -172,5 +189,9 @@ class AppControllerBinder extends Bindings {
         specialProductListController: Get.find(),
       ),
     );
+  }
+
+  Map<String, String> headers() {
+    return {'token': sharedPreferService.getString(tokenKey) ?? ''};
   }
 }

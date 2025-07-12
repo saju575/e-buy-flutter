@@ -128,11 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _onTapSignUp() {
-    Navigator.pushNamed(
-      context,
-      AppRoutes.signUp,
-      arguments: {"toGo": widget.toGo},
-    );
+    Navigator.pushNamed(context, AppRoutes.signUp);
   }
 
   void _onTapLoginButton() {
@@ -148,7 +144,13 @@ class _LoginScreenState extends State<LoginScreen> {
     final bool isSuccess = await _loginController.login(email, password);
     if (!mounted) return;
     if (isSuccess) {
-      Navigator.pushReplacementNamed(context, widget.toGo ?? AppRoutes.main);
+      if (widget.toGo == AppRoutes.main) {
+        Navigator.pop(context, true);
+      } else if (widget.toGo != null) {
+        Navigator.pushReplacementNamed(context, widget.toGo!);
+      } else {
+        Navigator.pushReplacementNamed(context, AppRoutes.main);
+      }
     } else {
       ToastUtil.show(message: _loginController.errorMessage, context: context);
     }
