@@ -7,12 +7,9 @@ part 'network_response.dart';
 class NetworkClientService {
   final String _defaultErrorMessage = 'Something went wrong';
   final VoidCallback? onUnauthorized;
-  final Map<String, String> commonHeaders;
+  final Map<String, String> Function()? getHeaders;
 
-  NetworkClientService({
-    this.onUnauthorized,
-    this.commonHeaders = const {'Content-Type': 'application/json'},
-  });
+  NetworkClientService({this.onUnauthorized, this.getHeaders});
 
   Future<NetworkResponse> get(String url) async {
     Uri uri = Uri.parse(url);
@@ -117,11 +114,16 @@ class NetworkClientService {
     }
   }
 
-  Map<String, String> get _headers => {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-    ...commonHeaders,
-  };
+  Map<String, String> get _headers {
+    final headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+    if (getHeaders != null) {
+      headers.addAll(getHeaders!());
+    }
+    return headers;
+  }
 
   NetworkResponse _handleResponse(http.Response response) {
     try {

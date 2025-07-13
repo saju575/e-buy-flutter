@@ -22,6 +22,11 @@ import 'package:e_buy/features/auth/ui/controllers/login_controller.dart';
 import 'package:e_buy/features/auth/ui/controllers/register_controller.dart';
 import 'package:e_buy/features/auth/ui/controllers/register_otp_verify_controller.dart';
 import 'package:e_buy/features/auth/ui/controllers/register_resend_otp_controller.dart';
+import 'package:e_buy/features/cart/data/data_source/cart_items_remote_data_source.dart';
+import 'package:e_buy/features/cart/data/repositories/cart_repository_iml.dart';
+import 'package:e_buy/features/cart/domain/repositories/cart_repository.dart';
+import 'package:e_buy/features/cart/domain/use_case/cart_items_use_case.dart';
+import 'package:e_buy/features/cart/ui/controllers/cart_items_controller.dart';
 import 'package:e_buy/features/home/data/data_source/slide_remote_data_source.dart';
 import 'package:e_buy/features/home/data/repositories/slide_repository_iml.dart';
 import 'package:e_buy/features/home/domain/repositories/slide_repository.dart';
@@ -58,9 +63,7 @@ class AppControllerBinder extends Bindings {
     Get.put<ThemeLocalDatasources>(
       ThemeLocalDatasources(sharedPreferService: sharedPreferService),
     );
-    Get.put<NetworkClientService>(
-      NetworkClientService(commonHeaders: headers()),
-    );
+    Get.put<NetworkClientService>(NetworkClientService(getHeaders: headers));
 
     // Auth dependencies
     Get.put<AuthDataSource>(
@@ -162,7 +165,7 @@ class AppControllerBinder extends Bindings {
     Get.lazyPut(() => CategoryUseCase(categoryRepository: Get.find()));
     Get.lazyPut(() => CategoryController(categoryUseCase: Get.find()));
 
-    //category dependencies
+    //product list dependencies
     Get.lazyPut(
       () => ProductListRemoteDateSource(networkClientService: Get.find()),
     );
@@ -178,6 +181,16 @@ class AppControllerBinder extends Bindings {
       () => SpecialProductListController(productListUseCase: Get.find()),
     );
     Get.lazyPut(() => ProductListController(productListUseCase: Get.find()));
+
+    // cart dependencies
+    Get.lazyPut(
+      () => CartItemsRemoteDataSource(networkClientService: Get.find()),
+    );
+    Get.lazyPut<CartRepository>(
+      () => CartRepositoryIml(cartItemsRemoteDataSource: Get.find()),
+    );
+    Get.lazyPut(() => CartItemsUseCase(cartRepository: Get.find()));
+    Get.lazyPut(() => CartItemsController(cartItemsUseCase: Get.find()));
 
     //home controller
     Get.put<HomeController>(

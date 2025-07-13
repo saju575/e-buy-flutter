@@ -1,5 +1,3 @@
-import 'package:e_buy/features/product/domain/models/brand_model.dart';
-import 'package:e_buy/features/product/domain/models/category_model.dart';
 import 'package:equatable/equatable.dart';
 
 class ProductModel extends Equatable {
@@ -13,12 +11,12 @@ class ProductModel extends Equatable {
   final String createdAt;
   final String updatedAt;
   final int quantity;
-  final BrandModel? brand;
+  // final BrandModel? brand;
   final List<String>? photos;
   final List<String>? colors;
   final List<String>? sizes;
   final List<String>? tags;
-  final List<CategoryModel>? categories;
+  // final List<CategoryModel>? categories;
 
   const ProductModel({
     required this.id,
@@ -29,14 +27,14 @@ class ProductModel extends Equatable {
     required this.createdAt,
     required this.updatedAt,
     required this.quantity,
-    this.brand,
+    // this.brand,
     this.metaDescription,
     this.slug,
     this.photos,
     this.colors,
     this.sizes,
     this.tags,
-    this.categories,
+    // this.categories,
   });
 
   @override
@@ -49,13 +47,13 @@ class ProductModel extends Equatable {
     createdAt,
     updatedAt,
     quantity,
-    brand,
+    // brand,
     metaDescription,
     slug,
     photos,
     colors,
     sizes,
     tags,
-    categories,
+    // categories,
   ];
 }

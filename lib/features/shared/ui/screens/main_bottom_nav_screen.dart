@@ -30,7 +30,10 @@ class MainBottomNavScreenState extends State<MainBottomNavScreen> {
   @override
   void initState() {
     super.initState();
-    _homeController.fetchAllData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _homeController.fetchAllData();
+    });
+    // _homeController.fetchAllData();
   }
 
   @override

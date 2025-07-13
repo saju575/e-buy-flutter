@@ -1,5 +1,3 @@
-import 'package:e_buy/features/product/data/models/brand_dto.dart';
-import 'package:e_buy/features/product/data/models/category_dto.dart';
 import 'package:e_buy/features/product/domain/models/product_model.dart';
 
 class ProductDto {
@@ -13,12 +11,12 @@ class ProductDto {
   final String createdAt;
   final String updatedAt;
   final int quantity;
-  final BrandDto? brand;
+  // final BrandDto? brand;
   final List<String>? photos;
   final List<String>? colors;
   final List<String>? sizes;
   final List<String>? tags;
-  final List<CategoryDto>? categories;
+  // final List<CategoryDto>? categories;
 
   ProductDto({
     required this.id,
@@ -31,12 +29,12 @@ class ProductDto {
     required this.quantity,
     this.metaDescription,
     this.slug,
-    this.brand,
+    // this.brand,
     this.photos,
     this.colors,
     this.sizes,
     this.tags,
-    this.categories,
+    // this.categories,
   });
 
   factory ProductDto.fromJson(Map<String, dynamic> jsonData) {
@@ -51,12 +49,12 @@ class ProductDto {
       quantity: jsonData['quantity'] ?? 0,
       slug: jsonData['slug'],
       metaDescription: jsonData['meta_description'],
-      brand: jsonData['brand'] != null
-          ? BrandDto.fromJson(jsonData['brand'])
-          : null,
-      categories: (jsonData['categories'] as List?)
-          ?.map((e) => CategoryDto.fromJson(e))
-          .toList(),
+      // brand: jsonData['brand'] != null
+      //     ? BrandDto.fromJson(jsonData['brand'])
+      //     : null,
+      // categories: (jsonData['categories'] as List?)
+      //     ?.map((e) => CategoryDto.fromJson(e))
+      //     .toList(),
       photos: (jsonData['photos'] as List?)?.map((e) => e.toString()).toList(),
       colors: (jsonData['colors'] as List?)?.map((e) => e.toString()).toList(),
       sizes: (jsonData['sizes'] as List?)?.map((e) => e.toString()).toList(),
@@ -76,12 +74,12 @@ class ProductDto {
       quantity: quantity,
       metaDescription: metaDescription,
       slug: slug,
-      brand: brand?.toDomain(),
       photos: photos,
       colors: colors,
       sizes: sizes,
       tags: tags,
-      categories: categories?.map((e) => e.toDomain()).toList(),
+      // brand: brand?.toDomain(),
+      // categories: categories?.map((e) => e.toDomain()).toList(),
     );
   }
 }
