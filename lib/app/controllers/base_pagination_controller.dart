@@ -13,6 +13,7 @@ abstract class BasePaginationController<
   int _currentPage = 1;
   bool _hasNextPage = true;
   bool _isInitialLoading = false;
+  bool _loading = true;
   bool _isLoadingMore = false;
   bool _isRefreshing = false;
 
@@ -24,13 +25,10 @@ abstract class BasePaginationController<
   bool get initialLoading => _isInitialLoading;
   bool get loadingMore => _isLoadingMore;
   bool get refreshing => _isRefreshing;
+  bool get loading => _loading;
   QueryModel get query => _query;
 
   Future<Either<Failure, Pagination<ListModel>>> fetchPage(QueryModel query);
-
-  // void setQuery(QueryModel query) {
-  //   _query = query;
-  // }
 
   /// Load first page
   Future<void> loadInitial({required QueryModel query}) async {
@@ -50,12 +48,12 @@ abstract class BasePaginationController<
       (right) {
         _isInitialLoading = false;
         _list.clear();
-        print("From Pagination controller ${right.list.length}");
         _list.addAll(right.list);
         _currentPage = right.currentPage;
         _hasNextPage = right.next ?? false;
       },
     );
+    _loading = false;
     update();
   }
 

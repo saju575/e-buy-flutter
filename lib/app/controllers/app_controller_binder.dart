@@ -57,6 +57,11 @@ import 'package:e_buy/features/settings/domain/repositories/theme_repository.dar
 import 'package:e_buy/features/settings/domain/use_cases/theme_use_case.dart';
 import 'package:e_buy/features/settings/ui/controllers/theme_controller.dart';
 import 'package:e_buy/features/shared/ui/controllers/main_bottom_nav_controller.dart';
+import 'package:e_buy/features/wish_list/data/data_source/wish_list_remote_data_source.dart';
+import 'package:e_buy/features/wish_list/data/repositories/wish_list_repository_iml.dart';
+import 'package:e_buy/features/wish_list/domain/repositories/wish_list_repository.dart';
+import 'package:e_buy/features/wish_list/domain/use_case/wish_list_use_case.dart';
+import 'package:e_buy/features/wish_list/ui/controllers/wish_list_controller.dart';
 import 'package:get/get.dart';
 
 class AppControllerBinder extends Bindings {
@@ -198,6 +203,16 @@ class AppControllerBinder extends Bindings {
     Get.lazyPut(
       () => ProductDetailsController(productDetailsUseCase: Get.find()),
     );
+
+    //wish list dependencies
+    Get.lazyPut(
+      () => WishListRemoteDataSource(networkClientService: Get.find()),
+    );
+    Get.lazyPut<WishListRepository>(
+      () => WishListRepositoryIml(wishListRemoteDataSource: Get.find()),
+    );
+    Get.lazyPut(() => WishListUseCase(wishListRepository: Get.find()));
+    Get.lazyPut(() => WishListController(wishListUseCase: Get.find()));
 
     //home controller
     Get.put<HomeController>(
