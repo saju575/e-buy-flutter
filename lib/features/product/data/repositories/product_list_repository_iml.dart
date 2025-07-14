@@ -21,7 +21,6 @@ class ProductListRepositoryIml implements ProductListRepository {
     );
 
     return response.fold((left) => Left(left), (right) {
-      print("From product list repository iml ${right.list.length}");
       return Right(
         right.toDomain(
           currentPage: query?.page ?? 1,

@@ -37,14 +37,19 @@ import 'package:e_buy/features/home/ui/controllers/popular_product_list_controll
 import 'package:e_buy/features/home/ui/controllers/slide_controller.dart';
 import 'package:e_buy/features/home/ui/controllers/special_product_list_controller.dart';
 import 'package:e_buy/features/product/data/data_source/category_remote_data_source.dart';
+import 'package:e_buy/features/product/data/data_source/product_details_remote_data_source.dart';
 import 'package:e_buy/features/product/data/data_source/product_list_remote_data_source.dart';
 import 'package:e_buy/features/product/data/repositories/category_repository_iml.dart';
+import 'package:e_buy/features/product/data/repositories/product_details_repository_iml.dart';
 import 'package:e_buy/features/product/data/repositories/product_list_repository_iml.dart';
 import 'package:e_buy/features/product/domain/repositories/category_repository.dart';
+import 'package:e_buy/features/product/domain/repositories/product_details_repository.dart';
 import 'package:e_buy/features/product/domain/repositories/product_list_repository.dart';
 import 'package:e_buy/features/product/domain/use_case/category_use_case.dart';
+import 'package:e_buy/features/product/domain/use_case/product_details_use_case.dart';
 import 'package:e_buy/features/product/domain/use_case/product_list_use_case.dart';
 import 'package:e_buy/features/product/ui/controllers/category_controller.dart';
+import 'package:e_buy/features/product/ui/controllers/product_details_controller.dart';
 import 'package:e_buy/features/product/ui/controllers/product_list_controller.dart';
 import 'package:e_buy/features/settings/data/datasources/theme_local_datasources.dart';
 import 'package:e_buy/features/settings/data/repositories/theme_repository_impl.dart';
@@ -77,20 +82,6 @@ class AppControllerBinder extends Bindings {
     Get.put<AuthRepository>(AuthRepositoryIml(authDataSource: Get.find()));
     Get.put<AuthUseCase>(AuthUseCase(authRepository: Get.find()));
     Get.put<AuthController>(AuthController(authUseCase: Get.find()));
-
-    // Get.lazyPut(
-    //   () => AuthDataSource(
-    //     networkClientService: Get.find(),
-    //     sharedPrefService: sharedPreferService,
-    //     tokenKey: tokenKey,
-    //     userKey: userKey,
-    //   ),
-    // );
-    // Get.lazyPut<AuthRepository>(
-    //   () => AuthRepositoryIml(authDataSource: Get.find()),
-    // );
-    // Get.lazyPut(() => AuthUseCase(authRepository: Get.find()));
-    // Get.lazyPut(() => AuthController(authUseCase: Get.find()));
 
     Get.put<MainBottomNavController>(
       MainBottomNavController(authController: Get.find()),
@@ -191,6 +182,22 @@ class AppControllerBinder extends Bindings {
     );
     Get.lazyPut(() => CartItemsUseCase(cartRepository: Get.find()));
     Get.lazyPut(() => CartItemsController(cartItemsUseCase: Get.find()));
+
+    // product details dependencies
+    Get.lazyPut(
+      () => ProductDetailsRemoteDataSource(networkClientService: Get.find()),
+    );
+    Get.lazyPut<ProductDetailsRepository>(
+      () => ProductDetailsRepositoryIml(
+        productDetailsRemoteDataSource: Get.find(),
+      ),
+    );
+    Get.lazyPut(
+      () => ProductDetailsUseCase(productDetailsRepository: Get.find()),
+    );
+    Get.lazyPut(
+      () => ProductDetailsController(productDetailsUseCase: Get.find()),
+    );
 
     //home controller
     Get.put<HomeController>(

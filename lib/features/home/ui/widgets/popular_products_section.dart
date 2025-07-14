@@ -56,7 +56,10 @@ class PopularProductsSection extends StatelessWidget {
             child: FittedBox(
               child: ProductCard(
                 width: 115,
-                onTap: () => _moveToSpecificProduct(context, "1"),
+                onTap: () => _moveToSpecificProduct(
+                  context,
+                  popularProductListContext.list[index].id,
+                ),
               ),
             ),
           );

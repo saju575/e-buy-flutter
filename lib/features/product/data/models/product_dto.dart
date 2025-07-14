@@ -6,8 +6,8 @@ class ProductDto {
   final String? description;
   final String? metaDescription;
   final String? slug;
-  final double? regularPrice;
-  final double? currentPrice;
+  final num? regularPrice;
+  final num? currentPrice;
   final String createdAt;
   final String updatedAt;
   final int quantity;
@@ -42,8 +42,8 @@ class ProductDto {
       id: jsonData['_id'],
       title: jsonData['title'] ?? '',
       description: jsonData['description'] ?? "",
-      regularPrice: jsonData['regularPrice'],
-      currentPrice: jsonData['currentPrice'],
+      regularPrice: jsonData['regular_price'],
+      currentPrice: jsonData['current_price'],
       createdAt: jsonData['createdAt'],
       updatedAt: jsonData['updatedAt'],
       quantity: jsonData['quantity'] ?? 0,
@@ -67,8 +67,8 @@ class ProductDto {
       id: id,
       title: title,
       description: description,
-      regularPrice: regularPrice,
-      currentPrice: currentPrice,
+      regularPrice: regularPrice?.toDouble(),
+      currentPrice: currentPrice?.toDouble(),
       createdAt: createdAt,
       updatedAt: updatedAt,
       quantity: quantity,

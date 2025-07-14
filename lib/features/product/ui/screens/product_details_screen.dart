@@ -4,11 +4,14 @@ import 'package:e_buy/app/extension/colors_extension.dart';
 import 'package:e_buy/app/extension/text_style_extension.dart';
 import 'package:e_buy/app/routes/app_routes.dart';
 import 'package:e_buy/app/widgets/app_icon.dart';
+import 'package:e_buy/app/widgets/global_loading.dart';
 import 'package:e_buy/features/product/data/models/product_size_model.dart';
+import 'package:e_buy/features/product/ui/controllers/product_details_controller.dart';
 import 'package:e_buy/features/product/ui/widgets/product_size_select.dart';
 import 'package:e_buy/features/product/ui/widgets/slider_card.dart';
 import 'package:e_buy/features/shared/ui/widgets/widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   const ProductDetailsScreen({super.key, required this.id});
@@ -17,7 +20,7 @@ class ProductDetailsScreen extends StatefulWidget {
   State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
 
   static const String name = "productDetailsScreen";
-  final String? id;
+  final String id;
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
@@ -28,6 +31,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     ProductSizeModel(id: 3, size: "L"),
     ProductSizeModel(id: 4, size: "XL"),
   ];
+  final ProductDetailsController _productDetailsController =
+      Get.find<ProductDetailsController>();
 
   late final ValueNotifier<ProductSizeModel> _selectedSize;
 
@@ -41,6 +46,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   void initState() {
     super.initState();
     _selectedSize = ValueNotifier(_sizeList.first);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _productDetailsController.getProductDetails(widget.id);
+    });
   }
 
   final ValueNotifier<int> _selectedColorIndex = ValueNotifier(0);
@@ -56,62 +64,82 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         title: const Text('Product Details'),
         centerTitle: true,
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  _renderCarouselSlider(colors, screenHeight),
-                  const SizedBox(height: 14),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
+      body: GetBuilder<ProductDetailsController>(
+        builder: (productDetailsContext) {
+          final productDetails = productDetailsContext.productDetails;
+          print("Price ${productDetails?.currentPrice}");
+          return GlobalLoading(
+            isLoading: productDetailsContext.loading,
+            child: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _renderTitle(textStyle, colors),
-                        const SizedBox(height: 8),
-                        _renderRatingAndReview(colors, textStyle),
+                        _renderCarouselSlider(colors, screenHeight),
                         const SizedBox(height: 14),
-                        _renderHeading(
-                          textStyle: textStyle,
-                          colors: colors,
-                          title: "Colors",
-                        ),
-                        const SizedBox(height: 6),
-                        _renderColors(),
-                        const SizedBox(height: 14),
-                        _renderHeading(
-                          textStyle: textStyle,
-                          colors: colors,
-                          title: "Size",
-                        ),
-                        const SizedBox(height: 6),
-                        _renderSizes(),
-                        const SizedBox(height: 14),
-                        _renderHeading(
-                          textStyle: textStyle,
-                          colors: colors,
-                          title: "Description",
-                        ),
-                        const SizedBox(height: 6),
-                        Text(
-                          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                          style: textStyle.sm.copyWith(color: colors.bodyText),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              _renderTitle(
+                                textStyle,
+                                colors,
+                                productDetailsContext,
+                              ),
+                              const SizedBox(height: 8),
+                              _renderRatingAndReview(colors, textStyle),
+                              const SizedBox(height: 14),
+                              _renderHeading(
+                                textStyle: textStyle,
+                                colors: colors,
+                                title: "Colors",
+                              ),
+                              const SizedBox(height: 6),
+                              _renderColors(),
+                              const SizedBox(height: 14),
+                              _renderHeading(
+                                textStyle: textStyle,
+                                colors: colors,
+                                title: "Size",
+                              ),
+                              const SizedBox(height: 6),
+                              _renderSizes(),
+                              const SizedBox(height: 14),
+                              _renderHeading(
+                                textStyle: textStyle,
+                                colors: colors,
+                                title: "Description",
+                              ),
+                              const SizedBox(height: 6),
+                              Text(
+                                productDetailsContext
+                                        .productDetails
+                                        ?.description ??
+                                    "",
+                                style: textStyle.sm.copyWith(
+                                  color: colors.bodyText,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
                   ),
-                ],
-              ),
+                ),
+                BottomPurchaseBar(
+                  title: "Price",
+                  price: productDetails?.currentPrice != null
+                      ? productDetails?.currentPrice ?? 0
+                      : productDetails?.regularPrice ?? 0,
+                  buttonText: "Add to Cart",
+                ),
+              ],
             ),
-          ),
-          BottomPurchaseBar(
-            title: "Price",
-            price: 100,
-            buttonText: "Add to Cart",
-          ),
-        ],
+          );
+        },
       ),
     );
   }
@@ -141,15 +169,19 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
-  Widget _renderTitle(TextStyleTokens textStyle, AppColors colors) {
+  Widget _renderTitle(
+    TextStyleTokens textStyle,
+    AppColors colors,
+    ProductDetailsController productDetailsContext,
+  ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Expanded(
-          flex: 2,
+          flex: 4,
           child: Text(
-            "Happy New Year Special Shoe",
+            productDetailsContext.productDetails?.title ?? "",
             style: textStyle.lg.copyWith(
               fontWeight: FontWeight.w600,
               color: colors.heading,
