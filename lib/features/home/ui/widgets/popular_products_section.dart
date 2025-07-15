@@ -2,13 +2,17 @@ import 'package:e_buy/app/routes/app_routes.dart';
 import 'package:e_buy/features/home/ui/controllers/popular_product_list_controller.dart';
 import 'package:e_buy/features/home/ui/widgets/section_header.dart';
 import 'package:e_buy/features/shared/ui/widgets/widget.dart';
+import 'package:e_buy/features/wish_list/ui/controllers/wishlist_create_controller.dart';
+import 'package:e_buy/utils/toast_util.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class PopularProductsSection extends StatelessWidget {
-  const PopularProductsSection({super.key});
+  PopularProductsSection({super.key});
 
   static const int _LENGTH = 10;
+  final WishlistCreateController _wishlistCreateController =
+      Get.find<WishlistCreateController>();
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +65,12 @@ class PopularProductsSection extends StatelessWidget {
                   context,
                   popularProductListContext.list[index].id,
                 ),
+                onFavTap: () {
+                  _handleAddToWishList(
+                    context,
+                    popularProductListContext.list[index].id,
+                  );
+                },
               ),
             ),
           );
@@ -79,5 +89,20 @@ class PopularProductsSection extends StatelessWidget {
       AppRoutes.productList,
       arguments: {"tag": "popular"},
     );
+  }
+
+  Future<void> _handleAddToWishList(BuildContext context, String id) async {
+    final result = await _wishlistCreateController.addToWishlist(productId: id);
+    if (!context.mounted) {
+      return;
+    }
+    if (result) {
+      ToastUtil.show(message: "Added to wishlist", context: context);
+    } else {
+      ToastUtil.show(
+        message: _wishlistCreateController.errorMessage,
+        context: context,
+      );
+    }
   }
 }

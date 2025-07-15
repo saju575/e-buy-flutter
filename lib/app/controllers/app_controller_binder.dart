@@ -58,10 +58,15 @@ import 'package:e_buy/features/settings/domain/use_cases/theme_use_case.dart';
 import 'package:e_buy/features/settings/ui/controllers/theme_controller.dart';
 import 'package:e_buy/features/shared/ui/controllers/main_bottom_nav_controller.dart';
 import 'package:e_buy/features/wish_list/data/data_source/wish_list_remote_data_source.dart';
+import 'package:e_buy/features/wish_list/data/data_source/wishlist_create_data_source.dart';
 import 'package:e_buy/features/wish_list/data/repositories/wish_list_repository_iml.dart';
+import 'package:e_buy/features/wish_list/data/repositories/wishlist_create_repository_iml.dart';
 import 'package:e_buy/features/wish_list/domain/repositories/wish_list_repository.dart';
+import 'package:e_buy/features/wish_list/domain/repositories/wishlist_create_repository.dart';
 import 'package:e_buy/features/wish_list/domain/use_case/wish_list_use_case.dart';
+import 'package:e_buy/features/wish_list/domain/use_case/wishlist_create_use_case.dart';
 import 'package:e_buy/features/wish_list/ui/controllers/wish_list_controller.dart';
+import 'package:e_buy/features/wish_list/ui/controllers/wishlist_create_controller.dart';
 import 'package:get/get.dart';
 
 class AppControllerBinder extends Bindings {
@@ -213,6 +218,20 @@ class AppControllerBinder extends Bindings {
     );
     Get.lazyPut(() => WishListUseCase(wishListRepository: Get.find()));
     Get.lazyPut(() => WishListController(wishListUseCase: Get.find()));
+
+    //wish list create
+    Get.lazyPut(
+      () => WishlistCreateDataSource(networkClientService: Get.find()),
+    );
+    Get.lazyPut<WishlistCreateRepository>(
+      () => WishlistCreateRepositoryIml(wishlistCreateDataSource: Get.find()),
+    );
+    Get.lazyPut(
+      () => WishlistCreateUseCase(wishlistCreateRepository: Get.find()),
+    );
+    Get.lazyPut(
+      () => WishlistCreateController(wishListCreateUseCase: Get.find()),
+    );
 
     //home controller
     Get.put<HomeController>(

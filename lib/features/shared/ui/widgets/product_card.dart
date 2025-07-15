@@ -8,10 +8,17 @@ import 'package:e_buy/utils/empty_placeholder.dart';
 import 'package:flutter/material.dart';
 
 class ProductCard extends StatelessWidget {
-  const ProductCard({super.key, required this.product, this.width, this.onTap});
+  const ProductCard({
+    super.key,
+    required this.product,
+    this.width,
+    this.onTap,
+    this.onFavTap,
+  });
   final double? width;
   final VoidCallback? onTap;
   final ProductModel product;
+  final VoidCallback? onFavTap;
 
   @override
   Widget build(BuildContext context) {
@@ -83,13 +90,14 @@ class ProductCard extends StatelessWidget {
                   ],
                 ),
                 AppIconButton(
+                  onTap: onFavTap,
                   icon: AppIcon(
                     icon: Icons.favorite_outline_rounded,
                     color: colors.bodyText,
-                    size: 16,
+                    size: 18,
                   ),
-                  height: 20,
-                  width: 20,
+                  height: 24,
+                  width: 24,
                 ),
               ],
             ),
