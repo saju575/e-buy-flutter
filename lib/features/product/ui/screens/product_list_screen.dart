@@ -54,6 +54,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                   ),
                   itemBuilder: (context, index) => FittedBox(
                     child: ProductCard(
+                      product: productListContext.list[index],
                       onTap: () => _moveToSpecificProduct(
                         productListContext.list[index].id,
                       ),

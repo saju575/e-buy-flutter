@@ -3,11 +3,13 @@ import 'package:e_buy/app/assets/asset_paths.dart';
 import 'package:e_buy/app/extension/colors_extension.dart';
 import 'package:e_buy/app/extension/text_style_extension.dart';
 import 'package:e_buy/app/widgets/app_icon.dart';
+import 'package:e_buy/features/cart/domain/models/cart_item_model.dart';
 import 'package:e_buy/features/shared/ui/widgets/widget.dart';
 import 'package:flutter/material.dart';
 
 class CartItemCard extends StatelessWidget {
-  const CartItemCard({super.key});
+  const CartItemCard({super.key, required this.item});
+  final CartItemModel item;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +43,7 @@ class CartItemCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            "New Year Special Shoe",
+                            item.product?.title ?? "",
                             style: textStyle.lg.copyWith(
                               color: colors.heading,
                               fontWeight: FontWeight.w500,
@@ -50,7 +52,7 @@ class CartItemCard extends StatelessWidget {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            "color: Red Size: X",
+                            "color: ${item.color ?? ""} Size: ${item.size ?? ""}",
                             style: textStyle.sm.copyWith(
                               color: colors.bodyText,
                             ),
@@ -72,7 +74,7 @@ class CartItemCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      "Rs 5000",
+                      "Rs ${item.product?.currentPrice}",
                       style: textStyle.lg.copyWith(color: colors.primary),
                     ),
                     IncrementDecrement(

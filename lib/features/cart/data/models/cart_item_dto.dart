@@ -45,7 +45,7 @@ class CartItemDto {
   CartItemModel toDomain() {
     return CartItemModel(
       id: id,
-      productModel: productDto.toDomain(),
+      product: productDto.toDomain(),
       quantity: quantity,
       color: color,
       size: size,

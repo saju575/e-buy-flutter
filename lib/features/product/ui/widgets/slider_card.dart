@@ -1,4 +1,3 @@
-import 'package:e_buy/app/assets/asset_paths.dart';
 import 'package:e_buy/app/extension/colors_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -9,26 +8,24 @@ class SliderCard extends StatelessWidget {
     this.height,
     this.index,
     required this.item,
+    this.enablePadding = true,
   });
   final double? width;
   final double? height;
   final int? index;
-  final int item;
+  final String item;
+  final bool enablePadding;
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     final calculatedWidth = width ?? MediaQuery.of(context).size.width;
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(enablePadding ? 16 : 0),
       decoration: BoxDecoration(color: colors.primaryWeak),
       width: width,
       height: height,
       child: Center(
-        child: Image.asset(
-          AssetPaths.shoe,
-          fit: BoxFit.cover,
-          width: calculatedWidth * 0.6,
-        ),
+        child: Image.network(item, fit: BoxFit.cover, width: calculatedWidth),
       ),
     );
   }

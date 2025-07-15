@@ -54,6 +54,7 @@ class _WishListScreenState extends State<WishListScreen> {
                   ),
                   itemBuilder: (context, index) => FittedBox(
                     child: ProductCard(
+                      product: wishListContext.list[index].product,
                       onTap: () => _moveToSpecificProduct(
                         wishListContext.list[index].id,
                       ),

@@ -1,15 +1,17 @@
 import 'package:e_buy/app/assets/app_icons.dart';
-import 'package:e_buy/app/assets/asset_paths.dart';
 import 'package:e_buy/app/extension/colors_extension.dart';
 import 'package:e_buy/app/extension/text_style_extension.dart';
 import 'package:e_buy/app/widgets/app_icon.dart';
+import 'package:e_buy/features/product/domain/models/product_model.dart';
 import 'package:e_buy/features/shared/ui/widgets/widget.dart';
+import 'package:e_buy/utils/empty_placeholder.dart';
 import 'package:flutter/material.dart';
 
 class ProductCard extends StatelessWidget {
-  const ProductCard({super.key, this.width, this.onTap});
+  const ProductCard({super.key, required this.product, this.width, this.onTap});
   final double? width;
   final VoidCallback? onTap;
+  final ProductModel product;
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +27,7 @@ class ProductCard extends StatelessWidget {
           color: colors.primaryWeak,
         ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               width: double.infinity,
@@ -36,30 +39,33 @@ class ProductCard extends StatelessWidget {
                 ),
               ),
               child: Center(
-                child: Image.asset(
-                  AssetPaths.shoe,
+                child: Image.network(
+                  (product.photos != null && product.photos!.isNotEmpty)
+                      ? product.photos![0]
+                      : EmptyPlaceholder.image,
                   height: 65,
+                  width: double.infinity,
                   fit: BoxFit.cover,
                 ),
               ),
             ),
-            SizedBox(height: 6),
+            const SizedBox(height: 6),
             Text(
-              "New Year Special Shoe 30",
+              product.title ?? "",
               style: textStyle.base.copyWith(color: colors.bodyText),
               maxLines: 1,
             ),
-            SizedBox(height: 4),
+            const SizedBox(height: 4),
+            Text(
+              "Rs ${product.currentPrice}",
+              style: textStyle.lg.copyWith(color: colors.primary),
+              maxLines: 1,
+            ),
+            const SizedBox(height: 4),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  "100",
-                  style: textStyle.lg.copyWith(color: colors.primary),
-                  maxLines: 1,
-                ),
-
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -76,7 +82,15 @@ class ProductCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                const AppIconButton(),
+                AppIconButton(
+                  icon: AppIcon(
+                    icon: Icons.favorite_outline_rounded,
+                    color: colors.bodyText,
+                    size: 16,
+                  ),
+                  height: 20,
+                  width: 20,
+                ),
               ],
             ),
           ],

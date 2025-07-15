@@ -10,6 +10,7 @@ import 'package:e_buy/features/product/ui/controllers/product_details_controller
 import 'package:e_buy/features/product/ui/widgets/product_size_select.dart';
 import 'package:e_buy/features/product/ui/widgets/slider_card.dart';
 import 'package:e_buy/features/shared/ui/widgets/widget.dart';
+import 'package:e_buy/utils/empty_placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -59,15 +60,19 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     final colors = context.colors;
     return Scaffold(
       extendBodyBehindAppBar: true, // Allows body behind AppBar
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        title: const Text('Product Details'),
-        centerTitle: true,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(40), // Set your custom height
+        child: AppBar(
+          backgroundColor: Colors.black.withOpacity(0.15),
+          title: const Text('Product Details', style: TextStyle(fontSize: 16)),
+          centerTitle: true,
+          elevation: 0,
+        ),
       ),
       body: GetBuilder<ProductDetailsController>(
         builder: (productDetailsContext) {
           final productDetails = productDetailsContext.productDetails;
-          print("Price ${productDetails?.currentPrice}");
+
           return GlobalLoading(
             isLoading: productDetailsContext.loading,
             child: Column(
@@ -76,7 +81,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        _renderCarouselSlider(colors, screenHeight),
+                        _renderCarouselSlider(
+                          colors,
+                          screenHeight,
+                          productDetails?.photos?.isNotEmpty == true
+                              ? productDetails!.photos!
+                              : [EmptyPlaceholder.image],
+                        ),
                         const SizedBox(height: 14),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 16),
@@ -158,14 +169,23 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
-  Widget _renderCarouselSlider(AppColors colors, double screenHeight) {
-    return AppCarouselSlider<int>(
+  Widget _renderCarouselSlider(
+    AppColors colors,
+    double screenHeight,
+    List<String> images,
+  ) {
+    return AppCarouselSlider<String>(
       indicatorActiveColor: colors.primary,
       showIndicatorOnTop: true,
       height: screenHeight / 3,
-      items: [1, 2, 3, 4],
-      sliderCardBuilder: (width, height, index, item) =>
-          SliderCard(item: item, width: width, height: height, index: index),
+      items: images,
+      sliderCardBuilder: (width, height, index, item) => SliderCard(
+        item: item,
+        width: width,
+        height: height,
+        index: index,
+        enablePadding: false,
+      ),
     );
   }
 

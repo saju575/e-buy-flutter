@@ -46,7 +46,7 @@ class _CartScreenState extends State<CartScreen> {
                       child: ListView.builder(
                         itemCount: cartContext.list.length,
                         itemBuilder: (context, index) {
-                          return CartItemCard();
+                          return CartItemCard(item: cartContext.list[index]);
                         },
                       ),
                     ),
