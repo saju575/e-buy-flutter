@@ -1,12 +1,10 @@
 import 'package:e_buy/app/assets/app_icons.dart';
-import 'package:e_buy/app/assets/asset_paths.dart';
 import 'package:e_buy/app/extension/colors_extension.dart';
 import 'package:e_buy/app/extension/text_style_extension.dart';
 import 'package:e_buy/app/widgets/app_icon.dart';
+import 'package:e_buy/app/widgets/increment_decrement_button.dart';
 import 'package:e_buy/features/cart/domain/models/cart_item_model.dart';
-import 'package:e_buy/features/cart/ui/controllers/cart_item_remove_controller.dart';
-import 'package:e_buy/features/cart/ui/controllers/cart_items_controller.dart';
-import 'package:e_buy/features/shared/ui/widgets/widget.dart';
+import 'package:e_buy/features/cart/ui/controllers/cart_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -19,28 +17,13 @@ class CartItemCard extends StatefulWidget {
 }
 
 class _CartItemCardState extends State<CartItemCard> {
-  final CartItemsController _cartItemsController =
-      Get.find<CartItemsController>();
-  final CartItemRemoveController _cartItemRemoveController =
-      Get.find<CartItemRemoveController>();
-  late ValueNotifier<int> _quantity;
-
-  @override
-  void initState() {
-    super.initState();
-    _quantity = ValueNotifier(widget.item.quantity);
-  }
-
-  @override
-  void dispose() {
-    _quantity.dispose();
-    super.dispose();
-  }
+  final CartController _cartItemsController = Get.find<CartController>();
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     final textStyle = context.textStyle;
+
     return Container(
       decoration: BoxDecoration(
         color: colors.primaryWeak,
@@ -53,7 +36,13 @@ class _CartItemCardState extends State<CartItemCard> {
         children: [
           SizedBox(
             width: 80,
-            child: Image.asset(AssetPaths.shoe, fit: BoxFit.cover),
+            height: 90,
+            child: Image.network(
+              widget.item.product!.photos!.first,
+              fit: BoxFit.scaleDown,
+              errorBuilder: (context, error, stackTrace) =>
+                  Center(child: Icon(Icons.error_outline)),
+            ),
           ),
           const SizedBox(width: 20),
           Expanded(
@@ -77,8 +66,14 @@ class _CartItemCardState extends State<CartItemCard> {
                             maxLines: 2,
                           ),
                           const SizedBox(height: 4),
+
                           Text(
-                            "color: ${widget.item.color ?? ""} Size: ${widget.item.size ?? ""}",
+                            [
+                              if (widget.item.color != null)
+                                'color: ${widget.item.color}',
+                              if (widget.item.size != null)
+                                'Size: ${widget.item.size}',
+                            ].join(' '),
                             style: textStyle.sm.copyWith(
                               color: colors.bodyText,
                             ),
@@ -88,7 +83,7 @@ class _CartItemCardState extends State<CartItemCard> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        _cartItemRemoveController.removeItem(widget.item.id);
+                        _cartItemsController.remove(widget.item.id);
                       },
                       child: AppIcon(
                         iconName: AppIcons.trash,
@@ -106,29 +101,13 @@ class _CartItemCardState extends State<CartItemCard> {
                       "Rs ${widget.item.product?.currentPrice}",
                       style: textStyle.lg.copyWith(color: colors.primary),
                     ),
-                    ValueListenableBuilder(
-                      valueListenable: _quantity,
-                      builder: (context, value, child) {
-                        return IncrementDecrement(
-                          value: _quantity.value,
-                          onTapDecrement: () {
-                            if (_quantity.value > 1) {
-                              _quantity.value--;
-                              _cartItemsController.updateQuantity(
-                                widget.item.id,
-                                _quantity.value,
-                              );
-                              _cartItemsController.totalPrice();
-                            }
-                          },
-                          onTapIncrement: () {
-                            _quantity.value++;
-                            _cartItemsController.updateQuantity(
-                              widget.item.id,
-                              _quantity.value,
-                            );
-                            _cartItemsController.totalPrice();
-                          },
+
+                    IncrementDecrementButton(
+                      value: widget.item.quantity,
+                      onChange: (value) {
+                        _cartItemsController.updateQuantity(
+                          widget.item.id,
+                          value,
                         );
                       },
                     ),

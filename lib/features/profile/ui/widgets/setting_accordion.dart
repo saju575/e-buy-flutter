@@ -31,12 +31,12 @@ class SettingAccordion extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ProfileActionCard(
-              onTap: () {},
-              iconName: AppIcons.language,
-              title: "Language",
-            ),
-            const SizedBox(height: 6),
+            // ProfileActionCard(
+            //   onTap: () {},
+            //   iconName: AppIcons.language,
+            //   title: "Language",
+            // ),
+            // const SizedBox(height: 6),
             GetBuilder<ThemeController>(
               builder: (themeContext) {
                 return ProfileActionCard(

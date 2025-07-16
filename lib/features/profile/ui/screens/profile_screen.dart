@@ -3,7 +3,6 @@ import 'package:e_buy/app/extension/colors_extension.dart';
 import 'package:e_buy/app/extension/text_style_extension.dart';
 import 'package:e_buy/app/routes/app_routes.dart';
 import 'package:e_buy/features/auth/ui/controllers/auth_controller.dart';
-import 'package:e_buy/features/profile/ui/widgets/profile_action_card.dart';
 import 'package:e_buy/features/profile/ui/widgets/profile_card.dart';
 import 'package:e_buy/features/profile/ui/widgets/setting_accordion.dart';
 import 'package:e_buy/utils/data_type.dart';
@@ -55,10 +54,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     );
                   },
                 ),
-                const SizedBox(height: 16),
+                // const SizedBox(height: 16),
 
-                const ProfileActionCard(title: "Order List"),
-
+                // const ProfileActionCard(title: "Order List"),
                 const SizedBox(height: 16),
                 const SettingAccordion(),
                 const SizedBox(height: 16),

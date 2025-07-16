@@ -5,8 +5,9 @@ import 'package:e_buy/app/extension/text_style_extension.dart';
 import 'package:e_buy/app/routes/app_routes.dart';
 import 'package:e_buy/app/widgets/app_icon.dart';
 import 'package:e_buy/app/widgets/global_loading.dart';
+import 'package:e_buy/app/widgets/increment_decrement_button.dart';
 import 'package:e_buy/features/cart/domain/models/cart_add_request_model.dart';
-import 'package:e_buy/features/cart/ui/controllers/cart_add_request_controller.dart';
+import 'package:e_buy/features/cart/ui/controllers/cart_controller.dart';
 import 'package:e_buy/features/product/data/models/product_size_model.dart';
 import 'package:e_buy/features/product/ui/controllers/product_details_controller.dart';
 import 'package:e_buy/features/product/ui/widgets/product_size_select.dart';
@@ -36,11 +37,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     ProductSizeModel(id: 3, size: "L"),
     ProductSizeModel(id: 4, size: "XL"),
   ];
+
   final ProductDetailsController _productDetailsController =
       Get.find<ProductDetailsController>();
   final WishListController _wishlistController = Get.find<WishListController>();
-  final CartAddRequestController _cartAddRequestController =
-      Get.find<CartAddRequestController>();
+  final CartController _cartController = Get.find<CartController>();
 
   late final ValueNotifier<ProductSizeModel> _selectedSize;
   late ValueNotifier<int> _quantity;
@@ -48,6 +49,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   @override
   void dispose() {
     _selectedSize.dispose();
+    _quantity.dispose();
     super.dispose();
   }
 
@@ -149,7 +151,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     ),
                   ),
                 ),
-                GetBuilder<CartAddRequestController>(
+                GetBuilder<CartController>(
                   builder: (cartAddContext) {
                     return BottomPurchaseBar(
                       title: "Price",
@@ -233,15 +235,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         ValueListenableBuilder(
           valueListenable: _quantity,
           builder: (context, value, child) {
-            return IncrementDecrement(
-              value: _quantity.value,
-              onTapDecrement: () {
-                if (_quantity.value > 1) {
-                  _quantity.value--;
-                }
-              },
-              onTapIncrement: () {
-                _quantity.value++;
+            return IncrementDecrementButton(
+              value: value,
+              onChange: (value) {
+                _quantity.value = value;
               },
             );
           },
@@ -354,9 +351,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       color: color,
       size: size,
     );
-    final result = await _cartAddRequestController.addToCart(
-      requestBody: requestBody,
-    );
+    final result = await _cartController.addToCart(requestBody: requestBody);
     if (!mounted) {
       return;
     }
@@ -364,7 +359,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       ToastUtil.show(message: "Added to cart", context: context);
     } else {
       ToastUtil.show(
-        message: _cartAddRequestController.errorMessage,
+        message: _cartController.addToCartErrorMessage,
         context: context,
       );
     }

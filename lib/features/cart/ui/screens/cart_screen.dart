@@ -1,5 +1,5 @@
 import 'package:e_buy/app/widgets/global_loading.dart';
-import 'package:e_buy/features/cart/ui/controllers/cart_items_controller.dart';
+import 'package:e_buy/features/cart/ui/controllers/cart_controller.dart';
 import 'package:e_buy/features/cart/ui/widgets/cart_item_card.dart';
 import 'package:e_buy/features/shared/ui/controllers/actions/jump_action.dart';
 import 'package:e_buy/features/shared/ui/widgets/widget.dart';
@@ -14,14 +14,12 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  final CartItemsController _cartItemsController =
-      Get.find<CartItemsController>();
+  final CartController _cartItemsController = Get.find<CartController>();
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _cartItemsController.loadInitialData();
-      _cartItemsController.totalPrice();
     });
   }
 
@@ -35,7 +33,7 @@ class _CartScreenState extends State<CartScreen> {
       child: Scaffold(
         appBar: MainLayoutAppBar(title: "Cart", onTapLeading: moveToHomeScreen),
 
-        body: GetBuilder<CartItemsController>(
+        body: GetBuilder<CartController>(
           builder: (cartContext) {
             return GlobalLoading(
               isLoading: cartContext.loading,
@@ -52,14 +50,10 @@ class _CartScreenState extends State<CartScreen> {
                       ),
                     ),
                   ),
-                  GetBuilder<CartItemsController>(
-                    builder: (cartItemContext) {
-                      return BottomPurchaseBar(
-                        title: "Total Price",
-                        price: cartItemContext.total,
-                        buttonText: "Checkout",
-                      );
-                    },
+                  BottomPurchaseBar(
+                    title: "Total Price",
+                    price: cartContext.totalPrice,
+                    buttonText: "Checkout",
                   ),
                 ],
               ),

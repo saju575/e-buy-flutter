@@ -1,6 +1,7 @@
-import 'package:e_buy/app/assets/asset_paths.dart';
 import 'package:e_buy/app/extension/colors_extension.dart';
 import 'package:e_buy/app/extension/text_style_extension.dart';
+import 'package:e_buy/app/widgets/app_icon.dart';
+import 'package:e_buy/utils/empty_placeholder.dart';
 import 'package:flutter/material.dart';
 
 class ProfileCard extends StatelessWidget {
@@ -29,9 +30,11 @@ class ProfileCard extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 18,
-            backgroundImage: (image != null && image!.isNotEmpty)
-                ? NetworkImage(image!)
-                : AssetImage(AssetPaths.shoe),
+            backgroundImage: Image.network(
+              image ?? EmptyPlaceholder.image,
+              errorBuilder: (context, error, stackTrace) =>
+                  AppIcon(icon: Icons.person),
+            ).image,
           ),
           const SizedBox(width: 12),
           Expanded(
