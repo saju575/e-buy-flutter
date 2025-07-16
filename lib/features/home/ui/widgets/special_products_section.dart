@@ -2,7 +2,7 @@ import 'package:e_buy/app/routes/app_routes.dart';
 import 'package:e_buy/features/home/ui/controllers/special_product_list_controller.dart';
 import 'package:e_buy/features/home/ui/widgets/section_header.dart';
 import 'package:e_buy/features/shared/ui/widgets/product_card.dart';
-import 'package:e_buy/features/wish_list/ui/controllers/wishlist_create_controller.dart';
+import 'package:e_buy/features/wish_list/ui/controllers/wish_list_controller.dart';
 import 'package:e_buy/utils/toast_util.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -12,8 +12,8 @@ class SpecialProductsSection extends StatelessWidget {
 
   static const int _LENGTH = 10;
 
-  final WishlistCreateController _wishlistCreateController =
-      Get.find<WishlistCreateController>();
+  final WishListController _wishlistCController =
+      Get.find<WishListController>();
   @override
   Widget build(BuildContext context) {
     return GetBuilder<SpecialProductListController>(
@@ -92,7 +92,7 @@ class SpecialProductsSection extends StatelessWidget {
   }
 
   Future<void> _handleAddToWishList(BuildContext context, String id) async {
-    final result = await _wishlistCreateController.addToWishlist(productId: id);
+    final result = await _wishlistCController.addToWishlist(productId: id);
     if (!context.mounted) {
       return;
     }
@@ -100,7 +100,7 @@ class SpecialProductsSection extends StatelessWidget {
       ToastUtil.show(message: "Added to wishlist", context: context);
     } else {
       ToastUtil.show(
-        message: _wishlistCreateController.errorMessage,
+        message: _wishlistCController.addToWishlistErrorMessage,
         context: context,
       );
     }

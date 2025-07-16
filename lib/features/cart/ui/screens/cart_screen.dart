@@ -21,6 +21,7 @@ class _CartScreenState extends State<CartScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _cartItemsController.loadInitialData();
+      _cartItemsController.totalPrice();
     });
   }
 
@@ -37,7 +38,7 @@ class _CartScreenState extends State<CartScreen> {
         body: GetBuilder<CartItemsController>(
           builder: (cartContext) {
             return GlobalLoading(
-              isLoading: cartContext.initialLoading,
+              isLoading: cartContext.loading,
               child: Column(
                 children: [
                   Expanded(
@@ -51,10 +52,14 @@ class _CartScreenState extends State<CartScreen> {
                       ),
                     ),
                   ),
-                  BottomPurchaseBar(
-                    title: "Total Price",
-                    price: 5000,
-                    buttonText: "Checkout",
+                  GetBuilder<CartItemsController>(
+                    builder: (cartItemContext) {
+                      return BottomPurchaseBar(
+                        title: "Total Price",
+                        price: cartItemContext.total,
+                        buttonText: "Checkout",
+                      );
+                    },
                   ),
                 ],
               ),

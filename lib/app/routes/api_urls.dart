@@ -12,6 +12,9 @@ class ApiUrls {
   static const String cartItemList = '$_baseUrl/cart';
   static const String productDetails = '$_baseUrl/products/id/:product_id';
   static const String wishList = '$_baseUrl/wishlist';
+  static const String removeFromCart = '$_baseUrl/cart/:cart_item_id';
+  static const String removeFromWishList =
+      '$_baseUrl/wishlist/:wishlist_item_id';
 
   static String categoryListUrl(int page, int count) =>
       '$_baseUrl/categories?count=$count&page=$page';

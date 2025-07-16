@@ -8,7 +8,7 @@ abstract class BasePaginationController<
   QueryModel extends BaseQuery<QueryModel>
 >
     extends GetxController {
-  final List<ListModel> _list = [];
+  List<ListModel> list = [];
 
   int _currentPage = 1;
   bool _hasNextPage = true;
@@ -19,7 +19,7 @@ abstract class BasePaginationController<
 
   late QueryModel _query;
 
-  List<ListModel> get list => _list;
+  // List<ListModel> get list => _list;
   int get currentPage => _currentPage;
   bool get hasNextPage => _hasNextPage;
   bool get initialLoading => _isInitialLoading;
@@ -47,8 +47,8 @@ abstract class BasePaginationController<
       },
       (right) {
         _isInitialLoading = false;
-        _list.clear();
-        _list.addAll(right.list);
+        list.clear();
+        list.addAll(right.list);
         _currentPage = right.currentPage;
         _hasNextPage = right.next ?? false;
       },
@@ -74,7 +74,7 @@ abstract class BasePaginationController<
         // Need to handle error
       },
       (right) {
-        _list.addAll(right.list);
+        list.addAll(right.list);
         _isLoadingMore = false;
         _currentPage = right.currentPage;
         _hasNextPage = right.next ?? false;
@@ -99,8 +99,8 @@ abstract class BasePaginationController<
         // Need to handle error
       },
       (right) {
-        _list.clear();
-        _list.addAll(right.list);
+        list.clear();
+        list.addAll(right.list);
         _isRefreshing = false;
         _currentPage = right.currentPage;
         _hasNextPage = right.next ?? false;
@@ -110,7 +110,7 @@ abstract class BasePaginationController<
   }
 
   void _reset() {
-    _list.clear();
+    list.clear();
     _currentPage = 1;
     _hasNextPage = true;
     _isInitialLoading = false;

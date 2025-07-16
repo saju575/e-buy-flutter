@@ -4,12 +4,38 @@ import 'package:e_buy/app/extension/colors_extension.dart';
 import 'package:e_buy/app/extension/text_style_extension.dart';
 import 'package:e_buy/app/widgets/app_icon.dart';
 import 'package:e_buy/features/cart/domain/models/cart_item_model.dart';
+import 'package:e_buy/features/cart/ui/controllers/cart_item_remove_controller.dart';
+import 'package:e_buy/features/cart/ui/controllers/cart_items_controller.dart';
 import 'package:e_buy/features/shared/ui/widgets/widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class CartItemCard extends StatelessWidget {
+class CartItemCard extends StatefulWidget {
   const CartItemCard({super.key, required this.item});
   final CartItemModel item;
+
+  @override
+  State<CartItemCard> createState() => _CartItemCardState();
+}
+
+class _CartItemCardState extends State<CartItemCard> {
+  final CartItemsController _cartItemsController =
+      Get.find<CartItemsController>();
+  final CartItemRemoveController _cartItemRemoveController =
+      Get.find<CartItemRemoveController>();
+  late ValueNotifier<int> _quantity;
+
+  @override
+  void initState() {
+    super.initState();
+    _quantity = ValueNotifier(widget.item.quantity);
+  }
+
+  @override
+  void dispose() {
+    _quantity.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +69,7 @@ class CartItemCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            item.product?.title ?? "",
+                            widget.item.product?.title ?? "",
                             style: textStyle.lg.copyWith(
                               color: colors.heading,
                               fontWeight: FontWeight.w500,
@@ -52,7 +78,7 @@ class CartItemCard extends StatelessWidget {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            "color: ${item.color ?? ""} Size: ${item.size ?? ""}",
+                            "color: ${widget.item.color ?? ""} Size: ${widget.item.size ?? ""}",
                             style: textStyle.sm.copyWith(
                               color: colors.bodyText,
                             ),
@@ -61,6 +87,9 @@ class CartItemCard extends StatelessWidget {
                       ),
                     ),
                     GestureDetector(
+                      onTap: () {
+                        _cartItemRemoveController.removeItem(widget.item.id);
+                      },
                       child: AppIcon(
                         iconName: AppIcons.trash,
                         color: colors.bodyText,
@@ -74,13 +103,34 @@ class CartItemCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      "Rs ${item.product?.currentPrice}",
+                      "Rs ${widget.item.product?.currentPrice}",
                       style: textStyle.lg.copyWith(color: colors.primary),
                     ),
-                    IncrementDecrement(
-                      value: 01,
-                      onTapDecrement: () {},
-                      onTapIncrement: () {},
+                    ValueListenableBuilder(
+                      valueListenable: _quantity,
+                      builder: (context, value, child) {
+                        return IncrementDecrement(
+                          value: _quantity.value,
+                          onTapDecrement: () {
+                            if (_quantity.value > 1) {
+                              _quantity.value--;
+                              _cartItemsController.updateQuantity(
+                                widget.item.id,
+                                _quantity.value,
+                              );
+                              _cartItemsController.totalPrice();
+                            }
+                          },
+                          onTapIncrement: () {
+                            _quantity.value++;
+                            _cartItemsController.updateQuantity(
+                              widget.item.id,
+                              _quantity.value,
+                            );
+                            _cartItemsController.totalPrice();
+                          },
+                        );
+                      },
                     ),
                   ],
                 ),

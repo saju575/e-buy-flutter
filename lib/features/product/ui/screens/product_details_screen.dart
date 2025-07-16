@@ -5,12 +5,16 @@ import 'package:e_buy/app/extension/text_style_extension.dart';
 import 'package:e_buy/app/routes/app_routes.dart';
 import 'package:e_buy/app/widgets/app_icon.dart';
 import 'package:e_buy/app/widgets/global_loading.dart';
+import 'package:e_buy/features/cart/domain/models/cart_add_request_model.dart';
+import 'package:e_buy/features/cart/ui/controllers/cart_add_request_controller.dart';
 import 'package:e_buy/features/product/data/models/product_size_model.dart';
 import 'package:e_buy/features/product/ui/controllers/product_details_controller.dart';
 import 'package:e_buy/features/product/ui/widgets/product_size_select.dart';
 import 'package:e_buy/features/product/ui/widgets/slider_card.dart';
 import 'package:e_buy/features/shared/ui/widgets/widget.dart';
+import 'package:e_buy/features/wish_list/ui/controllers/wish_list_controller.dart';
 import 'package:e_buy/utils/empty_placeholder.dart';
+import 'package:e_buy/utils/toast_util.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -34,8 +38,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   ];
   final ProductDetailsController _productDetailsController =
       Get.find<ProductDetailsController>();
+  final WishListController _wishlistController = Get.find<WishListController>();
+  final CartAddRequestController _cartAddRequestController =
+      Get.find<CartAddRequestController>();
 
   late final ValueNotifier<ProductSizeModel> _selectedSize;
+  late ValueNotifier<int> _quantity;
 
   @override
   void dispose() {
@@ -47,6 +55,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   void initState() {
     super.initState();
     _selectedSize = ValueNotifier(_sizeList.first);
+    _quantity = ValueNotifier(1);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _productDetailsController.getProductDetails(widget.id);
     });
@@ -140,12 +149,23 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     ),
                   ),
                 ),
-                BottomPurchaseBar(
-                  title: "Price",
-                  price: productDetails?.currentPrice != null
-                      ? productDetails?.currentPrice ?? 0
-                      : productDetails?.regularPrice ?? 0,
-                  buttonText: "Add to Cart",
+                GetBuilder<CartAddRequestController>(
+                  builder: (cartAddContext) {
+                    return BottomPurchaseBar(
+                      title: "Price",
+                      price: productDetails?.currentPrice != null
+                          ? productDetails?.currentPrice ?? 0
+                          : productDetails?.regularPrice ?? 0,
+                      buttonText: "Add to Cart",
+                      onTapButton: () {
+                        _handleAddToCart(
+                          id: widget.id,
+                          quantity: _quantity.value,
+                        );
+                      },
+                      loading: cartAddContext.loading,
+                    );
+                  },
                 ),
               ],
             ),
@@ -210,10 +230,21 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           ),
         ),
         Spacer(),
-        IncrementDecrement(
-          value: 01,
-          onTapDecrement: () {},
-          onTapIncrement: () {},
+        ValueListenableBuilder(
+          valueListenable: _quantity,
+          builder: (context, value, child) {
+            return IncrementDecrement(
+              value: _quantity.value,
+              onTapDecrement: () {
+                if (_quantity.value > 1) {
+                  _quantity.value--;
+                }
+              },
+              onTapIncrement: () {
+                _quantity.value++;
+              },
+            );
+          },
         ),
       ],
     );
@@ -236,13 +267,16 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         ),
         SizedBox(width: 16),
         AppIconButton(
-          width: 22,
-          height: 22,
+          width: 24,
+          height: 24,
           icon: AppIcon(
             iconName: AppIcons.heartOutline,
             color: colors.bodyText,
-            size: 16,
+            size: 18,
           ),
+          onTap: () {
+            _handleAddToWishList(widget.id);
+          },
         ),
       ],
     );
@@ -291,5 +325,48 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
   void _moveToReviewScreen() {
     Navigator.pushNamed(context, AppRoutes.reviews);
+  }
+
+  Future<void> _handleAddToWishList(String id) async {
+    final result = await _wishlistController.addToWishlist(productId: id);
+    if (!mounted) {
+      return;
+    }
+    if (result) {
+      ToastUtil.show(message: "Added to wishlist", context: context);
+    } else {
+      ToastUtil.show(
+        message: _wishlistController.addToWishlistErrorMessage,
+        context: context,
+      );
+    }
+  }
+
+  Future<void> _handleAddToCart({
+    required String id,
+    required int quantity,
+    String? color,
+    String? size,
+  }) async {
+    final requestBody = CartAddRequestModel(
+      productId: id,
+      quantity: quantity,
+      color: color,
+      size: size,
+    );
+    final result = await _cartAddRequestController.addToCart(
+      requestBody: requestBody,
+    );
+    if (!mounted) {
+      return;
+    }
+    if (result) {
+      ToastUtil.show(message: "Added to cart", context: context);
+    } else {
+      ToastUtil.show(
+        message: _cartAddRequestController.errorMessage,
+        context: context,
+      );
+    }
   }
 }

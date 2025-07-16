@@ -22,10 +22,20 @@ import 'package:e_buy/features/auth/ui/controllers/login_controller.dart';
 import 'package:e_buy/features/auth/ui/controllers/register_controller.dart';
 import 'package:e_buy/features/auth/ui/controllers/register_otp_verify_controller.dart';
 import 'package:e_buy/features/auth/ui/controllers/register_resend_otp_controller.dart';
+import 'package:e_buy/features/cart/data/data_source/cart_add_request_data_source.dart';
+import 'package:e_buy/features/cart/data/data_source/cart_item_remove_data_source.dart';
 import 'package:e_buy/features/cart/data/data_source/cart_items_remote_data_source.dart';
+import 'package:e_buy/features/cart/data/repositories/cart_add_request_repository_iml.dart';
+import 'package:e_buy/features/cart/data/repositories/cart_item_remove_repository_iml.dart';
 import 'package:e_buy/features/cart/data/repositories/cart_repository_iml.dart';
+import 'package:e_buy/features/cart/domain/repositories/cart_add_request_repository.dart';
+import 'package:e_buy/features/cart/domain/repositories/cart_item_remove_repository.dart';
 import 'package:e_buy/features/cart/domain/repositories/cart_repository.dart';
+import 'package:e_buy/features/cart/domain/use_case/cart_add_request_use_case.dart';
+import 'package:e_buy/features/cart/domain/use_case/cart_item_remove_use_case.dart';
 import 'package:e_buy/features/cart/domain/use_case/cart_items_use_case.dart';
+import 'package:e_buy/features/cart/ui/controllers/cart_add_request_controller.dart';
+import 'package:e_buy/features/cart/ui/controllers/cart_item_remove_controller.dart';
 import 'package:e_buy/features/cart/ui/controllers/cart_items_controller.dart';
 import 'package:e_buy/features/home/data/data_source/slide_remote_data_source.dart';
 import 'package:e_buy/features/home/data/repositories/slide_repository_iml.dart';
@@ -58,15 +68,12 @@ import 'package:e_buy/features/settings/domain/use_cases/theme_use_case.dart';
 import 'package:e_buy/features/settings/ui/controllers/theme_controller.dart';
 import 'package:e_buy/features/shared/ui/controllers/main_bottom_nav_controller.dart';
 import 'package:e_buy/features/wish_list/data/data_source/wish_list_remote_data_source.dart';
-import 'package:e_buy/features/wish_list/data/data_source/wishlist_create_data_source.dart';
 import 'package:e_buy/features/wish_list/data/repositories/wish_list_repository_iml.dart';
-import 'package:e_buy/features/wish_list/data/repositories/wishlist_create_repository_iml.dart';
 import 'package:e_buy/features/wish_list/domain/repositories/wish_list_repository.dart';
-import 'package:e_buy/features/wish_list/domain/repositories/wishlist_create_repository.dart';
 import 'package:e_buy/features/wish_list/domain/use_case/wish_list_use_case.dart';
 import 'package:e_buy/features/wish_list/domain/use_case/wishlist_create_use_case.dart';
+import 'package:e_buy/features/wish_list/domain/use_case/wishlist_remove_use_case.dart';
 import 'package:e_buy/features/wish_list/ui/controllers/wish_list_controller.dart';
-import 'package:e_buy/features/wish_list/ui/controllers/wishlist_create_controller.dart';
 import 'package:get/get.dart';
 
 class AppControllerBinder extends Bindings {
@@ -217,20 +224,47 @@ class AppControllerBinder extends Bindings {
       () => WishListRepositoryIml(wishListRemoteDataSource: Get.find()),
     );
     Get.lazyPut(() => WishListUseCase(wishListRepository: Get.find()));
-    Get.lazyPut(() => WishListController(wishListUseCase: Get.find()));
+    Get.lazyPut(() => WishlistRemoveUseCase(wishListRepository: Get.find()));
+    Get.lazyPut(() => WishlistCreateUseCase(wishlistRepository: Get.find()));
+    Get.lazyPut(
+      () => WishListController(
+        wishListUseCase: Get.find(),
+        wishlistRemoveUseCase: Get.find(),
+        wishListCreateUseCase: Get.find(),
+      ),
+    );
 
     //wish list create
+
+    // add to cart
     Get.lazyPut(
-      () => WishlistCreateDataSource(networkClientService: Get.find()),
+      () => CartAddRequestDataSource(networkClientService: Get.find()),
     );
-    Get.lazyPut<WishlistCreateRepository>(
-      () => WishlistCreateRepositoryIml(wishlistCreateDataSource: Get.find()),
-    );
-    Get.lazyPut(
-      () => WishlistCreateUseCase(wishlistCreateRepository: Get.find()),
+    Get.lazyPut<CartAddRequestRepository>(
+      () => CartAddRequestRepositoryIml(cartItemsRemoteDataSource: Get.find()),
     );
     Get.lazyPut(
-      () => WishlistCreateController(wishListCreateUseCase: Get.find()),
+      () => CartAddRequestUseCase(cartAddRequestRepository: Get.find()),
+    );
+    Get.lazyPut(
+      () => CartAddRequestController(cartAddRequestUseCase: Get.find()),
+    );
+
+    //remove from cart dependencies
+    Get.lazyPut(
+      () => CartItemRemoveDataSource(networkClientService: Get.find()),
+    );
+    Get.lazyPut<CartItemRemoveRepository>(
+      () => CartItemRemoveRepositoryIml(cartItemRemoveDataSource: Get.find()),
+    );
+    Get.lazyPut(
+      () => CartItemRemoveUseCase(cartItemRemoveRepository: Get.find()),
+    );
+    Get.lazyPut(
+      () => CartItemRemoveController(
+        cartItemRemoveUseCase: Get.find(),
+        cartItemsController: Get.find(),
+      ),
     );
 
     //home controller

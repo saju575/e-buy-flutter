@@ -56,8 +56,14 @@ class _WishListScreenState extends State<WishListScreen> {
                     child: ProductCard(
                       product: wishListContext.list[index].product,
                       onTap: () => _moveToSpecificProduct(
-                        wishListContext.list[index].id,
+                        wishListContext.list[index].product.id,
                       ),
+                      isFromWishlist: true,
+                      onRemoveTap: () {
+                        wishListContext.removeFromWishList(
+                          wishListContext.list[index].id,
+                        );
+                      },
                     ),
                   ),
                 ),

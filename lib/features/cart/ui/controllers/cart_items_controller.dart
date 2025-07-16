@@ -12,6 +12,11 @@ class CartItemsController
   CartItemsController({required CartItemsUseCase cartItemsUseCase})
     : _cartItemsUseCase = cartItemsUseCase;
 
+  double _total = 0;
+  double get total {
+    return _total;
+  }
+
   @override
   Future<Either<Failure, Pagination<CartItemModel>>> fetchPage(
     CartQueryModel query,
@@ -21,5 +26,33 @@ class CartItemsController
 
   Future<void> loadInitialData() async {
     await loadInitial(query: CartQueryModel());
+  }
+
+  void totalPrice() {
+    _total = 0;
+    for (CartItemModel cartItem in list) {
+      _total += (cartItem.product?.currentPrice ?? 0 * cartItem.quantity);
+    }
+    update();
+  }
+
+  void updateQuantity(String cartItemId, int quantity) {
+    for (CartItemModel cartItemModel in list) {
+      if (cartItemModel.id == cartItemId) {
+        cartItemModel.quantity = quantity;
+        update();
+        break;
+      }
+    }
+  }
+
+  void removeItem(String cartItemId) {
+    for (CartItemModel cartItemModel in list) {
+      if (cartItemModel.id == cartItemId) {
+        list.remove(cartItemModel);
+        update();
+        break;
+      }
+    }
   }
 }

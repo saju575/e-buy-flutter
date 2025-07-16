@@ -2,7 +2,7 @@ import 'package:e_buy/app/routes/app_routes.dart';
 import 'package:e_buy/features/home/ui/controllers/new_product_list_controller.dart';
 import 'package:e_buy/features/home/ui/widgets/section_header.dart';
 import 'package:e_buy/features/shared/ui/widgets/product_card.dart';
-import 'package:e_buy/features/wish_list/ui/controllers/wishlist_create_controller.dart';
+import 'package:e_buy/features/wish_list/ui/controllers/wish_list_controller.dart';
 import 'package:e_buy/utils/toast_util.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,8 +10,7 @@ import 'package:get/get.dart';
 class NewProductsSection extends StatelessWidget {
   NewProductsSection({super.key});
   static const int _LENGTH = 10;
-  final WishlistCreateController _wishlistCreateController =
-      Get.find<WishlistCreateController>();
+  final WishListController _wishlistController = Get.find<WishListController>();
   @override
   Widget build(BuildContext context) {
     return GetBuilder<NewProductListController>(
@@ -89,7 +88,7 @@ class NewProductsSection extends StatelessWidget {
   }
 
   Future<void> _handleAddToWishList(BuildContext context, String id) async {
-    final result = await _wishlistCreateController.addToWishlist(productId: id);
+    final result = await _wishlistController.addToWishlist(productId: id);
     if (!context.mounted) {
       return;
     }
@@ -97,7 +96,7 @@ class NewProductsSection extends StatelessWidget {
       ToastUtil.show(message: "Added to wishlist", context: context);
     } else {
       ToastUtil.show(
-        message: _wishlistCreateController.errorMessage,
+        message: _wishlistController.addToWishlistErrorMessage,
         context: context,
       );
     }

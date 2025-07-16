@@ -3,7 +3,7 @@ import 'package:e_buy/features/product/domain/models/product_model.dart';
 class CartItemModel {
   final String id;
   final ProductModel? product;
-  final int quantity;
+  int quantity;
   final String? color;
   final String? size;
 

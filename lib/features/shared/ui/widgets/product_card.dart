@@ -14,11 +14,15 @@ class ProductCard extends StatelessWidget {
     this.width,
     this.onTap,
     this.onFavTap,
+    this.onRemoveTap,
+    this.isFromWishlist = false,
   });
   final double? width;
   final VoidCallback? onTap;
   final ProductModel product;
   final VoidCallback? onFavTap;
+  final VoidCallback? onRemoveTap;
+  final bool isFromWishlist;
 
   @override
   Widget build(BuildContext context) {
@@ -90,9 +94,11 @@ class ProductCard extends StatelessWidget {
                   ],
                 ),
                 AppIconButton(
-                  onTap: onFavTap,
+                  onTap: isFromWishlist ? onRemoveTap : onFavTap,
                   icon: AppIcon(
-                    icon: Icons.favorite_outline_rounded,
+                    icon: isFromWishlist
+                        ? Icons.delete
+                        : Icons.favorite_outline_rounded,
                     color: colors.bodyText,
                     size: 18,
                   ),

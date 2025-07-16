@@ -1,5 +1,6 @@
 import 'package:e_buy/app/extension/colors_extension.dart';
 import 'package:e_buy/app/extension/text_style_extension.dart';
+import 'package:e_buy/app/widgets/circular_progress.dart';
 import 'package:e_buy/features/shared/ui/widgets/widget.dart';
 import 'package:flutter/material.dart';
 
@@ -10,12 +11,14 @@ class BottomPurchaseBar extends StatelessWidget {
     this.onTapButton,
     required this.buttonText,
     required this.title,
+    this.loading = false,
   });
 
   final double price;
   final VoidCallback? onTapButton;
   final String buttonText;
   final String title;
+  final bool loading;
 
   @override
   Widget build(BuildContext context) {
@@ -41,10 +44,12 @@ class BottomPurchaseBar extends StatelessWidget {
           ),
 
           onPressed: onTapButton,
-          child: Text(
-            buttonText,
-            style: textStyle.sm.copyWith(color: colors.headingSecondary),
-          ),
+          child: loading
+              ? CircularProgress(color: colors.bodyText, size: 14)
+              : Text(
+                  buttonText,
+                  style: textStyle.sm.copyWith(color: colors.headingSecondary),
+                ),
         ),
       ),
     );
