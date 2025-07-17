@@ -9,6 +9,7 @@ import 'package:e_buy/app/widgets/increment_decrement_button.dart';
 import 'package:e_buy/features/cart/domain/models/cart_add_request_model.dart';
 import 'package:e_buy/features/cart/ui/controllers/cart_controller.dart';
 import 'package:e_buy/features/product/ui/controllers/product_details_controller.dart';
+import 'package:e_buy/features/product/ui/widgets/color_picker.dart';
 import 'package:e_buy/features/product/ui/widgets/product_size_select.dart';
 import 'package:e_buy/features/product/ui/widgets/slider_card.dart';
 import 'package:e_buy/features/shared/ui/widgets/widget.dart';
@@ -29,8 +30,6 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
-  final List<Color> _colors = [Colors.red, Colors.green, Colors.blue];
-
   final ProductDetailsController _productDetailsController =
       Get.find<ProductDetailsController>();
   final WishListController _wishlistController = Get.find<WishListController>();
@@ -39,12 +38,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   late ValueNotifier<int> _quantity;
 
   late ValueNotifier<String?> _selectedSize;
+  late ValueNotifier<String?> _selectedColor;
 
   @override
   void initState() {
     super.initState();
     _quantity = ValueNotifier(1);
     _selectedSize = ValueNotifier(null);
+    _selectedColor = ValueNotifier(null);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _productDetailsController.getProductDetails(widget.id);
     });
@@ -53,13 +54,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   @override
   void dispose() {
     _quantity.dispose();
+    _selectedColor.dispose();
+    _selectedSize.dispose();
     super.dispose();
   }
 
-  final ValueNotifier<int> _selectedColorIndex = ValueNotifier(0);
   @override
   Widget build(BuildContext context) {
-    print("Size-> ${_selectedSize.value}");
     final screenHeight = MediaQuery.of(context).size.height;
     final textStyle = context.textStyle;
     final colors = context.colors;
@@ -79,6 +80,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           final productDetails = productDetailsContext.productDetails;
           if (productDetailsContext.productDetails?.sizes?.isNotEmpty == true) {
             _selectedSize.value = productDetails?.sizes?.first;
+          }
+          if (productDetailsContext.productDetails?.colors?.isNotEmpty ==
+              true) {
+            _selectedColor.value = productDetails?.colors?.first;
           }
           return GlobalLoading(
             isLoading: productDetailsContext.loading,
@@ -115,7 +120,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 title: "Colors",
                               ),
                               const SizedBox(height: 6),
-                              _renderColors(),
+                              _renderColors(productDetailsContext),
                               const SizedBox(height: 14),
                               _renderHeading(
                                 textStyle: textStyle,
@@ -160,6 +165,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           id: widget.id,
                           quantity: _quantity.value,
                           size: _selectedSize.value,
+                          color: _selectedColor.value,
                         );
                       },
                       loading: cartAddContext.addToCartLoading,
@@ -276,28 +282,39 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
-  Widget _renderColors() {
-    return ValueListenableBuilder<int>(
-      valueListenable: _selectedColorIndex,
+  Widget _renderColors(ProductDetailsController productDetailsContext) {
+    return ValueListenableBuilder<String?>(
+      valueListenable: _selectedColor,
       builder: (context, value, child) {
-        return Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: List.generate(_colors.length, (index) {
-            return Padding(
-              padding: EdgeInsets.only(
-                right: index < _colors.length - 1 ? 16 : 0,
-              ),
-              child: ColorButton(
-                color: _colors[index],
-                id: index,
-                isSelected: index == _selectedColorIndex.value,
-                onChange: (_, id) {
-                  _selectedColorIndex.value = id;
-                },
-              ),
-            );
-          }),
+        return Visibility(
+          visible:
+              productDetailsContext.productDetails?.colors?.isNotEmpty ?? false,
+          child: ColorPicker(
+            colors: productDetailsContext.productDetails?.colors ?? [],
+            onSelected: (color) {
+              _selectedColor.value = color;
+            },
+          ),
         );
+
+        // return Row(
+        //   crossAxisAlignment: CrossAxisAlignment.center,
+        //   children: List.generate(_colors.length, (index) {
+        //     return Padding(
+        //       padding: EdgeInsets.only(
+        //         right: index < _colors.length - 1 ? 16 : 0,
+        //       ),
+        //       child: ColorButton(
+        //         color: _colors[index],
+        //         id: index,
+        //         isSelected: index == _selectedColorIndex.value,
+        //         onChange: (_, id) {
+        //           _selectedColorIndex.value = id;
+        //         },
+        //       ),
+        //     );
+        //   }),
+        // );
       },
     );
   }
@@ -313,19 +330,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         selectedSize: _selectedSize.value,
       ),
     );
-
-    // return ValueListenableBuilder<ProductSizeModel>(
-    //   valueListenable: _selectedSize,
-    //   builder: (context, value, child) {
-    //     return ProductSizeSelect(
-    //       sizeList: productDetailsContext,
-    //       onChange: (size) {
-    //         _selectedSize.value = size;
-    //       },
-    //       selectedSize: value,
-    //     );
-    //   },
-    // );
   }
 
   void _moveToReviewScreen() {

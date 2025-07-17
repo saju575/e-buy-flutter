@@ -24,14 +24,12 @@ class _ProductSizeSelectState extends State<ProductSizeSelect> {
   @override
   void initState() {
     super.initState();
-    // Use selectedSize if provided, else fallback to first size
     localSize = widget.selectedSize ?? widget.sizeList.first;
   }
 
   @override
   void didUpdateWidget(covariant ProductSizeSelect oldWidget) {
     super.didUpdateWidget(oldWidget);
-    // Update localSize only if selectedSize changed externally
     if (widget.selectedSize != oldWidget.selectedSize &&
         widget.selectedSize != null) {
       setState(() {
