@@ -23,6 +23,11 @@ class _CartItemCardState extends State<CartItemCard> {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final textStyle = context.textStyle;
+    final image =
+        widget.item.product?.photos != null &&
+            widget.item.product!.photos!.isNotEmpty
+        ? widget.item.product!.photos!.first
+        : "";
 
     return Container(
       decoration: BoxDecoration(
@@ -38,10 +43,15 @@ class _CartItemCardState extends State<CartItemCard> {
             width: 80,
             height: 90,
             child: Image.network(
-              widget.item.product!.photos!.first,
+              image,
               fit: BoxFit.scaleDown,
-              errorBuilder: (context, error, stackTrace) =>
-                  Center(child: Icon(Icons.error_outline)),
+              errorBuilder: (context, error, stackTrace) => Center(
+                child: Icon(
+                  Icons.error_outline,
+                  color: colors.bodyText,
+                  size: 40,
+                ),
+              ),
             ),
           ),
           const SizedBox(width: 20),

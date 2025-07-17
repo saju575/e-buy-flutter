@@ -12,11 +12,18 @@ class ProductDetailsController extends GetxController {
   bool _refreshing = false;
   String? _errorMessage;
   ProductModel? _productDetails;
+  // String? _selectedSize;
 
   bool get loading => _loading;
   bool get refreshing => _refreshing;
   String? get errorMessage => _errorMessage;
   ProductModel? get productDetails => _productDetails;
+  // String? get selectedSize => _selectedSize;
+
+  // set selectedSize(String? value) {
+  //   _selectedSize = value;
+  //   update();
+  // }
 
   Future<void> getProductDetails(String id) async {
     if (_loading) return;

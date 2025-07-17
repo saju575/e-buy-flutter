@@ -8,7 +8,6 @@ import 'package:e_buy/app/widgets/global_loading.dart';
 import 'package:e_buy/app/widgets/increment_decrement_button.dart';
 import 'package:e_buy/features/cart/domain/models/cart_add_request_model.dart';
 import 'package:e_buy/features/cart/ui/controllers/cart_controller.dart';
-import 'package:e_buy/features/product/data/models/product_size_model.dart';
 import 'package:e_buy/features/product/ui/controllers/product_details_controller.dart';
 import 'package:e_buy/features/product/ui/widgets/product_size_select.dart';
 import 'package:e_buy/features/product/ui/widgets/slider_card.dart';
@@ -31,41 +30,36 @@ class ProductDetailsScreen extends StatefulWidget {
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   final List<Color> _colors = [Colors.red, Colors.green, Colors.blue];
-  final List<ProductSizeModel> _sizeList = [
-    ProductSizeModel(id: 1, size: "S"),
-    ProductSizeModel(id: 2, size: "M"),
-    ProductSizeModel(id: 3, size: "L"),
-    ProductSizeModel(id: 4, size: "XL"),
-  ];
 
   final ProductDetailsController _productDetailsController =
       Get.find<ProductDetailsController>();
   final WishListController _wishlistController = Get.find<WishListController>();
   final CartController _cartController = Get.find<CartController>();
 
-  late final ValueNotifier<ProductSizeModel> _selectedSize;
   late ValueNotifier<int> _quantity;
 
-  @override
-  void dispose() {
-    _selectedSize.dispose();
-    _quantity.dispose();
-    super.dispose();
-  }
+  late ValueNotifier<String?> _selectedSize;
 
   @override
   void initState() {
     super.initState();
-    _selectedSize = ValueNotifier(_sizeList.first);
     _quantity = ValueNotifier(1);
+    _selectedSize = ValueNotifier(null);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _productDetailsController.getProductDetails(widget.id);
     });
   }
 
+  @override
+  void dispose() {
+    _quantity.dispose();
+    super.dispose();
+  }
+
   final ValueNotifier<int> _selectedColorIndex = ValueNotifier(0);
   @override
   Widget build(BuildContext context) {
+    print("Size-> ${_selectedSize.value}");
     final screenHeight = MediaQuery.of(context).size.height;
     final textStyle = context.textStyle;
     final colors = context.colors;
@@ -83,7 +77,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       body: GetBuilder<ProductDetailsController>(
         builder: (productDetailsContext) {
           final productDetails = productDetailsContext.productDetails;
-
+          if (productDetailsContext.productDetails?.sizes?.isNotEmpty == true) {
+            _selectedSize.value = productDetails?.sizes?.first;
+          }
           return GlobalLoading(
             isLoading: productDetailsContext.loading,
             child: Column(
@@ -127,7 +123,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 title: "Size",
                               ),
                               const SizedBox(height: 6),
-                              _renderSizes(),
+                              _renderSizes(productDetailsContext),
                               const SizedBox(height: 14),
                               _renderHeading(
                                 textStyle: textStyle,
@@ -163,9 +159,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         _handleAddToCart(
                           id: widget.id,
                           quantity: _quantity.value,
+                          size: _selectedSize.value,
                         );
                       },
-                      loading: cartAddContext.loading,
+                      loading: cartAddContext.addToCartLoading,
                     );
                   },
                 ),
@@ -305,19 +302,30 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
-  Widget _renderSizes() {
-    return ValueListenableBuilder<ProductSizeModel>(
-      valueListenable: _selectedSize,
-      builder: (context, value, child) {
-        return ProductSizeSelect(
-          sizeList: _sizeList,
-          onChange: (size) {
-            _selectedSize.value = size;
-          },
-          selectedSize: value,
-        );
-      },
+  Widget _renderSizes(ProductDetailsController productDetailsContext) {
+    return Visibility(
+      visible: productDetailsContext.productDetails?.sizes?.isNotEmpty ?? false,
+      child: ProductSizeSelect(
+        sizeList: productDetailsContext.productDetails?.sizes ?? [],
+        onChange: (value) {
+          _selectedSize.value = value;
+        },
+        selectedSize: _selectedSize.value,
+      ),
     );
+
+    // return ValueListenableBuilder<ProductSizeModel>(
+    //   valueListenable: _selectedSize,
+    //   builder: (context, value, child) {
+    //     return ProductSizeSelect(
+    //       sizeList: productDetailsContext,
+    //       onChange: (size) {
+    //         _selectedSize.value = size;
+    //       },
+    //       selectedSize: value,
+    //     );
+    //   },
+    // );
   }
 
   void _moveToReviewScreen() {

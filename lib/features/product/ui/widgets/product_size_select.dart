@@ -1,6 +1,5 @@
 import 'package:e_buy/app/extension/colors_extension.dart';
 import 'package:e_buy/app/extension/text_style_extension.dart';
-import 'package:e_buy/features/product/data/models/product_size_model.dart';
 import 'package:flutter/material.dart';
 
 class ProductSizeSelect extends StatefulWidget {
@@ -8,57 +7,78 @@ class ProductSizeSelect extends StatefulWidget {
     super.key,
     required this.sizeList,
     required this.onChange,
-    required this.selectedSize,
+    this.selectedSize, // Make selectedSize optional
   });
-  final List<ProductSizeModel> sizeList;
-  final ValueChanged<ProductSizeModel> onChange;
-  final ProductSizeModel selectedSize;
+
+  final List<String> sizeList;
+  final ValueChanged<String> onChange;
+  final String? selectedSize;
 
   @override
   State<ProductSizeSelect> createState() => _ProductSizeSelectState();
 }
 
 class _ProductSizeSelectState extends State<ProductSizeSelect> {
+  late String localSize;
+
+  @override
+  void initState() {
+    super.initState();
+    // Use selectedSize if provided, else fallback to first size
+    localSize = widget.selectedSize ?? widget.sizeList.first;
+  }
+
+  @override
+  void didUpdateWidget(covariant ProductSizeSelect oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Update localSize only if selectedSize changed externally
+    if (widget.selectedSize != oldWidget.selectedSize &&
+        widget.selectedSize != null) {
+      setState(() {
+        localSize = widget.selectedSize!;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     final textStyle = context.textStyle;
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        for (ProductSizeModel size in widget.sizeList)
-          GestureDetector(
-            onTap: () {
+      children: widget.sizeList.map((size) {
+        final isSelected = localSize == size;
+        return GestureDetector(
+          onTap: () {
+            setState(() {
+              localSize = size;
               widget.onChange(size);
-            },
-            child: Container(
-              // padding: const EdgeInsets.all(8),
-              height: 28,
-              width: 28,
-              margin: const EdgeInsets.only(right: 8),
-              decoration: BoxDecoration(
-                color: widget.selectedSize.id == size.id
-                    ? colors.primary
-                    : null,
-                shape: BoxShape.circle,
-                border: widget.selectedSize.id == size.id
-                    ? null
-                    : Border.all(color: colors.grey),
-              ),
-              child: Center(
-                child: Text(
-                  size.size,
-                  style: textStyle.base.copyWith(
-                    color: widget.selectedSize.id == size.id
-                        ? colors.headingSecondary
-                        : colors.grey,
-                    fontWeight: FontWeight.w500,
-                  ),
+            });
+          },
+          child: Container(
+            height: 32,
+            width: 32,
+            margin: const EdgeInsets.only(right: 8),
+            decoration: BoxDecoration(
+              color: isSelected ? colors.primary : null,
+              shape: BoxShape.circle,
+              border: isSelected
+                  ? null
+                  : Border.all(color: colors.grey, width: 1.2),
+            ),
+            child: Center(
+              child: Text(
+                size,
+                style: textStyle.base.copyWith(
+                  color: isSelected ? colors.headingSecondary : colors.grey,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),
           ),
-      ],
+        );
+      }).toList(),
     );
   }
 }
