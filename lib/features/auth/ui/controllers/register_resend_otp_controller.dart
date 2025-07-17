@@ -42,7 +42,6 @@ class RegisterResendOtpController extends GetxController {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_countdown > 0) {
         _countdown -= 1;
-        print(_countdown);
       } else {
         _canResend = true;
         timer.cancel();

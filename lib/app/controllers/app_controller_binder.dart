@@ -1,3 +1,4 @@
+import 'package:e_buy/app/routes/app_routes.dart';
 import 'package:e_buy/core/services/local_storage/shared_pref_service.dart';
 import 'package:e_buy/core/services/network/network_client_service.dart';
 import 'package:e_buy/features/auth/data/data_source/auth_data_source.dart';
@@ -22,7 +23,6 @@ import 'package:e_buy/features/auth/ui/controllers/login_controller.dart';
 import 'package:e_buy/features/auth/ui/controllers/register_controller.dart';
 import 'package:e_buy/features/auth/ui/controllers/register_otp_verify_controller.dart';
 import 'package:e_buy/features/auth/ui/controllers/register_resend_otp_controller.dart';
-import 'package:e_buy/features/auth/ui/screens/login_screen.dart';
 import 'package:e_buy/features/cart/data/data_source/cart_items_remote_data_source.dart';
 import 'package:e_buy/features/cart/data/repositories/cart_repository_iml.dart';
 import 'package:e_buy/features/cart/domain/repositories/cart_repository.dart';
@@ -255,6 +255,8 @@ class AppControllerBinder extends Bindings {
 
   void onUnauthorized() {
     sharedPreferService.clear();
-    Get.to(() => LoginScreen());
+    if (Get.currentRoute != AppRoutes.login) {
+      Get.offAllNamed(AppRoutes.login);
+    }
   }
 }

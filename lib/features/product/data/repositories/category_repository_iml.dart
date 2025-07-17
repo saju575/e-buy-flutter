@@ -21,7 +21,6 @@ class CategoryRepositoryIml implements CategoryRepository {
       limit: limit,
     );
     return response.fold((left) => Left(left), (right) {
-      print("From category repository iml ${right.list.length}");
       return Right(
         right.toDomain(currentPage: page, mapper: (item) => item.toDomain()),
       );
