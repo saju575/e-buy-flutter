@@ -1,4 +1,3 @@
-import 'package:e_buy/app/actions/auth_actions.dart';
 import 'package:e_buy/app/assets/app_icons.dart';
 import 'package:e_buy/app/assets/asset_paths.dart';
 import 'package:e_buy/app/colors/app_colors.dart';
@@ -17,6 +16,7 @@ import 'package:e_buy/features/home/ui/widgets/product_search_bar.dart';
 import 'package:e_buy/features/home/ui/widgets/slider_card.dart';
 import 'package:e_buy/features/home/ui/widgets/special_products_section.dart';
 import 'package:e_buy/features/shared/ui/widgets/widget.dart';
+import 'package:e_buy/middlewares/login_middleware.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -65,6 +65,17 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  AppBar _renderAppBar() {
+    return AppBar(
+      title: AppIcon(iconName: AssetPaths.appLogoSvg, size: 28),
+      actions: [
+        AppBarIcon(iconName: AppIcons.bell, onTap: () {}),
+        AppBarIcon(iconName: AppIcons.user, onTap: _moveToProfileScreen),
+      ],
+      centerTitle: false,
+    );
+  }
+
   Widget _renderSlide(AppColors colors) {
     return GetBuilder<SlideController>(
       builder: (slideContext) {
@@ -82,26 +93,13 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  AppBar _renderAppBar() {
-    return AppBar(
-      title: AppIcon(iconName: AssetPaths.appLogoSvg, size: 28),
-      actions: [
-        AppBarIcon(iconName: AppIcons.bell, onTap: () {}),
-        AppBarIcon(iconName: AppIcons.user, onTap: _moveToProfileScreen),
-      ],
-      centerTitle: false,
-    );
-  }
-
   void _moveToProfileScreen() {
-    if (AuthActions.isLoggedIn) {
-      Navigator.pushNamed(context, AppRoutes.profile);
-    } else {
-      Navigator.pushNamed(
-        context,
-        AppRoutes.login,
-        arguments: {"toGo": AppRoutes.main},
-      );
-    }
+    guardRoute(
+      context: context,
+      onAllowed: () {
+        Navigator.pushNamed(context, AppRoutes.profile);
+      },
+      fallbackArguments: {"toGo": AppRoutes.profile},
+    );
   }
 }

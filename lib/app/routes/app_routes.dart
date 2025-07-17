@@ -33,12 +33,22 @@ class AppRoutes {
         break;
       case LoginScreen.name:
         builder = (context) {
-          final toGoRoute = settings.arguments as Map<String, dynamic>?;
-          final toGo = toGoRoute != null && toGoRoute['toGo'] != null
-              ? toGoRoute['toGo']
+          final args = settings.arguments as Map<String, dynamic>?;
+          final toGo = args != null && args['toGo'] != null
+              ? args['toGo']
+              : null;
+          final goBack = (args != null && args['goBack'] != null)
+              ? args['goBack']
+              : false;
+          final toGoRouteArgs = args != null && args['toGoRouteArgs'] != null
+              ? args['toGoRouteArgs']
               : null;
 
-          return LoginScreen(toGo: toGo);
+          return LoginScreen(
+            toGo: toGo,
+            goBack: goBack,
+            toGoRouteArgs: toGoRouteArgs,
+          );
         };
         break;
       case SignUpScreen.name:

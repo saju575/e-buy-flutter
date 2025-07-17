@@ -27,7 +27,7 @@ class MainBottomNavController extends GetxController {
     if (_privateTabIndex.contains(index) && !isLoggedIn) {
       final isSuccess = await NavigationService.pushNamed(
         AppRoutes.login,
-        arguments: {"toGo": AppRoutes.main},
+        arguments: {"goBack": true},
       );
 
       if (isSuccess == true) {

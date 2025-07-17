@@ -4,6 +4,7 @@ import 'package:e_buy/app/widgets/global_loading.dart';
 import 'package:e_buy/features/product/ui/controllers/product_list_controller.dart';
 import 'package:e_buy/features/shared/ui/widgets/widget.dart';
 import 'package:e_buy/features/wish_list/ui/controllers/wish_list_controller.dart';
+import 'package:e_buy/middlewares/login_middleware.dart';
 import 'package:e_buy/utils/toast_util.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -92,17 +93,23 @@ class _ProductListScreenState extends State<ProductListScreen> {
   }
 
   Future<void> _handleAddToWishList(BuildContext context, String id) async {
-    final result = await _wishlistController.addToWishlist(productId: id);
-    if (!context.mounted) {
-      return;
-    }
-    if (result) {
-      ToastUtil.show(message: "Added to wishlist", context: context);
-    } else {
-      ToastUtil.show(
-        message: _wishlistController.addToWishlistErrorMessage,
-        context: context,
-      );
-    }
+    guardRoute(
+      context: context,
+      onAllowed: () async {
+        final result = await _wishlistController.addToWishlist(productId: id);
+        if (!context.mounted) {
+          return;
+        }
+        if (result) {
+          ToastUtil.show(message: "Added to wishlist", context: context);
+        } else {
+          ToastUtil.show(
+            message: _wishlistController.addToWishlistErrorMessage,
+            context: context,
+          );
+        }
+      },
+      fallbackArguments: {"goBack": true},
+    );
   }
 }

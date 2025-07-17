@@ -3,6 +3,7 @@ import 'package:e_buy/features/home/ui/controllers/new_product_list_controller.d
 import 'package:e_buy/features/home/ui/widgets/section_header.dart';
 import 'package:e_buy/features/shared/ui/widgets/product_card.dart';
 import 'package:e_buy/features/wish_list/ui/controllers/wish_list_controller.dart';
+import 'package:e_buy/middlewares/login_middleware.dart';
 import 'package:e_buy/utils/toast_util.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -88,17 +89,23 @@ class NewProductsSection extends StatelessWidget {
   }
 
   Future<void> _handleAddToWishList(BuildContext context, String id) async {
-    final result = await _wishlistController.addToWishlist(productId: id);
-    if (!context.mounted) {
-      return;
-    }
-    if (result) {
-      ToastUtil.show(message: "Added to wishlist", context: context);
-    } else {
-      ToastUtil.show(
-        message: _wishlistController.addToWishlistErrorMessage,
-        context: context,
-      );
-    }
+    guardRoute(
+      context: context,
+      onAllowed: () async {
+        final result = await _wishlistController.addToWishlist(productId: id);
+        if (!context.mounted) {
+          return;
+        }
+        if (result) {
+          ToastUtil.show(message: "Added to wishlist", context: context);
+        } else {
+          ToastUtil.show(
+            message: _wishlistController.addToWishlistErrorMessage,
+            context: context,
+          );
+        }
+      },
+      fallbackArguments: {"goBack": true},
+    );
   }
 }

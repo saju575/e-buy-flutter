@@ -22,6 +22,7 @@ import 'package:e_buy/features/auth/ui/controllers/login_controller.dart';
 import 'package:e_buy/features/auth/ui/controllers/register_controller.dart';
 import 'package:e_buy/features/auth/ui/controllers/register_otp_verify_controller.dart';
 import 'package:e_buy/features/auth/ui/controllers/register_resend_otp_controller.dart';
+import 'package:e_buy/features/auth/ui/screens/login_screen.dart';
 import 'package:e_buy/features/cart/data/data_source/cart_items_remote_data_source.dart';
 import 'package:e_buy/features/cart/data/repositories/cart_repository_iml.dart';
 import 'package:e_buy/features/cart/domain/repositories/cart_repository.dart';
@@ -77,7 +78,9 @@ class AppControllerBinder extends Bindings {
     Get.put<ThemeLocalDatasources>(
       ThemeLocalDatasources(sharedPreferService: sharedPreferService),
     );
-    Get.put<NetworkClientService>(NetworkClientService(getHeaders: headers));
+    Get.put<NetworkClientService>(
+      NetworkClientService(getHeaders: headers, onUnauthorized: onUnauthorized),
+    );
 
     // Auth dependencies
     Get.put<AuthDataSource>(
@@ -248,5 +251,10 @@ class AppControllerBinder extends Bindings {
 
   Map<String, String> headers() {
     return {'token': sharedPreferService.getString(tokenKey) ?? ''};
+  }
+
+  void onUnauthorized() {
+    sharedPreferService.clear();
+    Get.to(() => LoginScreen());
   }
 }

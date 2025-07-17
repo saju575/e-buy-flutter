@@ -14,6 +14,7 @@ import 'package:e_buy/features/product/ui/widgets/product_size_select.dart';
 import 'package:e_buy/features/product/ui/widgets/slider_card.dart';
 import 'package:e_buy/features/shared/ui/widgets/widget.dart';
 import 'package:e_buy/features/wish_list/ui/controllers/wish_list_controller.dart';
+import 'package:e_buy/middlewares/login_middleware.dart';
 import 'package:e_buy/utils/empty_placeholder.dart';
 import 'package:e_buy/utils/toast_util.dart';
 import 'package:flutter/material.dart';
@@ -296,25 +297,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             },
           ),
         );
-
-        // return Row(
-        //   crossAxisAlignment: CrossAxisAlignment.center,
-        //   children: List.generate(_colors.length, (index) {
-        //     return Padding(
-        //       padding: EdgeInsets.only(
-        //         right: index < _colors.length - 1 ? 16 : 0,
-        //       ),
-        //       child: ColorButton(
-        //         color: _colors[index],
-        //         id: index,
-        //         isSelected: index == _selectedColorIndex.value,
-        //         onChange: (_, id) {
-        //           _selectedColorIndex.value = id;
-        //         },
-        //       ),
-        //     );
-        //   }),
-        // );
       },
     );
   }
@@ -337,18 +319,24 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   }
 
   Future<void> _handleAddToWishList(String id) async {
-    final result = await _wishlistController.addToWishlist(productId: id);
-    if (!mounted) {
-      return;
-    }
-    if (result) {
-      ToastUtil.show(message: "Added to wishlist", context: context);
-    } else {
-      ToastUtil.show(
-        message: _wishlistController.addToWishlistErrorMessage,
-        context: context,
-      );
-    }
+    guardRoute(
+      context: context,
+      onAllowed: () async {
+        final result = await _wishlistController.addToWishlist(productId: id);
+        if (!mounted) {
+          return;
+        }
+        if (result) {
+          ToastUtil.show(message: "Added to wishlist", context: context);
+        } else {
+          ToastUtil.show(
+            message: _wishlistController.addToWishlistErrorMessage,
+            context: context,
+          );
+        }
+      },
+      fallbackArguments: {"goBack": true},
+    );
   }
 
   Future<void> _handleAddToCart({
@@ -363,17 +351,25 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       color: color,
       size: size,
     );
-    final result = await _cartController.addToCart(requestBody: requestBody);
-    if (!mounted) {
-      return;
-    }
-    if (result) {
-      ToastUtil.show(message: "Added to cart", context: context);
-    } else {
-      ToastUtil.show(
-        message: _cartController.addToCartErrorMessage,
-        context: context,
-      );
-    }
+    guardRoute(
+      context: context,
+      onAllowed: () async {
+        final result = await _cartController.addToCart(
+          requestBody: requestBody,
+        );
+        if (!mounted) {
+          return;
+        }
+        if (result) {
+          ToastUtil.show(message: "Added to cart", context: context);
+        } else {
+          ToastUtil.show(
+            message: _cartController.addToCartErrorMessage,
+            context: context,
+          );
+        }
+      },
+      fallbackArguments: {"goBack": true},
+    );
   }
 }

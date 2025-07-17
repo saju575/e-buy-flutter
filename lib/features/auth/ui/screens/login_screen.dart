@@ -13,8 +13,15 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key, this.toGo});
+  const LoginScreen({
+    super.key,
+    this.toGo,
+    this.goBack = false,
+    this.toGoRouteArgs,
+  });
   final String? toGo;
+  final dynamic toGoRouteArgs;
+  final bool goBack;
 
   static const name = '/login';
   @override
@@ -144,12 +151,20 @@ class _LoginScreenState extends State<LoginScreen> {
     final bool isSuccess = await _loginController.login(email, password);
     if (!mounted) return;
     if (isSuccess) {
-      if (widget.toGo == AppRoutes.main) {
+      if (widget.goBack) {
         Navigator.pop(context, true);
       } else if (widget.toGo != null) {
-        Navigator.pushReplacementNamed(context, widget.toGo!);
+        Navigator.pushReplacementNamed(
+          context,
+          widget.toGo!,
+          arguments: widget.toGoRouteArgs,
+        );
       } else {
-        Navigator.pushReplacementNamed(context, AppRoutes.main);
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          AppRoutes.main,
+          (route) => false,
+        );
       }
     } else {
       ToastUtil.show(message: _loginController.errorMessage, context: context);
