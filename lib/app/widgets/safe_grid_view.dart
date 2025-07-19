@@ -1,4 +1,5 @@
 import 'package:e_buy/app/extension/colors_extension.dart';
+import 'package:e_buy/app/extension/text_style_extension.dart';
 import 'package:flutter/material.dart';
 
 class SafeGridView<T> extends StatelessWidget {
@@ -12,6 +13,7 @@ class SafeGridView<T> extends StatelessWidget {
   final VoidCallback? onRetry;
   final SliverGridDelegate gridDelegate;
   final ScrollController? scrollController;
+  final bool showRetryButton;
 
   const SafeGridView({
     super.key,
@@ -25,11 +27,13 @@ class SafeGridView<T> extends StatelessWidget {
     this.onRetry,
     required this.gridDelegate,
     this.scrollController,
+    this.showRetryButton = false,
   });
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final textStyle = context.textStyle;
 
     return RefreshIndicator(
       onRefresh: onRefresh,
@@ -56,12 +60,15 @@ class SafeGridView<T> extends StatelessWidget {
                     const SizedBox(height: 16),
                     Text(
                       emptyMessage ?? "",
-                      style: Theme.of(context).textTheme.bodyMedium,
+                      style: textStyle.base.copyWith(color: colors.bodyText),
                     ),
                     const SizedBox(height: 12),
-                    ElevatedButton(
-                      onPressed: onRetry ?? onRefresh,
-                      child: const Text("Retry"),
+                    Visibility(
+                      visible: showRetryButton,
+                      child: ElevatedButton(
+                        onPressed: onRetry ?? onRefresh,
+                        child: const Text("Retry"),
+                      ),
                     ),
                   ],
                 ),

@@ -1,6 +1,5 @@
-import 'package:e_buy/app/extension/colors_extension.dart';
 import 'package:e_buy/app/routes/app_routes.dart';
-import 'package:e_buy/app/widgets/global_loading.dart';
+import 'package:e_buy/app/widgets/safe_grid_view.dart';
 import 'package:e_buy/features/product/ui/controllers/product_list_controller.dart';
 import 'package:e_buy/features/shared/ui/widgets/widget.dart';
 import 'package:e_buy/features/wish_list/ui/controllers/wish_list_controller.dart';
@@ -32,7 +31,6 @@ class _ProductListScreenState extends State<ProductListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.colors;
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.tag != null ? widget.tag! : "Product List"),
@@ -42,34 +40,26 @@ class _ProductListScreenState extends State<ProductListScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         child: GetBuilder<ProductListController>(
           builder: (productListContext) {
-            return GlobalLoading(
+            return SafeGridView(
+              scrollController: _scrollController,
+              items: productListContext.list,
               isLoading: productListContext.initialLoading,
-              child: RefreshIndicator(
-                onRefresh: productListContext.refreshData,
-                backgroundColor: colors.primaryWeak,
-                color: colors.primary,
-                child: GridView.builder(
-                  itemCount: productListContext.list.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    mainAxisExtent: 136,
-                    mainAxisSpacing: 8,
-                    crossAxisSpacing: 4,
-                  ),
-                  itemBuilder: (context, index) => FittedBox(
-                    child: ProductCard(
-                      product: productListContext.list[index],
-                      onTap: () => _moveToSpecificProduct(
-                        productListContext.list[index].id,
-                      ),
-                      onFavTap: () {
-                        _handleAddToWishList(
-                          context,
-                          productListContext.list[index].id,
-                        );
-                      },
-                    ),
-                  ),
+              isLoadingMore: productListContext.loadingMore,
+              onRefresh: productListContext.refreshData,
+              emptyMessage: "No products found",
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                mainAxisExtent: 136,
+                mainAxisSpacing: 8,
+                crossAxisSpacing: 4,
+              ),
+              itemBuilder: (context, item, index) => FittedBox(
+                child: ProductCard(
+                  product: item,
+                  onTap: () => _moveToSpecificProduct(item.id),
+                  onFavTap: () {
+                    _handleAddToWishList(context, item.id);
+                  },
                 ),
               ),
             );

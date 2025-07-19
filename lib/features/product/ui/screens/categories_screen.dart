@@ -1,5 +1,4 @@
 import 'package:e_buy/app/routes/app_routes.dart';
-import 'package:e_buy/app/widgets/global_loading.dart';
 import 'package:e_buy/app/widgets/safe_grid_view.dart';
 import 'package:e_buy/features/product/ui/controllers/category_controller.dart';
 import 'package:e_buy/features/shared/ui/controllers/actions/jump_action.dart';
@@ -46,41 +45,31 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         ),
         body: GetBuilder<CategoryController>(
           builder: (categoryContext) {
-            return GlobalLoading(
-              isLoading:
-                  categoryContext.initialLoading &&
-                  categoryContext.list.isEmpty,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 10,
-                ),
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
 
-                child: SafeGridView(
-                  scrollController: _scrollController,
-                  items: categoryContext.list,
-                  isLoading: categoryContext.initialLoading,
-                  isLoadingMore: categoryContext.loadingMore,
-                  onRefresh: categoryContext.refreshData,
-                  onRetry: categoryContext.refreshData,
-                  emptyMessage: "No categories found",
-                  // emptyImageAsset: "assets/images/empty_placeholder.png",
-                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 80,
-                    childAspectRatio: 2 / 3,
-                    crossAxisSpacing: 8,
-                    mainAxisSpacing: 8,
-                  ),
-                  itemBuilder: (context, item, index) {
-                    return FittedBox(
-                      child: ProductCategory(
-                        categoryModel: item,
-                        onTap: () =>
-                            _moveToSpecificCategoryProductList(item.id),
-                      ),
-                    );
-                  },
+              child: SafeGridView(
+                scrollController: _scrollController,
+                items: categoryContext.list,
+                isLoading: categoryContext.initialLoading,
+                isLoadingMore: categoryContext.loadingMore,
+                onRefresh: categoryContext.refreshData,
+                onRetry: categoryContext.refreshData,
+                emptyMessage: "No categories found",
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 80,
+                  childAspectRatio: 2 / 3,
+                  crossAxisSpacing: 8,
+                  mainAxisSpacing: 8,
                 ),
+                itemBuilder: (context, item, index) {
+                  return FittedBox(
+                    child: ProductCategory(
+                      categoryModel: item,
+                      onTap: () => _moveToSpecificCategoryProductList(item.id),
+                    ),
+                  );
+                },
               ),
             );
           },

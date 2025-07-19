@@ -20,8 +20,6 @@ class ProductListController
   }
 
   Future<void> loadInitialData(String? tag, String? category) async {
-    await loadInitial(
-      query: ProductQueryModel(tag: tag, category: category),
-    );
+    await resetBasedOnQuery(ProductQueryModel(tag: tag, category: category));
   }
 }
