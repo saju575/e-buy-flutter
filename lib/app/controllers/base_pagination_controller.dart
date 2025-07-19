@@ -12,6 +12,7 @@ abstract class BasePaginationController<
 
   int _currentPage = 1;
   bool _hasNextPage = true;
+  int _totalData = 0;
   bool _isInitialLoading = false;
   bool _loading = true;
   bool _isLoadingMore = false;
@@ -26,6 +27,7 @@ abstract class BasePaginationController<
   bool get loadingMore => _isLoadingMore;
   bool get refreshing => _isRefreshing;
   bool get loading => _loading;
+  int get totalData => _totalData;
   QueryModel get query => _query;
 
   Future<Either<Failure, Pagination<ListModel>>> fetchPage(QueryModel query);
@@ -49,6 +51,7 @@ abstract class BasePaginationController<
         _isInitialLoading = false;
         list.clear();
         list.addAll(right.list);
+        _totalData = right.total;
         _currentPage = right.currentPage;
         _hasNextPage = right.next ?? false;
       },
@@ -76,6 +79,7 @@ abstract class BasePaginationController<
       (right) {
         list.addAll(right.list);
         _isLoadingMore = false;
+        _totalData = right.total;
         _currentPage = right.currentPage;
         _hasNextPage = right.next ?? false;
       },
@@ -102,6 +106,7 @@ abstract class BasePaginationController<
         list.clear();
         list.addAll(right.list);
         _isRefreshing = false;
+        _totalData = right.total;
         _currentPage = right.currentPage;
         _hasNextPage = right.next ?? false;
       },

@@ -1,3 +1,5 @@
+import 'package:e_buy/features/auth/domain/models/user_model.dart';
+
 class UserDto {
   final String id;
   final String firstName;
@@ -22,7 +24,7 @@ class UserDto {
       id: jsonData['_id'],
       firstName: jsonData['first_name'] ?? '',
       lastName: jsonData['last_name'] ?? '',
-      email: jsonData['email'],
+      email: jsonData['email'] ?? "",
       phone: jsonData['phone'] ?? '',
       avatarUrl: jsonData['avatar_url'] ?? '',
       city: jsonData['city'] ?? '',
@@ -41,15 +43,15 @@ class UserDto {
     };
   }
 
-  //   User toDomain() {
-  //     return User(
-  //       id: id,
-  //       firstName: firstName,
-  //       lastName: lastName,
-  //       email: email,
-  //       phone: phone,
-  //       avatarUrl: avatarUrl,
-  //       city: city,
-  //     );
-  //   }
+  UserModel toDomain() {
+    return UserModel(
+      id: id,
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      phone: phone,
+      avatarUrl: avatarUrl,
+      city: city,
+    );
+  }
 }

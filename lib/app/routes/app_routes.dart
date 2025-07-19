@@ -82,9 +82,7 @@ class AppRoutes {
         break;
       case ReviewsScreen.name:
         builder = (context) {
-          final productId = settings.arguments != null
-              ? settings.arguments as String
-              : null;
+          final productId = settings.arguments as String;
 
           return ReviewsScreen(productId: productId);
         };

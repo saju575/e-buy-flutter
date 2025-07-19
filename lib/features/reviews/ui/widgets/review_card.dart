@@ -1,10 +1,11 @@
-import 'package:e_buy/app/assets/asset_paths.dart';
 import 'package:e_buy/app/extension/colors_extension.dart';
 import 'package:e_buy/app/extension/text_style_extension.dart';
+import 'package:e_buy/features/reviews/domain/models/review_model.dart';
 import 'package:flutter/material.dart';
 
 class ReviewCard extends StatelessWidget {
-  const ReviewCard({super.key});
+  final ReviewModel review;
+  const ReviewCard({super.key, required this.review});
 
   @override
   Widget build(BuildContext context) {
@@ -27,18 +28,32 @@ class ReviewCard extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 15,
-                backgroundImage: AssetImage(AssetPaths.shoe),
+                backgroundColor: colors.grey,
+                child: ClipOval(
+                  child: Image.network(
+                    review.user.avatarUrl,
+                    width: 30,
+                    height: 30,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) => Icon(
+                      Icons.error_outline,
+                      color: colors.error,
+                      size: 20,
+                    ),
+                  ),
+                ),
               ),
+
               const SizedBox(width: 6),
               Text(
-                "Sakil Ahmed",
+                "${review.user.firstName} ${review.user.lastName}",
                 style: textStyle.base.copyWith(color: colors.heading),
               ),
             ],
           ),
           const SizedBox(height: 10),
           Text(
-            "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
+            review.comment ?? "",
             style: textStyle.sm.copyWith(color: colors.bodyText),
           ),
         ],

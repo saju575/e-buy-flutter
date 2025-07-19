@@ -260,7 +260,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         Text("4.5", style: textStyle.base.copyWith(color: colors.bodyText)),
         SizedBox(width: 16),
         GestureDetector(
-          onTap: _moveToReviewScreen,
+          onTap: () {
+            _moveToReviewScreen(widget.id);
+          },
           child: Text(
             "Reviews",
             style: textStyle.base.copyWith(color: colors.primary),
@@ -314,8 +316,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
-  void _moveToReviewScreen() {
-    Navigator.pushNamed(context, AppRoutes.reviews);
+  void _moveToReviewScreen(String id) {
+    Navigator.pushNamed(context, AppRoutes.reviews, arguments: id);
   }
 
   Future<void> _handleAddToWishList(String id) async {

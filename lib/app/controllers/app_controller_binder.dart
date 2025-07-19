@@ -54,6 +54,11 @@ import 'package:e_buy/features/product/domain/use_case/product_list_use_case.dar
 import 'package:e_buy/features/product/ui/controllers/category_controller.dart';
 import 'package:e_buy/features/product/ui/controllers/product_details_controller.dart';
 import 'package:e_buy/features/product/ui/controllers/product_list_controller.dart';
+import 'package:e_buy/features/reviews/data/data-source/review_remote_data_source.dart';
+import 'package:e_buy/features/reviews/data/repositories/review_repository_iml.dart';
+import 'package:e_buy/features/reviews/domain/repositories/review_repository.dart';
+import 'package:e_buy/features/reviews/domain/use_case/review_list_use_case.dart';
+import 'package:e_buy/features/reviews/ui/controllers/review_controller.dart';
 import 'package:e_buy/features/settings/data/datasources/theme_local_datasources.dart';
 import 'package:e_buy/features/settings/data/repositories/theme_repository_impl.dart';
 import 'package:e_buy/features/settings/domain/repositories/theme_repository.dart';
@@ -236,6 +241,14 @@ class AppControllerBinder extends Bindings {
         wishListCreateUseCase: Get.find(),
       ),
     );
+
+    //review dependencies
+    Get.lazyPut(() => ReviewRemoteDataSource(networkClientService: Get.find()));
+    Get.lazyPut<ReviewRepository>(
+      () => ReviewRepositoryIml(reviewRemoteDataSource: Get.find()),
+    );
+    Get.lazyPut(() => ReviewListUseCase(repository: Get.find()));
+    Get.lazyPut(() => ReviewController(reviewListUseCase: Get.find()));
 
     //home controller
     Get.put<HomeController>(

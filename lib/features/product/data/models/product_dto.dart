@@ -42,12 +42,12 @@ class ProductDto {
       id: jsonData['_id'],
       title: jsonData['title'] ?? '',
       description: jsonData['description'] ?? "",
-      regularPrice: jsonData['regular_price'],
-      currentPrice: jsonData['current_price'],
-      createdAt: jsonData['createdAt'],
-      updatedAt: jsonData['updatedAt'],
+      regularPrice: jsonData['regular_price'] ?? 0,
+      currentPrice: jsonData['current_price'] ?? 0,
+      createdAt: jsonData['createdAt'] ?? "",
+      updatedAt: jsonData['updatedAt'] ?? "",
       quantity: jsonData['quantity'] ?? 0,
-      slug: jsonData['slug'],
+      slug: jsonData['slug'] ?? "",
       metaDescription: jsonData['meta_description'],
       // brand: jsonData['brand'] != null
       //     ? BrandDto.fromJson(jsonData['brand'])
