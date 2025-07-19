@@ -13,6 +13,7 @@ class ProductCategory extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final textStyle = context.textStyle;
+    final imageIcon = categoryModel.iconUrl;
     return GestureDetector(
       onTap: onTap,
       child: SizedBox(
@@ -31,11 +32,18 @@ class ProductCategory extends StatelessWidget {
               ),
               child: Center(
                 child: Image.network(
-                  categoryModel.iconUrl,
+                  imageIcon,
                   width: 40,
                   height: 40,
                   fit: BoxFit.cover,
                   color: colors.primary,
+                  errorBuilder: (context, error, stackTrace) => Center(
+                    child: Icon(
+                      Icons.error_outline,
+                      color: colors.error,
+                      size: 40,
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -55,44 +63,6 @@ class ProductCategory extends StatelessWidget {
           ],
         ),
       ),
-
-      // child: Column(
-      //   crossAxisAlignment: CrossAxisAlignment.center,
-      //   mainAxisAlignment: MainAxisAlignment.center,
-      //   children: [
-      //     Container(
-      //       width: 72,
-      //       height: 72,
-      //       decoration: BoxDecoration(
-      //         borderRadius: BorderRadius.circular(8),
-      //         color: colors.primaryWeak,
-      //       ),
-      //       child: Center(
-      //         child: Image.network(
-      //           categoryModel.iconUrl,
-      //           width: 40,
-      //           height: 40,
-      //           fit: BoxFit.cover,
-      //           color: colors.primary,
-      //         ),
-      //       ),
-      //     ),
-      //     SizedBox(height: 8),
-      //     SizedBox(
-      //       width: 100,
-      //       child: Center(
-      //         child: Text(
-      //           categoryModel.title,
-      //           maxLines: 1,
-      //           style: textStyle.base.copyWith(
-      //             color: colors.bodyText,
-      //             fontWeight: FontWeight.w400,
-      //           ),
-      //         ),
-      //       ),
-      //     ),
-      //   ],
-      // ),
     );
   }
 }

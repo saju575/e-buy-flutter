@@ -37,25 +37,49 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (homeContext) {
           return GlobalLoading(
             isLoading: homeContext.initialLoading,
-            child: SingleChildScrollView(
-              child: Column(
+            child: RefreshIndicator(
+              onRefresh: homeContext.fetchAllData,
+              backgroundColor: colors.primaryWeak,
+              color: colors.primary,
+
+              // child: SingleChildScrollView(
+              //   child: Column(
+              //     children: [
+              //       const SizedBox(height: 16),
+              //       Padding(
+              //         padding: const EdgeInsets.symmetric(horizontal: 16),
+              //         child: ProductSearchBar(),
+              //       ),
+              //       const SizedBox(height: 12),
+              //       _renderSlide(colors),
+
+              //       const CategorySection(),
+              //       SizedBox(height: 12),
+              //       PopularProductsSection(),
+              //       const SizedBox(height: 12),
+              //       SpecialProductsSection(),
+              //       const SizedBox(height: 12),
+              //       NewProductsSection(),
+              //       const SizedBox(height: 10),
+              //     ],
+              //   ),
+              // ),
+              child: ListView(
+                padding: const EdgeInsets.only(top: 16, bottom: 10),
                 children: [
-                  const SizedBox(height: 16),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: ProductSearchBar(),
                   ),
                   const SizedBox(height: 12),
                   _renderSlide(colors),
-
                   const CategorySection(),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
                   PopularProductsSection(),
                   const SizedBox(height: 12),
                   SpecialProductsSection(),
                   const SizedBox(height: 12),
                   NewProductsSection(),
-                  const SizedBox(height: 10),
                 ],
               ),
             ),

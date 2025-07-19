@@ -16,7 +16,7 @@ class CategoryController
   Future<Either<Failure, Pagination<CategoryModel>>> fetchPage(
     CategoryQueryModel query,
   ) async {
-    return await _categoryUseCase.getCategories(page: query.page, limit: 30);
+    return await _categoryUseCase.getCategories(page: query.page, limit: 40);
   }
 
   Future<void> loadInitialData() async {
