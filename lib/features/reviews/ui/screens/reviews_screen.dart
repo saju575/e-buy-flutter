@@ -2,6 +2,7 @@ import 'package:e_buy/app/routes/app_routes.dart';
 import 'package:e_buy/features/reviews/ui/controllers/review_controller.dart';
 import 'package:e_buy/features/reviews/ui/widgets/bottom_review_action_bar.dart';
 import 'package:e_buy/features/reviews/ui/widgets/review_card.dart';
+import 'package:e_buy/middlewares/login_middleware.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -96,6 +97,18 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
   }
 
   void _moveToCreateReviewScreen() {
-    Navigator.pushNamed(context, AppRoutes.createReview);
+    guardRoute(
+      context: context,
+      onAllowed: () async {
+        await Navigator.pushNamed(
+          context,
+          AppRoutes.createReview,
+          arguments: widget.productId,
+        );
+
+        _scrollController.jumpTo(0);
+      },
+      fallbackArguments: {"goBack": true},
+    );
   }
 }

@@ -1,25 +1,26 @@
 import 'package:e_buy/app/extension/colors_extension.dart';
 import 'package:e_buy/app/extension/text_style_extension.dart';
+import 'package:e_buy/app/widgets/button.dart';
+import 'package:e_buy/features/reviews/ui/controllers/review_controller.dart';
+import 'package:e_buy/utils/toast_util.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CreateReviewScreen extends StatefulWidget {
   const CreateReviewScreen({super.key, required this.productId});
   static const name = "create-review-screen";
-  final String? productId;
+  final String productId;
   @override
   State<CreateReviewScreen> createState() => _CreateReviewScreenState();
 }
 
 class _CreateReviewScreenState extends State<CreateReviewScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _firstNameTEController = TextEditingController();
-  final TextEditingController _lastNameTEController = TextEditingController();
   final TextEditingController _reviewTEController = TextEditingController();
+  final ReviewController _reviewController = Get.find<ReviewController>();
 
   @override
   void dispose() {
-    _firstNameTEController.dispose();
-    _lastNameTEController.dispose();
     _reviewTEController.dispose();
     super.dispose();
   }
@@ -41,33 +42,24 @@ class _CreateReviewScreenState extends State<CreateReviewScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   TextFormField(
-                    controller: _firstNameTEController,
-                    decoration: InputDecoration(hintText: "First Name"),
-                    style: textStyle.base.copyWith(color: colors.heading),
-                    textInputAction: TextInputAction.next,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                  ),
-                  const SizedBox(height: 18),
-                  TextFormField(
-                    controller: _lastNameTEController,
-                    decoration: InputDecoration(hintText: "Last Name"),
-                    style: textStyle.base.copyWith(color: colors.heading),
-                    textInputAction: TextInputAction.next,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                  ),
-                  const SizedBox(height: 18),
-                  TextFormField(
                     controller: _reviewTEController,
                     maxLines: 10,
                     decoration: InputDecoration(hintText: "Write Review"),
                     style: textStyle.base.copyWith(color: colors.heading),
                     textInputAction: TextInputAction.done,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (value) => value!.isEmpty ? "Required" : null,
                   ),
                   const SizedBox(height: 18),
-                  ElevatedButton(
-                    onPressed: _submitReview,
-                    child: const Text("Submit"),
+
+                  GetBuilder<ReviewController>(
+                    builder: (reviewContext) {
+                      return Button(
+                        loading: reviewContext.reviewCreateLoading,
+                        title: "Submit",
+                        onTap: _submitReview,
+                      );
+                    },
                   ),
                 ],
               ),
@@ -79,6 +71,28 @@ class _CreateReviewScreenState extends State<CreateReviewScreen> {
   }
 
   void _submitReview() {
-    if (_formKey.currentState!.validate()) {}
+    if (_formKey.currentState!.validate()) {
+      handleSubmitReview();
+    }
+  }
+
+  Future<void> handleSubmitReview() async {
+    final message = _reviewTEController.text;
+    final result = await _reviewController.createReview(
+      productId: widget.productId,
+      comment: message,
+    );
+    if (!mounted) {
+      return;
+    }
+    if (result) {
+      Navigator.pop(context);
+      ToastUtil.show(message: "Review created successfully", context: context);
+    } else {
+      ToastUtil.show(
+        message: _reviewController.reviewCreateErrorMessage ?? "",
+        context: context,
+      );
+    }
   }
 }

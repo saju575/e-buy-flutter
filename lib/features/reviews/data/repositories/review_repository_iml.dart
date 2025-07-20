@@ -1,7 +1,9 @@
 import 'package:e_buy/app/models/either.dart';
 import 'package:e_buy/app/models/pagination.dart';
 import 'package:e_buy/features/reviews/data/data-source/review_remote_data_source.dart';
+import 'package:e_buy/features/reviews/data/models/review_create_body_dto.dart';
 import 'package:e_buy/features/reviews/data/models/review_query_dto.dart';
+import 'package:e_buy/features/reviews/domain/models/review_create_body_model.dart';
 import 'package:e_buy/features/reviews/domain/models/review_model.dart';
 import 'package:e_buy/features/reviews/domain/models/review_query_model.dart';
 import 'package:e_buy/features/reviews/domain/repositories/review_repository.dart';
@@ -26,6 +28,19 @@ class ReviewRepositoryIml implements ReviewRepository {
           mapper: (item) => item.toDomain(),
         ),
       );
+    });
+  }
+
+  @override
+  Future<Either<Failure, bool>> createReview({
+    required ReviewCreateBodyModel body,
+  }) async {
+    final response = await _reviewRemoteDataSource.createReview(
+      body: ReviewCreateBodyDto.fromDomain(body),
+    );
+    return response.fold((left) => Left(left), (right) {
+      // Right(right.toDomain());
+      return Right(right);
     });
   }
 }

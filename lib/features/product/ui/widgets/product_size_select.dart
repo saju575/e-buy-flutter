@@ -55,8 +55,8 @@ class _ProductSizeSelectState extends State<ProductSizeSelect> {
             });
           },
           child: Container(
-            height: 32,
-            width: 32,
+            height: 34,
+            width: 34,
             margin: const EdgeInsets.only(right: 8),
             decoration: BoxDecoration(
               color: isSelected ? colors.primary : null,
@@ -68,7 +68,7 @@ class _ProductSizeSelectState extends State<ProductSizeSelect> {
             child: Center(
               child: Text(
                 size,
-                style: textStyle.base.copyWith(
+                style: textStyle.sm.copyWith(
                   color: isSelected ? colors.headingSecondary : colors.grey,
                   fontWeight: FontWeight.w600,
                 ),
