@@ -7,6 +7,7 @@ import 'package:e_buy/features/cart/domain/models/cart_item_remove_param_model.d
 import 'package:e_buy/features/cart/domain/models/cart_query_model.dart';
 import 'package:e_buy/features/cart/domain/use_case/cart_add_request_use_case.dart';
 import 'package:e_buy/features/cart/domain/use_case/cart_item_remove_use_case.dart';
+import 'package:e_buy/features/cart/domain/use_case/cart_item_update_use_case.dart';
 import 'package:e_buy/features/cart/domain/use_case/cart_items_use_case.dart';
 
 class CartController
@@ -14,14 +15,17 @@ class CartController
   final CartItemsUseCase _cartItemsUseCase;
   final CartItemRemoveUseCase _cartItemRemoveUseCase;
   final CartAddRequestUseCase _cartAddRequestUseCase;
+  final CartItemUpdateUseCase _cartItemUpdateUseCase;
 
   CartController({
     required CartItemsUseCase cartItemsUseCase,
     required CartItemRemoveUseCase cartItemRemoveUseCase,
     required CartAddRequestUseCase cartAddRequestUseCase,
+    required CartItemUpdateUseCase cartItemUpdateUseCase,
   }) : _cartItemsUseCase = cartItemsUseCase,
        _cartItemRemoveUseCase = cartItemRemoveUseCase,
-       _cartAddRequestUseCase = cartAddRequestUseCase;
+       _cartAddRequestUseCase = cartAddRequestUseCase,
+       _cartItemUpdateUseCase = cartItemUpdateUseCase;
 
   String _addToCartErrorMessage = "";
   bool _addToCartLoading = false;
@@ -46,11 +50,16 @@ class CartController
     );
   }
 
+  void _updateCartItemQuantity(String cartItemId, int quantity) {
+    _cartItemUpdateUseCase.execute(cartItemId: cartItemId, quantity: quantity);
+  }
+
   void updateQuantity(String cartItemId, int quantity) {
     for (CartItemModel cartItemModel in list) {
       if (cartItemModel.id == cartItemId) {
         cartItemModel.quantity = quantity;
         update();
+        _updateCartItemQuantity(cartItemId, quantity);
         break;
       }
     }

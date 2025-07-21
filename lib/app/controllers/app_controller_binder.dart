@@ -28,6 +28,7 @@ import 'package:e_buy/features/cart/data/repositories/cart_repository_iml.dart';
 import 'package:e_buy/features/cart/domain/repositories/cart_repository.dart';
 import 'package:e_buy/features/cart/domain/use_case/cart_add_request_use_case.dart';
 import 'package:e_buy/features/cart/domain/use_case/cart_item_remove_use_case.dart';
+import 'package:e_buy/features/cart/domain/use_case/cart_item_update_use_case.dart';
 import 'package:e_buy/features/cart/domain/use_case/cart_items_use_case.dart';
 import 'package:e_buy/features/cart/ui/controllers/cart_controller.dart';
 import 'package:e_buy/features/home/data/data_source/slide_remote_data_source.dart';
@@ -206,11 +207,13 @@ class AppControllerBinder extends Bindings {
     Get.lazyPut(() => CartItemsUseCase(cartRepository: Get.find()));
     Get.lazyPut(() => CartAddRequestUseCase(cartRepository: Get.find()));
     Get.lazyPut(() => CartItemRemoveUseCase(cartRepository: Get.find()));
+    Get.lazyPut(() => CartItemUpdateUseCase(cartRepository: Get.find()));
     Get.lazyPut(
       () => CartController(
         cartItemsUseCase: Get.find(),
         cartAddRequestUseCase: Get.find(),
         cartItemRemoveUseCase: Get.find(),
+        cartItemUpdateUseCase: Get.find(),
       ),
     );
 

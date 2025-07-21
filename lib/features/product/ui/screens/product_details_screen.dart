@@ -86,6 +86,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               true) {
             _selectedColor.value = productDetails?.colors?.first;
           }
+          final visible =
+              productDetailsContext.productDetails?.sizes?.isNotEmpty ?? false;
           return GlobalLoading(
             isLoading: productDetailsContext.loading,
             child: Column(
@@ -114,19 +116,31 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               ),
                               const SizedBox(height: 8),
                               _renderRatingAndReview(colors, textStyle),
-                              const SizedBox(height: 14),
-                              _renderHeading(
-                                textStyle: textStyle,
-                                colors: colors,
-                                title: "Colors",
+                              Visibility(
+                                visible: visible,
+                                child: const SizedBox(height: 14),
+                              ),
+                              Visibility(
+                                visible: visible,
+                                child: _renderHeading(
+                                  textStyle: textStyle,
+                                  colors: colors,
+                                  title: "Colors",
+                                ),
                               ),
                               const SizedBox(height: 6),
                               _renderColors(productDetailsContext),
-                              const SizedBox(height: 14),
-                              _renderHeading(
-                                textStyle: textStyle,
-                                colors: colors,
-                                title: "Size",
+                              Visibility(
+                                visible: visible,
+                                child: const SizedBox(height: 14),
+                              ),
+                              Visibility(
+                                visible: visible,
+                                child: _renderHeading(
+                                  textStyle: textStyle,
+                                  colors: colors,
+                                  title: "Size",
+                                ),
                               ),
                               const SizedBox(height: 6),
                               _renderSizes(productDetailsContext),
@@ -353,6 +367,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       color: color,
       size: size,
     );
+
     guardRoute(
       context: context,
       onAllowed: () async {

@@ -10,6 +10,7 @@ class ApiUrls {
   static const String addToCart = '$_baseUrl/cart';
   static const String products = '$_baseUrl/products';
   static const String cartItemList = '$_baseUrl/cart';
+  static const String updateCartItem = '$_baseUrl/cart/:cart_item_id';
   static const String productDetails = '$_baseUrl/products/id/:product_id';
   static const String wishList = '$_baseUrl/wishlist';
   static const String removeFromCart = '$_baseUrl/cart/:cart_item_id';

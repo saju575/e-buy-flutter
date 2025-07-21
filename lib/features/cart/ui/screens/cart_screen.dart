@@ -1,3 +1,4 @@
+import 'package:e_buy/app/extension/colors_extension.dart';
 import 'package:e_buy/app/routes/app_routes.dart';
 import 'package:e_buy/app/widgets/global_loading.dart';
 import 'package:e_buy/features/cart/ui/controllers/cart_controller.dart';
@@ -27,6 +28,7 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (_, __) {
@@ -44,11 +46,16 @@ class _CartScreenState extends State<CartScreen> {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.only(left: 16, right: 16),
-                      child: ListView.builder(
-                        itemCount: cartContext.list.length,
-                        itemBuilder: (context, index) {
-                          return CartItemCard(item: cartContext.list[index]);
-                        },
+                      child: RefreshIndicator(
+                        onRefresh: cartContext.refreshData,
+                        backgroundColor: colors.primaryWeak,
+                        color: colors.primary,
+                        child: ListView.builder(
+                          itemCount: cartContext.list.length,
+                          itemBuilder: (context, index) {
+                            return CartItemCard(item: cartContext.list[index]);
+                          },
+                        ),
                       ),
                     ),
                   ),
@@ -57,6 +64,7 @@ class _CartScreenState extends State<CartScreen> {
                     price: cartContext.totalPrice,
                     buttonText: "Checkout",
                     onTapButton: _moveToShippingAddressScreen,
+                    disabled: cartContext.list.isEmpty,
                   ),
                 ],
               ),
@@ -68,10 +76,12 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   void _moveToShippingAddressScreen() {
+    if (_cartItemsController.list.isEmpty) return;
     guardRoute(
       context: context,
-      onAllowed: () {
-        Navigator.pushNamed(context, AppRoutes.shippingAddress);
+      onAllowed: () async {
+        await Navigator.pushNamed(context, AppRoutes.shippingAddress);
+        await _cartItemsController.refreshData();
       },
     );
   }

@@ -3,6 +3,8 @@ import 'package:e_buy/app/models/pagination.dart';
 import 'package:e_buy/features/cart/domain/models/cart_add_request_model.dart';
 import 'package:e_buy/features/cart/domain/models/cart_item_model.dart';
 import 'package:e_buy/features/cart/domain/models/cart_item_remove_param_model.dart';
+import 'package:e_buy/features/cart/domain/models/cart_item_update_body_model.dart';
+import 'package:e_buy/features/cart/domain/models/cart_item_update_param_model.dart';
 import 'package:e_buy/features/cart/domain/models/cart_query_model.dart';
 
 abstract class CartRepository {
@@ -15,4 +17,9 @@ abstract class CartRepository {
   Future<Either<Failure, bool>> addToCart(
     CartAddRequestModel cartAddRequestModel,
   );
+
+  Future<Either<Failure, bool>> updateCartItem({
+    required CartItemUpdateParamModel param,
+    required CartItemUpdateBodyModel body,
+  });
 }

@@ -12,6 +12,7 @@ class BottomPurchaseBar extends StatelessWidget {
     required this.buttonText,
     required this.title,
     this.loading = false,
+    this.disabled = false,
   });
 
   final double price;
@@ -19,6 +20,7 @@ class BottomPurchaseBar extends StatelessWidget {
   final String buttonText;
   final String title;
   final bool loading;
+  final bool disabled;
 
   @override
   Widget build(BuildContext context) {
@@ -40,10 +42,11 @@ class BottomPurchaseBar extends StatelessWidget {
         width: 118,
         child: ElevatedButton(
           style: ButtonStyle(
-            backgroundColor: WidgetStateProperty.all(colors.primary),
+            backgroundColor: WidgetStateProperty.all(
+              disabled ? colors.reelNftCard : colors.primary,
+            ),
           ),
-
-          onPressed: onTapButton,
+          onPressed: disabled ? null : onTapButton,
           child: loading
               ? CircularProgress(color: colors.bodyText, size: 14)
               : Text(

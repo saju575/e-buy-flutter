@@ -3,10 +3,14 @@ import 'package:e_buy/app/models/pagination.dart';
 import 'package:e_buy/features/cart/data/data_source/cart_items_remote_data_source.dart';
 import 'package:e_buy/features/cart/data/models/cart_add_request_dto.dart';
 import 'package:e_buy/features/cart/data/models/cart_item_remove_param_dto.dart';
+import 'package:e_buy/features/cart/data/models/cart_item_update_body_dto.dart';
+import 'package:e_buy/features/cart/data/models/cart_item_update_param_dto.dart';
 import 'package:e_buy/features/cart/data/models/cart_query_dto.dart';
 import 'package:e_buy/features/cart/domain/models/cart_add_request_model.dart';
 import 'package:e_buy/features/cart/domain/models/cart_item_model.dart';
 import 'package:e_buy/features/cart/domain/models/cart_item_remove_param_model.dart';
+import 'package:e_buy/features/cart/domain/models/cart_item_update_body_model.dart';
+import 'package:e_buy/features/cart/domain/models/cart_item_update_param_model.dart';
 import 'package:e_buy/features/cart/domain/models/cart_query_model.dart';
 import 'package:e_buy/features/cart/domain/repositories/cart_repository.dart';
 
@@ -51,5 +55,16 @@ class CartRepositoryIml implements CartRepository {
     return response.fold((left) => Left(left), (right) {
       return Right(right);
     });
+  }
+
+  @override
+  Future<Either<Failure, bool>> updateCartItem({
+    required CartItemUpdateParamModel param,
+    required CartItemUpdateBodyModel body,
+  }) {
+    return _cartItemsRemoteDataSource.updateCartItem(
+      param: CartItemUpdateParamDto.fromDomain(param),
+      body: CartItemUpdateBodyDto.fromDomain(body),
+    );
   }
 }
