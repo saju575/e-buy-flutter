@@ -1,3 +1,4 @@
+import 'package:e_buy/app/extension/colors_extension.dart';
 import 'package:e_buy/app/routes/app_routes.dart';
 import 'package:e_buy/features/reviews/ui/controllers/review_controller.dart';
 import 'package:e_buy/features/reviews/ui/widgets/bottom_review_action_bar.dart';
@@ -27,6 +28,7 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
     return Scaffold(
       appBar: AppBar(title: const Text("Reviews"), centerTitle: true),
       body: GetBuilder<ReviewController>(
@@ -37,8 +39,9 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: RefreshIndicator(
-                    onRefresh:
-                        reviewContext.refreshData, // pull-to-refresh handler
+                    onRefresh: reviewContext.refreshData,
+                    backgroundColor: colors.primaryWeak,
+                    color: colors.primary,
                     child: reviewContext.initialLoading
                         ? const Center(
                             child: CircularProgressIndicator(),
