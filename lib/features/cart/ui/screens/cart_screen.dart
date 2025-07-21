@@ -1,8 +1,10 @@
+import 'package:e_buy/app/routes/app_routes.dart';
 import 'package:e_buy/app/widgets/global_loading.dart';
 import 'package:e_buy/features/cart/ui/controllers/cart_controller.dart';
 import 'package:e_buy/features/cart/ui/widgets/cart_item_card.dart';
 import 'package:e_buy/features/shared/ui/controllers/actions/jump_action.dart';
 import 'package:e_buy/features/shared/ui/widgets/widget.dart';
+import 'package:e_buy/middlewares/login_middleware.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -54,6 +56,7 @@ class _CartScreenState extends State<CartScreen> {
                     title: "Total Price",
                     price: cartContext.totalPrice,
                     buttonText: "Checkout",
+                    onTapButton: _moveToShippingAddressScreen,
                   ),
                 ],
               ),
@@ -61,6 +64,15 @@ class _CartScreenState extends State<CartScreen> {
           },
         ),
       ),
+    );
+  }
+
+  void _moveToShippingAddressScreen() {
+    guardRoute(
+      context: context,
+      onAllowed: () {
+        Navigator.pushNamed(context, AppRoutes.shippingAddress);
+      },
     );
   }
 }

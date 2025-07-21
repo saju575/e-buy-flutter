@@ -20,4 +20,9 @@ class AuthController extends GetxController {
   String get getToken {
     return _authUseCase.getToken();
   }
+
+  String getFullUserName() {
+    final userModel = getUserProfile;
+    return '${userModel?.firstName ?? ""} ${userModel?.lastName ?? ""}';
+  }
 }

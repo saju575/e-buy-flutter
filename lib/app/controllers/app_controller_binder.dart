@@ -39,6 +39,11 @@ import 'package:e_buy/features/home/ui/controllers/new_product_list_controller.d
 import 'package:e_buy/features/home/ui/controllers/popular_product_list_controller.dart';
 import 'package:e_buy/features/home/ui/controllers/slide_controller.dart';
 import 'package:e_buy/features/home/ui/controllers/special_product_list_controller.dart';
+import 'package:e_buy/features/order/data/data_source/order_remote_data_source.dart';
+import 'package:e_buy/features/order/data/repositories/order_repository_iml.dart';
+import 'package:e_buy/features/order/domain/repositories/order_repository.dart';
+import 'package:e_buy/features/order/domain/use_case/order_create_use_case.dart';
+import 'package:e_buy/features/order/ui/controllers/order_controller.dart';
 import 'package:e_buy/features/product/data/data_source/category_remote_data_source.dart';
 import 'package:e_buy/features/product/data/data_source/product_details_remote_data_source.dart';
 import 'package:e_buy/features/product/data/data_source/product_list_remote_data_source.dart';
@@ -254,6 +259,19 @@ class AppControllerBinder extends Bindings {
       () => ReviewController(
         reviewListUseCase: Get.find(),
         reviewCreateUseCase: Get.find(),
+      ),
+    );
+
+    //order dependencies
+    Get.lazyPut(() => OrderRemoteDataSource(networkClientService: Get.find()));
+    Get.lazyPut<OrderRepository>(
+      () => OrderRepositoryIml(orderRemoteDataSource: Get.find()),
+    );
+    Get.lazyPut(() => OrderCreateUseCase(repository: Get.find()));
+    Get.lazyPut(
+      () => OrderController(
+        orderCreateUseCase: Get.find(),
+        authController: Get.find(),
       ),
     );
 

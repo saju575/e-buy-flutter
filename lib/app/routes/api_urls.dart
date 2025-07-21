@@ -16,6 +16,8 @@ class ApiUrls {
   static const String removeFromWishList =
       '$_baseUrl/wishlist/:wishlist_item_id';
   static const String reviews = '$_baseUrl/reviews';
+  static const String order = '$_baseUrl/order';
+  static const String orderList = '$_baseUrl/order';
 
   static String categoryListUrl(int page, int count) =>
       '$_baseUrl/categories?count=$count&page=$page';

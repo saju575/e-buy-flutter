@@ -133,7 +133,7 @@ class AppTheme {
           backgroundColor: color.primary,
           foregroundColor: color.headingSecondary,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          padding: EdgeInsets.symmetric(vertical: 12),
+          padding: EdgeInsets.symmetric(vertical: 16),
           textStyle: TextStyle(
             fontSize: 14,
             letterSpacing: 0.4,

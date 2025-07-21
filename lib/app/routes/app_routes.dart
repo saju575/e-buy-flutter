@@ -2,6 +2,7 @@ import 'package:e_buy/features/auth/ui/screens/login_screen.dart';
 import 'package:e_buy/features/auth/ui/screens/otp_verify_screen.dart';
 import 'package:e_buy/features/auth/ui/screens/sign_up_screen.dart';
 import 'package:e_buy/features/auth/ui/screens/splash_screen.dart';
+import 'package:e_buy/features/order/ui/screens/shipping_address_screen.dart';
 import 'package:e_buy/features/product/ui/screens/product_details_screen.dart';
 import 'package:e_buy/features/product/ui/screens/product_list_screen.dart';
 import 'package:e_buy/features/profile/ui/screens/profile_screen.dart';
@@ -23,6 +24,7 @@ class AppRoutes {
   static const String createReview = CreateReviewScreen.name;
   static const String profile = ProfileScreen.name;
   static const String themeChange = ThemeChangeScreen.name;
+  static const String shippingAddress = ShippingAddressScreen.name;
 
   static Route<dynamic> routes(RouteSettings settings) {
     WidgetBuilder builder;
@@ -99,6 +101,9 @@ class AppRoutes {
         break;
       case ThemeChangeScreen.name:
         builder = (context) => const ThemeChangeScreen();
+        break;
+      case ShippingAddressScreen.name:
+        builder = (context) => const ShippingAddressScreen();
         break;
       default:
         builder = (context) => const LoginScreen();
