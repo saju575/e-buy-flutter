@@ -288,7 +288,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           height: 24,
           icon: AppIcon(
             iconName: AppIcons.heartOutline,
-            color: colors.bodyText,
+            color: colors.headingSecondary,
             size: 18,
           ),
           onTap: () {
