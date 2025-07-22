@@ -103,7 +103,11 @@ class AppRoutes {
         builder = (context) => const ThemeChangeScreen();
         break;
       case ShippingAddressScreen.name:
-        builder = (context) => const ShippingAddressScreen();
+        builder = (context) {
+          final params = settings.arguments as Map<String, dynamic>;
+          final double price = double.parse(params['price'] ?? "0");
+          return ShippingAddressScreen(price: price);
+        };
         break;
       default:
         builder = (context) => const LoginScreen();

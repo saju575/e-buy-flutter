@@ -1,14 +1,18 @@
 import 'package:e_buy/app/extension/colors_extension.dart';
 import 'package:e_buy/app/extension/text_style_extension.dart';
 import 'package:e_buy/app/widgets/button.dart';
+import 'package:e_buy/core/components/app_bottom_sheet.dart';
 import 'package:e_buy/features/order/ui/controllers/order_controller.dart';
+import 'package:e_buy/features/order/ui/widgets/place_order_modal.dart';
 import 'package:e_buy/utils/toast_util.dart';
+import 'package:e_buy/utils/uuid.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ShippingAddressScreen extends StatefulWidget {
-  const ShippingAddressScreen({super.key});
+  const ShippingAddressScreen({super.key, required this.price});
   static const name = "shipping_address";
+  final double price;
   @override
   State<ShippingAddressScreen> createState() => _ShippingAddressScreenState();
 }
@@ -125,7 +129,16 @@ class _ShippingAddressScreenState extends State<ShippingAddressScreen> {
       return;
     }
     if (result) {
-      ToastUtil.show(message: "Successfully place order", context: context);
+      AppBottomSheet.show(
+        context: context,
+        initialChildSize: 0.4,
+        isDismissible: false,
+        enableDrag: false,
+        child: PlaceOrderModal(
+          price: widget.price,
+          transactionId: RandomUuid.generate(),
+        ),
+      );
     } else {
       ToastUtil.show(message: "Failed to place order", context: context);
     }

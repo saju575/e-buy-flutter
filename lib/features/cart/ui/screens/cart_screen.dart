@@ -80,7 +80,11 @@ class _CartScreenState extends State<CartScreen> {
     guardRoute(
       context: context,
       onAllowed: () async {
-        await Navigator.pushNamed(context, AppRoutes.shippingAddress);
+        await Navigator.pushNamed(
+          context,
+          AppRoutes.shippingAddress,
+          arguments: {"price": _cartItemsController.totalPrice.toString()},
+        );
         await _cartItemsController.refreshData();
       },
     );

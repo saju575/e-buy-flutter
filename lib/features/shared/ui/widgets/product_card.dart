@@ -88,7 +88,9 @@ class ProductCard extends StatelessWidget {
                     SizedBox(width: 2),
                     Text(
                       "4.8",
-                      style: textStyle.sm.copyWith(color: colors.bodyText),
+                      style: textStyle.sm.copyWith(
+                        color: colors.headingSecondary,
+                      ),
                       maxLines: 1,
                     ),
                   ],
@@ -99,7 +101,7 @@ class ProductCard extends StatelessWidget {
                     icon: isFromWishlist
                         ? Icons.delete
                         : Icons.favorite_outline_rounded,
-                    color: colors.bodyText,
+                    color: colors.headingSecondary,
                     size: 18,
                   ),
                   height: 24,

@@ -12,6 +12,8 @@ class Button extends StatelessWidget {
     this.child,
     this.loaderColor,
     this.loaderSize,
+    this.width,
+    this.color,
   });
   final String? title;
   final VoidCallback? onTap;
@@ -19,12 +21,18 @@ class Button extends StatelessWidget {
   final Widget? child;
   final Color? loaderColor;
   final double? loaderSize;
+  final double? width;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     final textStyle = context.textStyle;
     return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        fixedSize: Size.fromWidth(width ?? double.maxFinite),
+        backgroundColor: color ?? colors.primary,
+      ),
       onPressed: loading ? null : onTap,
       child: loading
           ? CircularProgress(
